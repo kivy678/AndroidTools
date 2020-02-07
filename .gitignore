@@ -1,0 +1,6 @@
+.env
+*.pyc
+test*.py
+report
+*tmp.py
+__pycache__
