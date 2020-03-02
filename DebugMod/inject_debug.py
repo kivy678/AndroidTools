@@ -5,7 +5,7 @@ import shutil
 import shlex
 import subprocess
 
-from settings import *
+from .settings import *
 
 from bs4 import BeautifulSoup
 
@@ -34,10 +34,10 @@ def fileManger():
         return False
 
 
-if __name__ == "__main__":
-
+def injection(_file):
+    
     print("[*] start decode")
-    cmd = f"java -jar {APK_TOOL} d -f -o {DECODE_DIR} {TEST_APK}"
+    cmd = f"java -jar {APK_TOOL} d -f -o {DECODE_DIR} {_file}"
     subprocess.call(shlex.split(cmd, posix=False))
 
     readManifest()
@@ -54,5 +54,5 @@ if __name__ == "__main__":
     print("[*] File Cleanup")
     shutil.rmtree(DECODE_DIR, ignore_errors=True)
     os.remove(OUT_APK)
-
-    print("Main End...")
+    
+    print("injection End...")
