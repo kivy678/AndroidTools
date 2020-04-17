@@ -1,0 +1,2 @@
+frida-tools==7.0.2
+frida==12.7.15
