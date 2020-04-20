@@ -15,9 +15,13 @@ Java.perform(function() {
 
     }));
 
-
-
-    console.log("[*] end Hook");
+    Process.enumerateRanges('rwx').forEach(function(element) {
+    console.log(element.base); })
+    
+    Process.enumerateModules().forEach(function(element) {
+       console.log(element.name); })
+    
+    
 });
 
 
