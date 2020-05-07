@@ -37,25 +37,24 @@ def fileManger():
 
 
 def injection(_file):
-
-    print("[*] start decode: " + _file)
+    print("[*] start decode: " + os.path.split(_file)[1])
     cmd = f"java -jar {APK_TOOL} d -f -o {DECODE_DIR} {_file}"
     subprocess.call(shlex.split(cmd, posix=False))
 
     readManifest()
     fileManger()
 
-    print("[*] start build: " + _file)
+    print("[*] start build")
     cmd = f"java -jar {APK_TOOL} b -f -o {OUT_APK} {DECODE_DIR}"
     subprocess.call(shlex.split(cmd, posix=False))
 
-    print("[*] sign code: " + _file)
+    print("[*] sign code")
     KEY_APK = os.path.join(OUT, os.path.split(_file)[1])
 
     cmd = f"java -jar {signapk} {certificate} {pk8} {OUT_APK} {KEY_APK}"
     subprocess.call(shlex.split(cmd, posix=False))
 
-    print("[*] File Cleanup: " + _file)
+    print("[*] File Clean")
     shutil.rmtree(DECODE_DIR, ignore_errors=True)
     os.remove(OUT_APK)
 
