@@ -2,13 +2,9 @@
 
 import os
 
-from DebugMod.inject_debug import injection
-from settings import BASE_DIR
-
-PATH = os.path.join(
-    BASE_DIR, r'DebugMod\tmp\app-release.apk')
+from DebugMod.inject_debug import injectionAllFile
 
 if __name__ == '__main__':
 
-    injection(PATH)
+    injectionAllFile()
     print('Main done...')

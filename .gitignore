@@ -4,5 +4,5 @@ test*.py
 report
 *tmp.py
 __pycache__
-tmp
 *.apk
+decode

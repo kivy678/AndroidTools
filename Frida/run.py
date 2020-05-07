@@ -6,7 +6,7 @@ import sys
 import frida
 
 BASE_DIR = os.path.dirname(os.path.realpath(__file__))
-JS_PATH = os.path.join(BASE_DIR, "jscode.js")
+JS_PATH = os.path.join(BASE_DIR, "java.js")
 
 
 def on_message(message, data):
