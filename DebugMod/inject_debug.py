@@ -50,7 +50,7 @@ def injection(_file):
     subprocess.call(shlex.split(cmd, posix=False))
 
     print("[*] sign code: " + _file)
-    KEY_APK = os.path.join(OUT, _file)
+    KEY_APK = os.path.join(OUT, os.path.split(_file)[1])
 
     cmd = f"java -jar {signapk} {certificate} {pk8} {OUT_APK} {KEY_APK}"
     subprocess.call(shlex.split(cmd, posix=False))
