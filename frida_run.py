@@ -8,5 +8,6 @@ from settings import BASE_DIR
 
 if __name__ == '__main__':
 
-    hook("owasp.mstg.uncrackable2")
+    #hook("owasp.mstg.uncrackable2")
+    hook("com.simplemobiletools.calendar.pro")
     print('Main done...')

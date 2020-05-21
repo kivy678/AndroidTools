@@ -1,8 +1,9 @@
 .env
 *.pyc
-test*.py
 report
 *tmp.py
 __pycache__
 *.apk
 decode
+.*egg-info
+.*dex
