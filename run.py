@@ -5,11 +5,16 @@ import env
 import os
 import argparse
 
+from initialize import settings as setups
+
 from DebugMod.inject_debug import injectionAllFile
 from DebugMod.set_wait import getPackageName, setDebug
 from DebugMod.apk_install import installAllFile
 
+
 if __name__ == '__main__':
+    setups()
+
     parser = argparse.ArgumentParser(
         prog='Android Mod', description='Android Setting')
     parser.add_argument('-v', '--version', action='version',
@@ -17,6 +22,7 @@ if __name__ == '__main__':
 
     parser.add_argument('-d', '--debug', action='store_true',
                         help='디버깅 모드 변환', dest='d')
+
     parser.add_argument('-w', '--wait', action='store_true',
                         help='Waiting 모드 변환', dest='w')
 
