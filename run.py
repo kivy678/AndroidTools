@@ -1,19 +1,35 @@
 # -*- coding:utf-8 -*-
 
+#############################################################################
+
 import env
 
 import os
 import argparse
 
-from initialize import settings as setups
+from util import getSharedPreferences
+
+from initialize import setDevice
 
 from DebugMod.inject_debug import injectionAllFile
 from DebugMod.set_wait import getPackageName, setDebug
 from DebugMod.apk_install import installAllFile
 
+from settings import *
+
+#############################################################################
+
 
 if __name__ == '__main__':
-    setups()
+    sp = getSharedPreferences(SHARED_PATH)
+
+    if sp.getBoolean('setup') is False:
+        setDevice()
+
+        edit = sp.edit()
+        edit.putBoolean('setup', True)
+        edit.commit()
+
 
     parser = argparse.ArgumentParser(
         prog='Android Mod', description='Android Setting')
@@ -30,6 +46,7 @@ if __name__ == '__main__':
                         help='앱 설치', dest='I')
 
     args = parser.parse_args()
+
 
     if args is None:
         parser.print_help()

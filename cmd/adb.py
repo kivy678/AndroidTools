@@ -2,11 +2,7 @@
 
 #############################################################################
 
-import os
-import subprocess
-import shlex
-
-subp = subprocess.Popen
+from cmd.shell import SHELL
 
 #############################################################################
 
@@ -14,7 +10,7 @@ __all__=[
     'DEVICE_DEBUG', 
 ]
 
-class DEVICE_BASIS(object):
+class DEVICE_BASIS(SHELL):
     _PLATFORM_ = {
         "x86": "x86", "x64": "x64",
         "armeabi_v7a": "arm", "arm64_v8a": "arm64"
@@ -24,7 +20,7 @@ class DEVICE_BASIS(object):
     _su         = None
 
     def __init__(self, *args, **kwargs):
-        subp(self.parseString("adb root"), stdout=subprocess.PIPE)
+        self.runCommand("adb root", shell=False)
         self._su        = self.isRoot()
         self._platform  = self.getSystem()
 
@@ -36,28 +32,25 @@ class DEVICE_BASIS(object):
 
     def shellmode(f):
         def inner(*args, **kwargs):
-            if kwargs['shell'] == True:
-                args = list(args)
-                args[1] = "adb shell " + args[1]
+            self, cmd = args
 
-            return f(*tuple(args), **kwargs)
+            try:
+                if self.su and kwargs['su'] == True:
+                    cmd = 'su -c ' + repr(cmd)
+            except KeyError:
+                pass
+
+            if kwargs['shell'] == True:
+                cmd = 'adb shell ' + cmd
+
+            return f(self, cmd, **kwargs)
         return inner
 
+
     @shellmode
-    def runCommand(self, cmd, shell=False):
-        with subp(self.parseString(cmd), stdout=subprocess.PIPE) as proc:
-            try:
-                return proc.communicate(timeout=3)[0].decode('utf-8').strip()
-            except subprocess.TimeoutExpired:
-                return proc.communicate()[0].decode('utf-8').strip()
-            finally:
-                proc.kill()
+    def runCommand(self, cmd, shell=False, su=False):
+        return super().runCommand(cmd)
 
-    def parseString(self, cmd):
-        s = shlex.shlex(cmd)
-        s.whitespace_split = True
-
-        return s
 
     @classmethod
     def getPlatform(cls):
@@ -76,6 +69,14 @@ class DEVICE_BASIS(object):
 
         return self._su
 
+    @property
+    def platform(self):
+        return getattr(self, self._platform)
+
+
+    @property
+    def su(self):
+        return self._su
 
 class DEVICE_DEBUG(DEVICE_BASIS):
     pass

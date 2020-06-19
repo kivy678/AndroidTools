@@ -5,7 +5,7 @@ import env
 import os
 import argparse
 
-from initialize.devices import setDevice
+from initialize import setDevice
 
 if __name__ == '__main__':
     setDevice()
