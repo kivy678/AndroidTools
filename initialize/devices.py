@@ -36,6 +36,9 @@ def fridaServer():
 def androidServer():
     TOO_PATH = Join(SERVER_PATH, f"android_server")
 
+    cmd = r"adb forward tcp:23946 tcp:23946"
+    dev.runCommand(cmd, shell=False)
+
     cmd = f"adb push {TOO_PATH} /data/local/tmp/android_server"
     dev.runCommand(cmd, shell=False)
 

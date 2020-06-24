@@ -1,7 +1,6 @@
 .env
 *.pyc
 report
-*tmp.py
 __pycache__
 *.apk
 decode
