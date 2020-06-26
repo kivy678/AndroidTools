@@ -2,7 +2,6 @@
 
 ################################################################################
 
-import os
 import shutil
 
 import glob
@@ -10,6 +9,8 @@ import glob
 from cmd import dev
 
 from util.util import zipDecompress
+
+from util.Logger import LOG
 from util.fsUtils import *
 
 from settings import *
@@ -30,7 +31,7 @@ def fridaServer():
     cmd = f"nohup /data/local/tmp/frida-server &"
     dev.runCommand(cmd, shell=True, su=True)
 
-    print(f"{'':>5}-> Done")
+    LOG.info(f"{'':>5}-> FridaServier Run")
 
 
 def androidServer():
@@ -48,7 +49,7 @@ def androidServer():
     cmd = f"nohup /data/local/tmp/android_server &"
     dev.runCommand(cmd, shell=True, su=True)
 
-    print(f"{'':>5}-> Done")
+    LOG.info(f"{'':>5}-> AndroidServer Run")
 
 
 def cowExploit():
@@ -61,7 +62,7 @@ def cowExploit():
     cmd = "getprop ro.debuggable"
     stdin = dev.runCommand(cmd, shell=True)
 
-    print(f"{'':>5}-> Done")
+    LOG.info(f"{'':>5}-> Done")
 
     return True if stdin == '1' else False
 
@@ -83,4 +84,4 @@ def appInstaller():
     Delete(TMP_PATH)
     DirCheck(TMP_PATH)
 
-    print(f"{'':>5}-> Done")
+    LOG.info(f"{'':>5}-> Done")

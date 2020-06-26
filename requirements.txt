@@ -1,4 +1,6 @@
-androguard
 requests==2.22.0
+yara-python==4.0.1
+androguard
 
--r DebugMod/requirements.txt
+-r util/requirements.txt
+#-r Analysis/frida/requirements.txt

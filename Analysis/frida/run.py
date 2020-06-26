@@ -5,8 +5,8 @@ import sys
 
 import frida
 
-BASE_DIR = os.path.dirname(os.path.realpath(__file__))
-JS_PATH = os.path.join(BASE_DIR, "java.js")
+
+JS_PATH = os.path.join('js', "java.js")
 
 
 def on_message(message, data):
@@ -17,7 +17,7 @@ def on_message(message, data):
 
 
 def hook(_PACKAGE_NAME):
-    with open(JS_PATH, 'r') as fr:
+    with open(r'Analysis\frida\js\java.js', 'r') as fr:
         jscode = fr.read()
 
     try:
@@ -38,3 +38,5 @@ def hook(_PACKAGE_NAME):
         print("Exception END...")
 
     print("[*] End Hooking App")
+
+hook('com.cd.weixin')

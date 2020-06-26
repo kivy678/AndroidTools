@@ -1,0 +1,6 @@
+<map>
+	<boolean name="setup">false</boolean>
+	<string name="convdebugpath">C:\tmp\a</string>
+	<string name="installpath">C:\tmp\a</string>
+	<string name="setpath">C:\tmp\a</string>
+</map>

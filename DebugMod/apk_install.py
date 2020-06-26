@@ -2,28 +2,29 @@
 
 ###########################################################################################
 
-import os
 import glob
 
 from cmd import dev
 
+from util.fsUtils import *
+from util.Logger import LOG
+
 ###########################################################################################
 
-
 def installer(_path):
-    print(f"{'[*]':<5}start install: " + os.path.split(_path)[1])
+    LOG.info(f"{'[*]':<5}start install: " + PathSplit(_path)[1])
 
     cmd = f"adb install -r {_path}"
     dev.runCommand(cmd, shell=False)
 
-    print(f"{'[*]':<5}Install End")
+    LOG.info(f"{'[*]':<5}Install End")
 
 
 def installAllFile(dpath):
-    PATH = os.path.join(dpath, '*')
+    PATH = Join(dpath, '*')
 
     for fileName in glob.glob(PATH):
-        if not os.path.isfile(fileName):
+        if not isFile(fileName):
             continue
 
         installer(fileName)

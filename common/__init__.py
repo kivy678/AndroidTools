@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-from util.sharedpreference import SharedPreferences
+from common.sharedpreference import SharedPreferences
 
 def getSharedPreferences(fpath):
     return SharedPreferences(fpath)

@@ -1,17 +1,45 @@
 # -*- coding:utf-8 -*-
 
-import env
-import os
+###########################################################################################
 
+import re
+from io import StringIO
+
+from Analysis import app
+
+from util.Logger import LOG
 from cmd import dev
 
-from settings import *
+#from time import perf_counter as pc
 
-if __name__ == '__main__':
+###########################################################################################
 
-    app_path = os.path.join(TMP_PATH, 'test.apk')
+def getPid(pkgName):
+	result = "'{print $2}'"
+	cmd = f"ps | grep {app.pkgName} | awk {result}"
+	pid = dev.runCommand(cmd, shell=True)
 
-    cmd = f"androguard decompile -o tmp/out {app_path}"
-    dev.runCommand(cmd, shell=False)
+	if pid == str():
+		LOG.info(f"{'':>5}Not Running Process.")
+		return False
+	
+	return pid
 
-    print('Main done...')
+
+def getTPid(pid):
+	cmd = f"cat /proc/{pid}/status"
+	m = dev.runCommand(cmd, shell=True)
+
+	r = re.compile(r".*^TracerPid:\s*(\d*)", re.M|re.S)
+	with StringIO(m) as sio:
+		return r.match(sio.getvalue()).group(1)
+
+
+def getMaps(pid, s):
+	cmd = f"cat /proc/{pid}/maps"
+	m = dev.runCommand(cmd, shell=True)
+
+	r = re.compile(rf"^.*{s}.*", re.M)
+	with StringIO(m) as sio:
+		for row in r.findall(sio.getvalue()):
+			print(row)

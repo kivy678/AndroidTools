@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 ##########################################################################
+
 import os
 import uuid
 
@@ -8,10 +9,10 @@ import xml.etree.ElementTree as ET
 
 ##########################################################################
 
-##########################################################################
-
 BASE_DIR        = os.path.dirname(os.path.realpath(__file__))
 SHARED_DIR      = os.path.join(BASE_DIR, 'shared_prefs')
+
+##########################################################################
 
 class SharedPreferences:
     def __init__(self, fpath):

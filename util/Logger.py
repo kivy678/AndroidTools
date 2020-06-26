@@ -12,7 +12,7 @@ from settings import LOGGER_PATH, LOG_PRINT
 
 ##########################################################################
 
-__all__ = ["CODE_SPEED", "Log"]
+__all__ = ["CODE_SPEED", "LOG"]
 
 LOGFMT_STRING = "%(asctime)-15s|%(levelname)s|%(filename)s|%(lineno)d|%(module)s|%(funcName)s|%(message)s"
 LOGFMT = logging.Formatter(LOGFMT_STRING)
@@ -24,13 +24,9 @@ class CODE_SPEED:
 
     def __call__(self, *args, **kwargs):
         start_time = timeit.default_timer()
-        LOG.info("***** START DOWNLOAD Time: " + str(start_time) + " *****")
+        LOG.info("[*] START DOWNLOAD Time: " + str(start_time) + " *****")
         result = self.func(*args, **kwargs)
-        LOG.info(
-            "***** WORKING END Time: "
-            + str(timeit.default_timer() - start_time)
-            + " *****"
-        )
+        LOG.info("***** WORKING END Time: "+ str(timeit.default_timer() - start_time)+ " *****")
 
         return True
 
