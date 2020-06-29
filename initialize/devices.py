@@ -17,6 +17,23 @@ from settings import *
 
 ################################################################################
 
+def commit():
+    cmd = f"mkdir /data/local/tmp/.cache"
+    dev.runCommand(cmd, shell=True)
+
+    cmd = f"echo '1' > /data/local/tmp/.cache/AndroidDevice"
+    dev.runCommand(cmd, shell=True)
+
+
+def isRunning():
+    cmd = f"find /data/local/tmp/.cache -name AndroidDevice"
+    stdin = dev.runCommand(cmd, shell=True)
+
+    if stdin == '':
+        return False
+    else:
+        return True
+
 
 def fridaServer():
     TOO_PATH = Join(
@@ -79,7 +96,7 @@ def appDecompress():
 def appInstaller():
     for app in appDecompress():
         cmd = "adb install {0}".format(app)
-        dev.runCommand(cmd, shell=False)    
+        dev.runCommand(cmd, shell=False)
 
     Delete(TMP_PATH)
     DirCheck(TMP_PATH)

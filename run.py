@@ -10,6 +10,7 @@ import argparse
 from settings import *
 
 from initialize import setDevice
+from initialize.base import AndroidBase
 from initialize.initApp import setApplicationInfor
 
 from util.Logger import LOG
@@ -23,26 +24,19 @@ from Analysis.memdump import getMemoryDump
 
 #############################################################################
 
-sp = getSharedPreferences(SHARED_PATH)
+__version__ = '0.5.1'
 
-if sp.getBoolean('setup') is False:
-    setDevice()
+#############################################################################
 
-    edit = sp.edit()
-    edit.putBoolean('setup', True)
-    edit.commit()
-
-cpath = sp.getString('convdebugpath')
-ipath = sp.getString('installpath')
-spath = sp.getString('setpath')
-
+#setDevice()
+#AndroidBase()
 
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(
-        prog='Android Mod', description='Android Setting')
+        prog='Android Analysis', description='Android Setting')
     parser.add_argument('-v', '--version', action='version',
-                        version='%(prog)s 0.5')
+                        version='%(prog)s {0}'.format(__version__))
 
     parser.add_argument('-d', '--debug', action='store_true',
                         help='디버깅 모드 변환', dest='d')
@@ -73,7 +67,6 @@ if __name__ == '__main__':
 
     if args.a:
         setApplicationInfor(args.a)
-        getMemoryDump()
-
+        #getMemoryDump()
 
     print('Main done...')
