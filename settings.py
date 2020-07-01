@@ -45,3 +45,5 @@ YARA_RULE 		= Join(ANALYSIS_PATH, "yara")
 DUMP_PATH 		= r'c:\tmp\dump'
 
 #############################################################################
+
+CACHE 			= Join(BASE_DIR, 'mining', 'database', 'cache')

@@ -5,6 +5,8 @@
 import os
 import glob
 
+from common import getSharedPreferences
+
 from util.fsUtils import *
 from util.Logger import LOG
 
@@ -24,6 +26,8 @@ DirCheck(IN_PATH)
 DirCheck(OUT_PATH)
 
 ###########################################################################################
+
+
 
 def runDecode(_file):
     sdir, fileName = PathSplit(_file)
@@ -46,10 +50,10 @@ def runDecode(_file):
     LOG.info(f"{'[*]':<5}End Decode")
 
 
-def allDecode(dpath):
-    PATH = Join(dpath, '*')
+def decodeBaksmali():
+    sp = getSharedPreferences(SHARED_PATH)
 
-    for _path in glob.glob(PATH):
+    for _path in glob.glob(Join(sp.getString('WORKING_DIR'), '*')):
         if not isFile(_path):
             continue
 

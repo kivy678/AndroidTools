@@ -8,10 +8,5 @@ class STATUS(Enum):
 
 
 COLUMNS = [
-    'positives',
-    'type',
-    'virobot',
-    'rep',
-    'rep_type',
-    'status',
+    'pkg'
 ]

@@ -25,7 +25,7 @@ def commit():
     dev.runCommand(cmd, shell=True)
 
 
-def isRunning():
+def isCommit():
     cmd = f"find /data/local/tmp/.cache -name AndroidDevice"
     stdin = dev.runCommand(cmd, shell=True)
 

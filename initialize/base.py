@@ -24,5 +24,4 @@ def AndroidBase():
     df = DATAFRAME.instance()
     ### init DF ###
 
-
-    print("Android Setting Done...")
+    print("Android Config Setting Done...")
