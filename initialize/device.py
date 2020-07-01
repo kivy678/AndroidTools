@@ -26,13 +26,20 @@ def commit():
 
 
 def isCommit():
-    cmd = f"find /data/local/tmp/.cache -name AndroidDevice"
+    cmd = f"find /data/local/tmp -type d -name .cache"
     stdin = dev.runCommand(cmd, shell=True)
 
     if stdin == '':
         return False
+
     else:
-        return True
+        cmd = f"find /data/local/tmp/.cache -name AndroidDevice"
+        stdin = dev.runCommand(cmd, shell=True)
+
+        if stdin == '':
+            return False
+        else:
+            return True
 
 
 def fridaServer():

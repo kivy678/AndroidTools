@@ -8,24 +8,26 @@ import os
 import glob
 import argparse
 
-from util.fsUtils import *
-
 from settings import *
+
+from util.fsUtils import *
+from util.Logger import LOG
 
 from initialize.setdevice import setDevice
 from initialize.base import AndroidBase
-from initialize.initApp import setApplicationInfor
+from initialize.initApp import allSetApplicationInfor
 
-from util.Logger import LOG
 from common import getSharedPreferences
 
 from DebugMod.inject_debug import allInjection
-from DebugMod.apk_install import installAllFile
 from DebugMod.set_wait import getPackageName, setDebug
 
 from Analysis.memdump import getMemoryDump
+from Analysis.debug.jdb.jdb import jdbStart
 
 from Decomplie.baksmali import decodeBaksmali
+
+from clear import clear
 
 #############################################################################
 
@@ -47,17 +49,20 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--debug', action='store_true',
                         help='디버깅 모드 변환', dest='d')
 
-    parser.add_argument('-I', '--install', action='store_true',
-                        help='앱 설치', dest='I')
-
     parser.add_argument('-w', '--wait', action='store_true',
                         help='Waiting 모드 변환', dest='w')
+
+    parser.add_argument('--dynamic', action='store_true',
+                        help='Waiting 모드 변환', dest='dynamic')
 
     parser.add_argument('--decomplie', action='store_true',
                         help='디컴파일', dest='decomp')
 
     parser.add_argument('-a', '--analysis', action='store_true',
                         help='분석', dest='a')
+
+    parser.add_argument('--clear', action='store_true',
+                        help='캐쉬클리어', dest='c')
 
     args = parser.parse_args()
 
@@ -66,22 +71,23 @@ if __name__ == '__main__':
         exit()
 
     if args.d:
-        allInjection(cpath)
+        sp = getSharedPreferences(SHARED_PATH)
+        allInjection(sp.getString('WORKING_DIR'))
+
+    if args.dynamic:
+        jdbStart()
 
     if args.w:
-        for pkg in getPackageName(spath):
-            setDebug(pkg, True)
-
-    if args.I:
-        installAllFile(ipath)
+        getPackageName()
 
     if args.a:
         sp = getSharedPreferences(SHARED_PATH)
-
-        for filePath in glob.glob(Join(sp.getString('WORKING_DIR'), '*')):
-            setApplicationInfor(filePath)
+        allSetApplicationInfor(sp.getString('WORKING_DIR'))
 
     if args.decomp:
         decodeBaksmali()
+
+    if args.c:
+        clear()
 
     print('Main done...')

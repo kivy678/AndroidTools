@@ -41,6 +41,8 @@ DECOM_WORK 		= Join(DECOM_PATH, "work")
 #############################################################################
 
 ANALYSIS_PATH	= Join(BASE_DIR, "Analysis")
+ANALYSIS_WORK	= Join(ANALYSIS_PATH, "work")
+
 YARA_RULE 		= Join(ANALYSIS_PATH, "yara")
 DUMP_PATH 		= r'c:\tmp\dump'
 

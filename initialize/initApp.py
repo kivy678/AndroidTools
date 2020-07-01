@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+__all__=[
+    'allSetApplicationInfor'
+]
+
 ###########################################################################################
 
 from Analysis import app
@@ -17,8 +21,8 @@ from cmd import *
 
 APK_TOOL 			= Join(DEBUG_PATH, "apktool_2.4.1.jar")
 
-IN_PATH 			= Join(TMP_PATH, "in")
-OUT_PATH 			= Join(TMP_PATH, "out")
+IN_PATH 			= Join(ANALYSIS_WORK, "in")
+OUT_PATH 			= Join(ANALYSIS_WORK, "out")
 
 DirCheck(IN_PATH)
 DirCheck(OUT_PATH)
@@ -66,3 +70,13 @@ def setApplicationInfor(_path):
     #cleanFile()
 
     return True
+
+
+def allSetApplicationInfor(dpath):
+    PATH = Join(dpath, '*')
+
+    for _path in glob.glob(PATH):
+        if not isFile(_path):
+            continue
+
+        injection(_path)
