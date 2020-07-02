@@ -5,7 +5,7 @@ Java.perform(function() {
 	
     console.log("[*] start Hook");
 
-    var m = NativePointer('b77c2000');
+    var m = new NativePointer('0xb77c2000');
     console.log(m);
 
 

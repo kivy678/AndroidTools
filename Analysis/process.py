@@ -5,10 +5,10 @@
 import re
 from io import StringIO
 
-from Analysis import app
-
 from util.Logger import LOG
 from cmd import dev
+
+from mining.database import df
 
 #from time import perf_counter as pc
 
@@ -17,13 +17,16 @@ from cmd import dev
 
 class ProcessInfor:
     def __init__(self):
+        self.df = df.DATA_FRAME
+
         self._pid = None
         self._tpid = None
 
-    def getPid(self, pkgName):
+    def getPid(self, pkgName) -> list:
         result = "'{print $2}'"
-        cmd = f"ps | grep {app.pkgName} | awk {result}"
+        cmd = f"ps | grep {pkgName} | awk {result}"
         pid = dev.runCommand(cmd, shell=True)
+        self._pid = pid.split()
 
         if pid == str():
             LOG.info(f"{'':>5}Not Running Process.")
@@ -40,11 +43,15 @@ class ProcessInfor:
             with StringIO(m) as sio:
                 self._tpid = r.match(sio.getvalue()).group(1)
 
-    def getMaps(self, pid, s):
+    def getMaps(self, pid, filter=''):
         cmd = f"cat /proc/{pid}/maps"
         m = dev.runCommand(cmd, shell=True)
 
-        r = re.compile(rf"^.*{s}.*", re.M)
+        r = re.compile(rf"^.*{filter}.*", re.M)
         with StringIO(m) as sio:
             for row in r.findall(sio.getvalue()):
                 print(row)
+
+    def getPackageName(self):
+        for sha256 in self.df.index.tolist():
+            yield self.df.loc[sha256, 'pkg']

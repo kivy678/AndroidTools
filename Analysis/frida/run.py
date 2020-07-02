@@ -1,12 +1,20 @@
 # -*- coding:utf-8 -*-
 
+###########################################################################################
+
 import os
 import sys
 
 import frida
 
+from util.fsUtils import Join
+from settings import ANALYSIS_PATH
 
-JS_PATH = os.path.join('js', "java.js")
+###########################################################################################
+
+JS_PATH = Join(ANALYSIS_PATH, "frida", "js", "getModule.js")
+
+###########################################################################################
 
 
 def on_message(message, data):
@@ -16,8 +24,8 @@ def on_message(message, data):
         print(message)
 
 
-def hook(_PACKAGE_NAME):
-    with open(r'Analysis\frida\js\java.js', 'r') as fr:
+def Hook(_PACKAGE_NAME):
+    with open(JS_PATH, 'r') as fr:
         jscode = fr.read()
 
     try:
@@ -39,4 +47,24 @@ def hook(_PACKAGE_NAME):
 
     print("[*] End Hooking App")
 
-hook('com.cd.weixin')
+
+def attachHook(_PACKAGE_NAME):
+    with open(JS_PATH, 'r') as fr:
+        jscode = fr.read()
+
+    try:
+        device = frida.get_usb_device(timeout=10)
+        process = device.attach(_PACKAGE_NAME)
+        print(f"App is starting ... pid : {process}")
+
+        script = process.create_script(jscode)
+        script.on('message', on_message)
+        print('[*] Running Hooking App')
+        script.load()
+        sys.stdin.read()
+    except Exception as e:
+        print(e)
+        print("Exception END...")
+
+    print("[*] End Hooking App")
+

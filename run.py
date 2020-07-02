@@ -23,7 +23,8 @@ from DebugMod.inject_debug import allInjection
 from DebugMod.set_wait import getPackageName, setDebug
 
 from Analysis.memdump import getMemoryDump
-from Analysis.debug.jdb.jdb import jdbStart
+from Analysis.debug.jdb.jdb import *
+from Analysis.process import ProcessInfor
 
 from Decomplie.baksmali import decodeBaksmali
 
@@ -61,6 +62,9 @@ if __name__ == '__main__':
     parser.add_argument('-a', '--analysis', action='store_true',
                         help='분석', dest='a')
 
+    parser.add_argument('-p', '--process', action='store_true',
+                        help='프로세스', dest='p')
+
     parser.add_argument('--clear', action='store_true',
                         help='캐쉬클리어', dest='c')
 
@@ -75,6 +79,7 @@ if __name__ == '__main__':
         allInjection(sp.getString('WORKING_DIR'))
 
     if args.dynamic:
+        #DynamicServer()
         jdbStart()
 
     if args.w:
@@ -83,6 +88,13 @@ if __name__ == '__main__':
     if args.a:
         sp = getSharedPreferences(SHARED_PATH)
         allSetApplicationInfor(sp.getString('WORKING_DIR'))
+
+    if args.p:
+        pinfor = ProcessInfor()
+        for pkg in pinfor.getPackageName():
+            for pid in pinfor.getPid(pkg):
+                print('#'*100)
+                pinfor.getMaps(pid, 'linker')
 
     if args.decomp:
         decodeBaksmali()

@@ -26,6 +26,8 @@ class DEVICE_BASIS(SHELL):
 
         if self._isConnect:
             self.runCommand("adb root", shell=False)
+            self.runCommand("mount -o remount,rw /system", shell=True)
+
             self._su = self.isRoot()
             self._platform = self.getSystem()
 

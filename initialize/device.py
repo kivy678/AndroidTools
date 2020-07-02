@@ -45,14 +45,15 @@ def isCommit():
 def fridaServer():
     TOO_PATH = Join(
         SERVER_PATH, f"frida-server-12.7.15-android-{dev.platform}")
+    print(TOO_PATH)
 
-    cmd = f"adb push {TOO_PATH} /data/local/tmp/frida-server"
+    cmd = f"adb push {TOO_PATH} /system/frida-server"
     dev.runCommand(cmd, shell=False)
 
-    cmd = f"chmod 755 /data/local/tmp/frida-server"
+    cmd = f"chmod 755 /system/frida-server"
     dev.runCommand(cmd, shell=True)
 
-    cmd = f"nohup /data/local/tmp/frida-server &"
+    cmd = f"nohup /system/frida-server"
     dev.runCommand(cmd, shell=True, su=True)
 
     LOG.info(f"{'':>5}-> FridaServier Run")
@@ -70,7 +71,7 @@ def androidServer():
     cmd = f"chmod 755 /data/local/tmp/android_server"
     dev.runCommand(cmd, shell=True)
 
-    cmd = f"nohup /data/local/tmp/android_server &"
+    cmd = f"nohup /data/local/tmp/android_server"
     dev.runCommand(cmd, shell=True, su=True)
 
     LOG.info(f"{'':>5}-> AndroidServer Run")
