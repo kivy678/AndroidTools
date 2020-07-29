@@ -1,15 +1,47 @@
 # -*- coding:utf-8 -*-
 
+#############################################################################
+
 import env
 
 import os
+import argparse
 
 from Analysis.frida.run import *
 from mining.database import df
 
+#############################################################################
+
+__version__ = '0.5.2'
+
+#############################################################################
+
 if __name__ == '__main__':
 
-    for sha256 in df.DATA_FRAME.index.tolist():
-        Hook(df.DATA_FRAME.loc[sha256, 'pkg'])
+    parser = argparse.ArgumentParser(
+        prog='Android Frida', description='Frida Running')
+
+    parser.add_argument('-v', '--version', action='version',
+                        version='%(prog)s {0}'.format(__version__))
+
+    parser.add_argument('--hook', action='store_true',
+                        help='Hook', dest='h')
+
+    parser.add_argument('-a', '--attach', action='store_true',
+                        help='Attach', dest='a')
+
+    args = parser.parse_args()
+
+    if args is None:
+        parser.print_help()
+        exit()
+
+    if args.h:
+        for sha256 in df.DATA_FRAME.index.tolist():
+            Hook(df.DATA_FRAME.loc[sha256, 'pkg'])
+
+    if args.a:
+        for sha256 in df.DATA_FRAME.index.tolist():
+            attachHook(df.DATA_FRAME.loc[sha256, 'pkg'])
 
     print('Main done...')

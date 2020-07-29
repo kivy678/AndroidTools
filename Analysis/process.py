@@ -27,6 +27,7 @@ class ProcessInfor:
         cmd = f"ps | grep {pkgName} | awk {result}"
         pid = dev.runCommand(cmd, shell=True)
         self._pid = pid.split()
+        print(self._pid)
 
         if pid == str():
             LOG.info(f"{'':>5}Not Running Process.")

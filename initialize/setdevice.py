@@ -29,8 +29,12 @@ def setDevice():
         print(f"{'':>5}4. Android Server Install Start")
         androidServer()
 
-        print(f"{'':>5}5. Commit To Device")
+        print(f"{'':>5}5. Tool Install Start")
+        toolInstall()
+
+        print(f"{'':>5}6. Commit To Device")
         commit()
+
         print(f"{'[*]':<5}Settings End")
 
     else:

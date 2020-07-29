@@ -42,11 +42,29 @@ def isCommit():
             return True
 
 
+def toolInstall():
+    TOO_PATH = Join(SERVER_PATH, f"strace")         # strace -s 65535 -fF -t -i -o dump.txt -p [pid]
+
+    cmd = f"adb push {TOO_PATH} /system/strace"
+    dev.runCommand(cmd, shell=False)
+
+    cmd = f"chmod 755 /system/strace"
+    dev.runCommand(cmd, shell=True)
+
+
+    cmd = f"adb push {TOO_PATH} /data/local/tmp/strace"
+    dev.runCommand(cmd, shell=False)
+
+    cmd = f"chmod 755 /data/local/tmp/strace"
+    dev.runCommand(cmd, shell=True)
+
+
+    LOG.info(f"{'':>5}-> TOOL Install")
+
+
 def fridaServer():
     TOO_PATH = Join(
         SERVER_PATH, f"frida-server-12.7.15-android-{dev.platform}")
-    print(TOO_PATH)
-
     cmd = f"adb push {TOO_PATH} /system/frida-server"
     dev.runCommand(cmd, shell=False)
 
@@ -54,13 +72,24 @@ def fridaServer():
     dev.runCommand(cmd, shell=True)
 
     cmd = f"nohup /system/frida-server"
-    dev.runCommand(cmd, shell=True, su=True)
+    #dev.runCommand(cmd, shell=True, su=True)
 
-    LOG.info(f"{'':>5}-> FridaServier Run")
+
+    cmd = f"adb push {TOO_PATH} /data/local/tmp/frida-server"
+    dev.runCommand(cmd, shell=False)
+
+    cmd = f"chmod 755 /data/local/tmp/frida-server"
+    dev.runCommand(cmd, shell=True)
+
+    cmd = f"nohup /data/local/tmp/frida-server"
+    #dev.runCommand(cmd, shell=True, su=True)
+
+
+    LOG.info(f"{'':>5}-> FridaServier Install")
 
 
 def androidServer():
-    TOO_PATH = Join(SERVER_PATH, f"android_server")
+    TOO_PATH = Join(SERVER_PATH, f"android_{dev.platform}_server")
 
     cmd = r"adb forward tcp:23946 tcp:23946"
     dev.runCommand(cmd, shell=False)
@@ -72,16 +101,16 @@ def androidServer():
     dev.runCommand(cmd, shell=True)
 
     cmd = f"nohup /data/local/tmp/android_server"
-    dev.runCommand(cmd, shell=True, su=True)
+    #dev.runCommand(cmd, shell=True, su=True)
 
-    LOG.info(f"{'':>5}-> AndroidServer Run")
+    LOG.info(f"{'':>5}-> AndroidServer Install")
 
 
 def cowExploit():
     cmd = "adb push {0} /data/local/tmp".format(Join(PROP_PATH, 'mprop'))
     dev.runCommand(cmd, shell=False)
 
-    cmd = "chmod 755 /data/local/tmp/mprop && /data/local/tmp/mprop ro.debuggable"
+    cmd = "chmod 755 /data/local/tmp/mprop && cd /data/local/tmp && ./mprop ro.debuggable 1"
     dev.runCommand(cmd, shell=True)
 
     cmd = "getprop ro.debuggable"

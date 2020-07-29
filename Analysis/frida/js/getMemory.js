@@ -18,4 +18,3 @@ Java.perform(function() {
 
 
 console.log("[*] End Script");
-

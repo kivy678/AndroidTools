@@ -6,6 +6,8 @@ __all__=[
 
 ###########################################################################################
 
+import glob
+
 from Analysis import app
 
 from util.Logger import LOG
@@ -79,4 +81,4 @@ def allSetApplicationInfor(dpath):
         if not isFile(_path):
             continue
 
-        injection(_path)
+        setApplicationInfor(_path)

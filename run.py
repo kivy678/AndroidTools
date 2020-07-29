@@ -20,6 +20,7 @@ from initialize.initApp import allSetApplicationInfor
 from common import getSharedPreferences
 
 from DebugMod.inject_debug import allInjection
+from DebugMod.apk_install import installAllFile
 from DebugMod.set_wait import getPackageName, setDebug
 
 from Analysis.memdump import getMemoryDump
@@ -50,8 +51,14 @@ if __name__ == '__main__':
     parser.add_argument('-d', '--debug', action='store_true',
                         help='디버깅 모드 변환', dest='d')
 
+    parser.add_argument('-i', '--install', action='store_true',
+                        help='인스톨', dest='i')
+
     parser.add_argument('-w', '--wait', action='store_true',
                         help='Waiting 모드 변환', dest='w')
+
+    parser.add_argument('--nowait', action='store_true',
+                        help='Waiting 모드 변환', dest='nw')
 
     parser.add_argument('--dynamic', action='store_true',
                         help='Waiting 모드 변환', dest='dynamic')
@@ -65,10 +72,14 @@ if __name__ == '__main__':
     parser.add_argument('-p', '--process', action='store_true',
                         help='프로세스', dest='p')
 
+    parser.add_argument('-m', '--memory', action='store_true',
+                        help='메모리', dest='m')
+
     parser.add_argument('--clear', action='store_true',
                         help='캐쉬클리어', dest='c')
 
     args = parser.parse_args()
+
 
     if args is None:
         parser.print_help()
@@ -78,12 +89,19 @@ if __name__ == '__main__':
         sp = getSharedPreferences(SHARED_PATH)
         allInjection(sp.getString('WORKING_DIR'))
 
+    if args.i:
+        sp = getSharedPreferences(SHARED_PATH)
+        installAllFile(sp.getString('WORKING_DIR'))
+
     if args.dynamic:
         #DynamicServer()
         jdbStart()
 
     if args.w:
-        getPackageName()
+        getPackageName(True)
+
+    if args.nw:
+        getPackageName(False)
 
     if args.a:
         sp = getSharedPreferences(SHARED_PATH)
@@ -94,10 +112,13 @@ if __name__ == '__main__':
         for pkg in pinfor.getPackageName():
             for pid in pinfor.getPid(pkg):
                 print('#'*100)
-                pinfor.getMaps(pid, 'linker')
+                pinfor.getMaps(pid, '')
 
     if args.decomp:
         decodeBaksmali()
+
+    if args.m:
+        getMemoryDump()
 
     if args.c:
         clear()

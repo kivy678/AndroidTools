@@ -12,7 +12,7 @@ from settings import ANALYSIS_PATH
 
 ###########################################################################################
 
-JS_PATH = Join(ANALYSIS_PATH, "frida", "js", "getModule.js")
+JS_PATH = Join(ANALYSIS_PATH, "frida", "js", "libc.js")
 
 ###########################################################################################
 
@@ -55,7 +55,7 @@ def attachHook(_PACKAGE_NAME):
     try:
         device = frida.get_usb_device(timeout=10)
         process = device.attach(_PACKAGE_NAME)
-        print(f"App is starting ... pid : {process}")
+        print(f"App is Attaching ... pid : {process}")
 
         script = process.create_script(jscode)
         script.on('message', on_message)

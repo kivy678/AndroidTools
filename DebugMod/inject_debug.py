@@ -40,9 +40,14 @@ DirCheck(OUT_PATH)
 
 ###########################################################################################
 
+def cleanDir():
+    Delete(IN_PATH)
+    Delete(OUT_PATH)
+
+
 def readManifest():
     try:
-        with open(MANIFEST) as fr:
+        with open(MANIFEST, "r", encoding='utf-8') as fr:
             soup = BeautifulSoup(fr, "lxml-xml")
             soup.application['android:debuggable'] = 'true'
 
@@ -70,14 +75,14 @@ def injection(_file):
 
     LOG.info(f"{'[*]':<5}start decode: {fileName}")
 
-    cmd = f"{APK_TOOL} d -f -o {DECODE_PATH} {fdst}"
+    cmd = f"{APK_TOOL} d -f  -o {DECODE_PATH} {fdst}"
     shell.runCommand(cmd, java=True)
 
-    readManifest()
-    fileManger()
+    #readManifest()
+    #fileManger()
 
     LOG.info(f"{'[*]':<5}start build")
-    cmd = f"{APK_TOOL} b -f -o {OUT_APK} {DECODE_PATH}"
+    cmd = f"{APK_TOOL} b -f -d -o {OUT_APK} {DECODE_PATH}"
     shell.runCommand(cmd, java=True)
 
     LOG.info(f"{'[*]':<5}sign code")
@@ -89,8 +94,7 @@ def injection(_file):
     Copy(KEY_APK, dpath)
 
     LOG.info(f"{'[*]':<5}File Clean")
-    Delete(IN_PATH)
-    Delete(OUT_PATH)
+    #cleanDir()
 
     LOG.info(f"{'[*]':<5}injection End")
 
