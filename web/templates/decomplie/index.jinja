@@ -1,0 +1,14 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+	<div class="col-md-2 sidebar">
+		<ul class="nav navbar-nav">
+			<li><a href="{{ url_for('decomplie.install') }}">앱 설치</a></li>
+			<li><a href="{{ url_for('decomplie.debug') }}">디버깅모드</a></li>
+			<li>메뉴2</li>
+		</ul>
+	</div>
+</div>
+
+{% endblock container %}

@@ -8,3 +8,4 @@ decode
 .*dex
 tmp
 test.py
+__session__

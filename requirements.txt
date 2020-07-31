@@ -3,4 +3,5 @@ yara-python==4.0.1
 androguard
 
 -r util/requirements.txt
+-r module/requirements.txt
 #-r Analysis/requirements.txt

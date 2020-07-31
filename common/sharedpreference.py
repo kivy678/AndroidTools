@@ -14,6 +14,7 @@ SHARED_DIR      = os.path.join(BASE_DIR, 'shared_prefs')
 
 ##########################################################################
 
+
 class SharedPreferences:
     def __init__(self, fpath):
         self.fpath = fpath
