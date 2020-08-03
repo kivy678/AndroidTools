@@ -43,7 +43,7 @@ class DEVICE_INSTALLER():
             return True if stdout != '' else False
 
     def toolInstall(self):
-        TOOL_PATH = Join(SET_PATH, f"strace")         # strace -s 65535 -fF -t -i -o dump.txt -p [pid]
+        TOOL_PATH = Join(SET_WORK, f"strace")         # strace -s 65535 -fF -t -i -o dump.txt -p [pid]
 
         cmd = f"adb push {TOOL_PATH} /system/strace"
         shell.runCommand(cmd, shell=False)
@@ -61,7 +61,7 @@ class DEVICE_INSTALLER():
 
     def fridaServer(self):
         TOOL_PATH = Join(
-            SET_PATH, f"frida-server-12.7.15-android-{self._cpu}")
+            SET_WORK, f"frida-server-12.7.15-android-{self._cpu}")
         cmd = f"adb push {TOOL_PATH} /system/frida-server"
         shell.runCommand(cmd, shell=False)
 
@@ -81,7 +81,7 @@ class DEVICE_INSTALLER():
         #shell.runCommand(cmd, shell=True, su=True)
 
     def androidServer(self):
-        TOOL_PATH = Join(SET_PATH, f"android_{self._cpu}_server")
+        TOOL_PATH = Join(SET_WORK, f"android_{self._cpu}_server")
 
         cmd = f"adb forward tcp:22222 tcp:22222"
         shell.runCommand(cmd, shell=False)
@@ -96,7 +96,7 @@ class DEVICE_INSTALLER():
         #shell.runCommand(cmd, shell=True, su=True)
 
     def cowExploit(self):
-        cmd = "adb push {0} /data/local/tmp".format(Join(SET_PATH, 'mprop'))
+        cmd = "adb push {0} /data/local/tmp".format(Join(SET_WORK, 'mprop'))
         print(cmd)
         shell.runCommand(cmd, shell=False)
 
@@ -115,16 +115,16 @@ class DEVICE_INSTALLER():
         for _path in glob.glob(Join(APP_PATH, '*')):
             _, app_name = PathSplit(_path)
 
-            zipDecompress(_path, SET_PATH)
+            zipDecompress(_path, SET_WORK)
 
-            yield Join(SET_PATH, app_name.replace('zip', 'apk'))
+            yield Join(SET_WORK, app_name.replace('zip', 'apk'))
 
     def serverDecompress(self):
         for _path in glob.glob(Join(SERVER_PATH, '*')):
             _, server_name = PathSplit(_path)
 
-            zipDecompress(_path, SET_PATH)
+            zipDecompress(_path, SET_WORK)
 
     def clean(self):
-        Delete(SET_PATH)
-        DirCheck(SET_PATH)
+        Delete(SET_WORK)
+        DirCheck(SET_WORK)

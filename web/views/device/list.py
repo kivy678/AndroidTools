@@ -30,7 +30,7 @@ class DEVICE_LIST(MethodView):
             "model": dev.model,
             "cpu": dev.platform,
             "su": dev.su,
-            "setup": False
+            "setup": dev.installer.isCommit()
         })
         df_dev.DATA_FRAME = df_dev.DATA_FRAME.append(rows, ignore_index=True)
         df_dev.DATA_FRAME = df_dev.DATA_FRAME[~df_dev.DATA_FRAME.duplicated(['model'], keep='first')]
