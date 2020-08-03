@@ -1,5 +1,5 @@
-from Analysis.frida.dump import dumper
-from Analysis.frida.dump import utils
+from module.mobile.Analysis.frida.dump import dumper
+from module.mobile.Analysis.frida.dump import utils
 
 import textwrap
 import frida

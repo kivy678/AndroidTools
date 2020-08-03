@@ -75,3 +75,22 @@ $(document).ready(function($) {
   });
 });
 
+
+$(document).ready(function($) {
+  $('li[name=dynamic-menu]').click(function() {
+    $.ajax({
+      url: "/analysis/dynamic",
+      type: "GET",
+      data: {"menu": $(this).text()},
+
+      success: function(response) {
+          console.log("SUCCESS: ");
+          $("#complate").html(response);
+      },
+      error: function(error) {
+          console.log("ERROR: " + error);
+      }
+
+    });
+  });
+});

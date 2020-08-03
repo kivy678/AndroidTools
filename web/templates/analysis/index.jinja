@@ -6,26 +6,15 @@
   <div class="col-md-2 sidebar">
     <ul class="nav navbar-nav">
       <li><a href="{{ url_for('analysis.static') }}">앱 분석하기</a></li>
-      <li><a href="{{ url_for('analysis.dynamic') }}">동적 디버깅</a></li>
+      <li class="menu">
+        <a>동적 디버깅</a>
+        <ul class="hide">
+          <li name="dynamic-menu">run</li>
+          <li name="dynamic-menu">jdb</li>
+        </ul>
+      </li>     
       <li><a href="{{ url_for('analysis.test') }}">Frida 분석</a></li>
-      <li><a href="{{ url_for('analysis.test') }}">메모리 덤프</a></li>
-
-      <li class="menu">
-        <a>Watting 모드</a>
-        <ul class="hide">
-          <li name="dbg-wait">set</li>
-          <li name="dbg-wait">clear</li>
-        </ul>
-      </li>
-
-      <li class="menu">
-        <a>디컴파일 메뉴</a>
-        <ul class="hide">
-          <li name="decomp-menu">baksmali</li>
-          <li name="decomp-menu">androg</li>
-        </ul>
-      </li>
-
+      <li><a href="{{ url_for('analysis.mdump') }}">메모리 덤프</a></li>
     </ul>
   </div>
 

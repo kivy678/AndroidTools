@@ -8,6 +8,8 @@ __all__=[
 
 import glob
 
+from module.mobile.cmd import shell
+
 from module.mobile.Analysis.app import APP_INFOR
 
 from util.Logger import LOG
@@ -16,8 +18,6 @@ from util.fsUtils import *
 from util.hash import getSHA256
 
 from webConfig import *
-
-from module.mobile.cmd import shell
 
 ###########################################################################################
 
