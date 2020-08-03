@@ -1,22 +1,18 @@
 # -*- coding:utf-8 -*-
 
-__all__=[
-    'decodeBaksmali'
-]
-
 ###########################################################################################
 
 import os
 import glob
+
+from module.mobile.cmd import shell
 
 from common import getSharedPreferences
 
 from util.fsUtils import *
 from util.Logger import LOG
 
-from settings import *
-
-from cmd import shell
+from webConfig import *
 
 ###########################################################################################
 
@@ -26,14 +22,15 @@ IN_PATH             = Join(DECOM_WORK,     "in")
 OUT_PATH            = Join(DECOM_WORK,     "out")
 DECODE_PATH         = Join(DECOM_WORK,     "out", "decode")
 
-DirCheck(IN_PATH)
-DirCheck(OUT_PATH)
-
 ###########################################################################################
 
-
+def clean():
+    DirCheck(IN_PATH)
+    DirCheck(OUT_PATH)
 
 def runDecode(_file):
+    clean()
+
     sdir, fileName = PathSplit(_file)
     fdst = Join(IN_PATH, fileName)
 
@@ -48,17 +45,6 @@ def runDecode(_file):
     Copy(DECODE_PATH, Join(sdir, fName + '_smali'))
 
     LOG.info(f"{'[*]':<5}File Clean")
-    Delete(IN_PATH)
-    Delete(OUT_PATH)
+    clean()
 
     LOG.info(f"{'[*]':<5}End Decode")
-
-
-def decodeBaksmali():
-    sp = getSharedPreferences(SHARED_PATH)
-
-    for _path in glob.glob(Join(sp.getString('WORKING_DIR'), '*')):
-        if not isFile(_path):
-            continue
-
-        runDecode(_path)

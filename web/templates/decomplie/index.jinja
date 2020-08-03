@@ -1,14 +1,35 @@
 {% extends 'base.jinja' %}
 
 {% block container %}
+
 <div class="row">
 	<div class="col-md-2 sidebar">
 		<ul class="nav navbar-nav">
 			<li><a href="{{ url_for('decomplie.install') }}">앱 설치</a></li>
 			<li><a href="{{ url_for('decomplie.debug') }}">디버깅모드</a></li>
-			<li>메뉴2</li>
+			<li class="menu">
+				<a>Watting 모드</a>
+				<ul class="hide">
+					<li name="dbg-wait">set</li>
+					<li name="dbg-wait">clear</li>
+				</ul>
+			</li>
+
+			<li class="menu">
+				<a>디컴파일 메뉴</a>
+				<ul class="hide">
+					<li name="decomp-menu">baksmali</li>
+					<li name="decomp-menu">androg</li>
+				</ul>
+			</li>
+
 		</ul>
 	</div>
+
+	<div class="col-md-10 col-md-offset-2 main"></div>
+		<div id="complate"></div>
+	</div>
+
 </div>
 
 {% endblock container %}
