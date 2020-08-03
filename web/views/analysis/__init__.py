@@ -10,3 +10,4 @@ def setup(app):
 
 
 import web.views.analysis.index
+import web.views.analysis.static

@@ -1,9 +1,0 @@
-rule findDex
-{
-    strings:
-		$str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghi"
-		
-
-    condition:
-       $str
-}

@@ -1,30 +1,38 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <title>Flask_Chat_App</title>
-  <script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
-</head>
-<body>
+{% extends 'base.jinja' %}
 
-  <p class="container">aaa</p>
+{% block container %}
 
-  <script type="text/javascript">
+<div class="row">
+  <div class="col-md-2 sidebar">
+    <ul class="nav navbar-nav">
+      <li><a href="{{ url_for('analysis.static') }}">앱 분석하기</a></li>
+      <li><a href="{{ url_for('analysis.dynamic') }}">동적 디버깅</a></li>
+      <li><a href="{{ url_for('analysis.test') }}">Frida 분석</a></li>
+      <li><a href="{{ url_for('analysis.test') }}">메모리 덤프</a></li>
 
-   var socket = null;
-    $(document).ready(function() {
-        socket = new WebSocket("ws://" + document.domain + ":7777/websocket/");
+      <li class="menu">
+        <a>Watting 모드</a>
+        <ul class="hide">
+          <li name="dbg-wait">set</li>
+          <li name="dbg-wait">clear</li>
+        </ul>
+      </li>
 
-        socket.onopen = function() {
-            socket.send("Joined");
-        }
+      <li class="menu">
+        <a>디컴파일 메뉴</a>
+        <ul class="hide">
+          <li name="decomp-menu">baksmali</li>
+          <li name="decomp-menu">androg</li>
+        </ul>
+      </li>
 
-        socket.onmessage = function(message) {
-            var txt = message.data;
-            $(".container").append("<p>" + txt + "</p>");
-        }
-    });
+    </ul>
+  </div>
 
-  </script>
+  <div class="col-md-10 col-md-offset-2 main"></div>
+    <div id="complate"></div>
+  </div>
 
-</body>
-</html>
+</div>
+
+{% endblock container %}

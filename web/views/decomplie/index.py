@@ -17,8 +17,10 @@ from module.mobile.app.debug import debugger
 
 from module.mobile.Decomplie.baksmali import runDecode
 from module.mobile.Decomplie.androg import runAndrogDecode
+from module.mobile.Decomplie.set_wait import setDebug
 
 from util.fsUtils import Join
+from web.cache import getCache
 
 ##########################################################################
 
@@ -61,9 +63,15 @@ class AppDebug(MethodView):
 
 class AppWait(MethodView):
     def get(self):
-        print(request.args)
+        mode = request.args['mode'].strip()
+        if mode == "set":
+            m = True
+        elif mode == "clear":
+            m = False
 
-        return "웨이트 모드로 변경하였습니다."
+        setDebug(getCache('pkg'), m)
+
+        return "모드를 변경하였습니다."
 
 
 class AppDecomplie(MethodView):
