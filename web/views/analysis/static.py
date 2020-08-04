@@ -56,15 +56,14 @@ class MemoryDump(MethodView):
         return "메모리 덤프 완료"
 
 
-
-class TEST(MethodView):
+class Frida(MethodView):
     template_name = None
 
     def __init__(self, template_name):
         self.template_name = template_name
 
     def get(self):
-        return "TEST"
+        return render_template(self.template_name)
 
 
 static = StaticAnalysis.as_view('static')
@@ -76,5 +75,5 @@ view.add_url_rule('dynamic', view_func=dynamic)
 mdump = MemoryDump.as_view('mdump')
 view.add_url_rule('mdump', view_func=mdump)
 
-test = TEST.as_view('test', template_name='')
-view.add_url_rule('test', view_func=test)
+frida = Frida.as_view('frida', template_name='analysis/frida.jinja')
+view.add_url_rule('frida', view_func=frida)

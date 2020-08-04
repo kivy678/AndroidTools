@@ -1,0 +1,29 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+
+<p class="container">aaaaaaa</p>
+
+
+
+{% endblock container %}
+
+
+{% block script %}
+<script type="text/javascript">
+
+  $(document).ready(function() {
+      var socket = new WebSocket("ws://" + document.domain + ":7777/analysis/frida/stream/");
+
+      socket.onopen = function() {
+          socket.send("Joined");
+      }
+
+      socket.onmessage = function(message) {
+          var txt = message.data;
+          $(".container").append("<p>" + txt + "</p>");
+      }
+  });
+  
+</script>
+{% endblock script %}

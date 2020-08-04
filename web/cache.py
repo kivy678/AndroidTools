@@ -3,7 +3,9 @@
 __all__=[
     'getCache',
     'setCache',
-    'delCache'
+    'delCache',
+    'lpush',
+    'rpop'
 ]
 
 ##################################################################################################
@@ -35,11 +37,13 @@ def getConfig():
     rq = RedisQueue()
     rq.connect(_REDIS_CACHE_CONFIG)
 
-    if rq.conn:
+    try:
+        if rq.conn:
+            return reids_config
+        else:
+            return simple_config
+    finally:
         rq.close()
-        return reids_config
-    else:
-        return simple_config
 
 ##################################################################################################
 
@@ -58,5 +62,28 @@ def setCache(k, r, timeout=600):
 
 def delCache(k):
     FlaskCache.delete(k)
+
+##################################################################################################
+
+def lpush(k, r):
+    rq = RedisQueue()
+    rq.connect(_REDIS_CACHE_CONFIG)
+
+    try:
+        if rq.conn:
+            return rq.conn.lpush(k, r)
+    finally:
+        rq.close()
+
+
+def rpop(k):
+    rq = RedisQueue()
+    rq.connect(_REDIS_CACHE_CONFIG)
+
+    try:
+        if rq.conn:
+            return rq.conn.rpop(k)
+    finally:
+        rq.close()
 
 ##################################################################################################

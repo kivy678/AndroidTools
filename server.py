@@ -9,7 +9,11 @@ from tornado.web import Application, FallbackHandler
 from tornado.ioloop import IOLoop
 
 from web.runner import app
-from web.websocket import MYWebSocket
+from web.views.analysis.frida_ws import FridaDataStreamDataSocket
+
+##################################################################################################
+
+__version__ = '0.9.0'
 
 ##################################################################################################
 
@@ -23,9 +27,9 @@ def getServer(port):
 def getServer2(port):
     container = WSGIContainer(app)
     server = Application([
-        (r'/websocket/', MYWebSocket),
+        (r'/analysis/frida/stream/', FridaDataStreamDataSocket),
         (r'.*', FallbackHandler, dict(fallback=container))
-    ])
+    ], debug=True, autoreload=False)
     server.listen(port)
     return IOLoop.instance().start()
 

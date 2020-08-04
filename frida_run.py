@@ -5,10 +5,10 @@
 import env
 
 import os
+import sys
 import argparse
 
-from Analysis.frida.run import *
-from mining.database import df
+from module.mobile.Analysis.frida.run import *
 
 #############################################################################
 
@@ -37,11 +37,10 @@ if __name__ == '__main__':
         exit()
 
     if args.h:
-        for sha256 in df.DATA_FRAME.index.tolist():
-            Hook(df.DATA_FRAME.loc[sha256, 'pkg'])
+        Hook("com.omn.vvi")
 
     if args.a:
-        for sha256 in df.DATA_FRAME.index.tolist():
-            attachHook(df.DATA_FRAME.loc[sha256, 'pkg'])
+        attachHook("com.omn.vvi")
+
 
     print('Main done...')

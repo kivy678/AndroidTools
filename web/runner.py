@@ -21,10 +21,6 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 ##################################################################################################
 
-__version__ = '0.2.0'
-
-##################################################################################################
-
 from web.cache import setup as CacheSetup
 from web.session import setup as SessionSetup
 from web.worker import setup as WorkerSetup
