@@ -5,10 +5,9 @@
 import env
 
 import os
-import sys
 import argparse
 
-from module.mobile.Analysis.frida.run import *
+from module.mobile.Analysis.frida.local_run import *
 
 #############################################################################
 

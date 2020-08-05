@@ -13,7 +13,8 @@ rules = yara.compile(filepath=os.path.join(BASE, 'str.rule'))
 
 #############################################################################
 
-for dump in glob.glob(os.path.join(r'C:\tmp\dump', '*')):
-	with open(dump, 'rb') as fr:
-		if rules.match(data=fr.read()):
-			print(dump)
+def run(_path):
+	for dump in glob.glob(_path):
+		with open(dump, 'rb') as fr:
+			if rules.match(data=fr.read()):
+				yield dump

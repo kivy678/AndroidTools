@@ -21,6 +21,6 @@ def setDebug(package, dbg=True):
     option = "-w" if dbg else ""
 
     cmd = f"am {mode}-debug-app {option} {package}"
-    LOG.info(f"{'[*]':<5}{mode} debug {package}")
+    LOG.info(f"{'[*]':<5}am {mode}-debug-app {option} {package}")
 
     shell.runCommand(cmd, shell=True)

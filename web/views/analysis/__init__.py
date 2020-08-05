@@ -11,3 +11,4 @@ def setup(app):
 
 import web.views.analysis.index
 import web.views.analysis.static
+import web.views.analysis.yara_engine
