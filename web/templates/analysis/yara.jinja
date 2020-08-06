@@ -1,26 +1,23 @@
 {% extends 'base.jinja' %}
 
 {% block container %}
-<div class="container" style="width:800px; padding:10px;">
+<div class="row" >
 
+	<table class="table table-bordered table-striped table-sm table-hover">
+		<thead class="thead-dark">
+			<tr>
+				<th>검색 결과</th>
+			</tr>
+		</thead>
 
-	<div class="center-block" >
-		<table class="table table-bordered table-striped table-sm table-hover">
-			<thead class="thead-dark">
-				<tr>
-					<th>검색 결과</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				{% for value in enter %}
-				<tr>
-					<td>{{ value }}</td>
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-    </div>
+		<tbody>
+			{% for value in enter %}
+			<tr>
+				<td>{{ value }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
 
 </div>
 {% endblock container %}

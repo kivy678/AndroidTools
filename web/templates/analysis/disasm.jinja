@@ -1,0 +1,51 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+
+  <div class="col-md-2 sidebar">
+    <div class="row">
+      <label id="fm">텍스트 입력</label>
+      <input type="text" class="form-control" name="GetText" placeholder="텍스트를 쓰시오">
+    </div>
+
+    <div class="col-sm-offset-2">
+      <button class="btn btn-primary" type="submit" name="send">전송</button>
+    </div>
+  </div>
+
+  <div class="col-md-10 col-md-offset-2 main">
+    <div class="row">
+      <pre id="disasm_content">아직 없음<br></pre>
+    </div>
+  </div>
+
+</div>
+{% endblock container %}
+
+{% block script %}
+<script>
+
+$(document).ready(function($) {
+  $('button[name=send]').click(function() {
+    var content = $('input[name=GetText]').val();
+
+    $.ajax({
+      url: "/analysis/disasm",
+      type: "GET",
+      data: {"data": content},
+
+      success: function(response) {
+          console.log("SUCCESS: ");
+          $("#disasm_content").text(response);
+      },
+      error: function(error) {
+          console.log("ERROR: " + error);
+      }
+
+    });
+  });
+});
+
+</script>
+{% endblock script %}

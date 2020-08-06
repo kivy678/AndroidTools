@@ -1,28 +1,32 @@
 {% extends 'base.jinja' %}
 
 {% block container %}
-
 <div class="row">
+
   <div class="col-md-2 sidebar">
     <ul class="nav navbar-nav">
       <li><a href="{{ url_for('analysis.static') }}">앱 분석하기</a></li>
+      
       <li class="menu">
         <a>동적 디버깅</a>
         <ul class="hide">
           <li name="dynamic-menu">run</li>
           <li name="dynamic-menu">jdb</li>
         </ul>
-      </li>     
+      </li>  
+
       <li><a href="{{ url_for('analysis.frida') }}">Frida 분석</a></li>
       <li><a href="{{ url_for('analysis.yara') }}">yara 검색</a></li>
       <li><a href="{{ url_for('analysis.mdump') }}">메모리 덤프</a></li>
+      <li><a href="{{ url_for('analysis.disasm') }}">디스어셈블리</a></li>
+      
     </ul>
   </div>
 
-  <div class="col-md-10 col-md-offset-2 main"></div>
+    <div class="col-md-10 col-md-offset-2 main"></div>
+
     <div id="complate"></div>
-  </div>
+
 
 </div>
-
 {% endblock container %}
