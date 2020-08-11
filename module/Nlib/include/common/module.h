@@ -4,7 +4,6 @@
 #include <Python.h>
 #include "common/common.h"
 
-
 #define PYOBJECT_CHECK(obj, label) 		         \
     if (!obj)							         \
     { 									         \
@@ -21,7 +20,6 @@
 
 
 #define __EXCEPTION(ret, obj, ...)  		PyErr_Format(obj, ##__VA_ARGS__)
-#define DISASSEMBLE_EXCEPTION(ret, ...) 	__EXCEPTION((ret), DisassembleException, ##__VA_ARGS__)
 
 
 #endif // __NLIB_INCLUDE_COMMON_MODULE_H__

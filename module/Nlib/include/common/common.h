@@ -8,7 +8,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "common.debug.h"
 
+#include "common.debug.h"
 
 #endif // __COMMON_COMMON_H__

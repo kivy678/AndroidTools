@@ -1,6 +1,6 @@
 #define PY_SSIZE_T_CLEAN
 
-#include "common/module.h"
+#include "disasm.h"
 
 #include <inttypes.h>
 #include "capstone/capstone.h"
