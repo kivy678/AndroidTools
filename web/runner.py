@@ -8,6 +8,9 @@ from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 
+from util.fsUtils import Join
+from webConfig import STORAGE_PATH
+
 ##################################################################################################
 
 app = Flask(__name__,
@@ -16,7 +19,7 @@ app = Flask(__name__,
 
 
 app.config.from_object('web.security')
-app.config['MAX_CONTENT_LENGTH'] = 32 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024 * 128
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
 ##################################################################################################

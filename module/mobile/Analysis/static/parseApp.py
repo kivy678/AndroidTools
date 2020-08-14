@@ -15,6 +15,7 @@ from module.mobile.Analysis.app import APP_INFOR
 from util.Logger import LOG
 from util.parser import *
 from util.fsUtils import *
+from util.util import zipDecompress
 from util.hash import getSHA256
 
 from webConfig import *
@@ -39,6 +40,8 @@ def readySample(_file) -> str: 			# DecodePath
 
     Copy(_file, fdst)
 
+    zipDecompress(fdst, Join(OUT_PATH, SplitExt(fileName)[0]))
+
     LOG.info(f"{'[*]':<5}start decode: {fileName}")
     DECODE_PATH = Join(OUT_PATH, fileName)
 
@@ -49,7 +52,6 @@ def readySample(_file) -> str: 			# DecodePath
 
 
 def setApplicationInfor(_path):
-    cleanFile()
     app = APP_INFOR()
 
     app.decodePath = readySample(_path)
@@ -66,6 +68,6 @@ def setApplicationInfor(_path):
     LOG.info(f"{'[*]':<5}PackageName:{app.pkgName}")
 
     LOG.info(f"{'[*]':<5}File Clean")
-    cleanFile()
+    #cleanFile()
 
     return True

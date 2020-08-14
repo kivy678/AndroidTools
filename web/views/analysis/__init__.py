@@ -14,3 +14,4 @@ import web.views.analysis.static
 import web.views.analysis.yara_engine
 import web.views.analysis.disasmbly
 import web.views.analysis.format
+import web.views.analysis.spark

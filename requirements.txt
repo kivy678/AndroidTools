@@ -5,4 +5,4 @@ androguard
 
 -r util/requirements.txt
 -r module/requirements.txt
-#-r Analysis/requirements.txt
+-r web/requirements.txt

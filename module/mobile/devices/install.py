@@ -43,7 +43,7 @@ class DEVICE_INSTALLER():
             return True if stdout != '' else False
 
     def toolInstall(self):
-        TOOL_PATH = Join(SET_WORK, f"strace")         # strace -s 65535 -fF -t -i -o dump.txt -p [pid]
+        TOOL_PATH = Join(SET_WORK, f"strace")
 
         cmd = f"adb push {TOOL_PATH} /system/strace"
         shell.runCommand(cmd, shell=False)

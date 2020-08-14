@@ -1,0 +1,7 @@
+pandas==1.0.5
+numpy==1.19.0
+frida-tools==5.4.0
+frida==12.7.15
+yara-python==4.0.1
+psutil==5.7.0
+pyspark==2.4.5

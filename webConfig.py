@@ -17,6 +17,7 @@ SHARED_PATH 	= Join('common', 'shared_prefs', 'setup.xml')
 
 VAR_PATH 		= Join(BASE_DIR, "var")
 TMP_PATH 		= Join(BASE_DIR, "tmp")
+STORAGE_PATH    = Join(BASE_DIR, "STORAGE")
 
 FLASK_SESSION	= Join(BASE_DIR, "__session__")
 
@@ -50,6 +51,11 @@ ANALYSIS_WORK	= Join(TMP_PATH, "work")
 
 YARA_RULE 		= Join(ANALYSIS_PATH, "yara")
 DUMP_PATH 		= r'c:\tmp\dump'
+
+#############################################################################
+
+SPARK_PATH      = Join(TMP_PATH, "spark")
+SPARK_WORK      = Join(SPARK_PATH, "work")
 
 #############################################################################
 

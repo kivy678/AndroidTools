@@ -11,4 +11,6 @@ test.py
 __session__
 build
 spark
-cache
+cache/*
+STORAGE
+

@@ -1,0 +1,22 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row" >
+
+	<form action="spark" method="POST" enctype="multipart/form-data">
+		<div class="form-group">
+			<label for="LogFile">로그를 분석합니다.</label>
+				<input type="file" id="LogFile" name="LogFileName">
+				<p class="help-block">로그를 업로드하세요.</p>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2">
+				<button type="submit" class="btn btn-primary">전송</button>
+			</div>
+		</div>
+	</form>
+
+</div>
+{% endblock container %}
+

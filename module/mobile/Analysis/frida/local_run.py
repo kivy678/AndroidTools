@@ -20,7 +20,7 @@ JS_PATH = Join(ANALYSIS_PATH, "frida", "js", "libc.js")
 
 def on_message(message, data):
     if message["type"] == "send":
-        print(repr(message["payload"]))
+        print(message["payload"])
     else:
         print(message)
 
@@ -38,7 +38,7 @@ def Hook(_PACKAGE_NAME):
         device.resume(pid)
 
         script = process.create_script(jscode)
-        script.on('message', self.on_message)
+        script.on('message', on_message)
         LOG.info('[*] Running Hooking App')
         script.load()
         sys.stdin.read()

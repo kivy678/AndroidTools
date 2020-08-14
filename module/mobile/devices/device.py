@@ -26,6 +26,8 @@ class EMULATOR(DEVICE_BASIS):
 
     def setup(self):
         if self._isConnect:
+            shell.runCommand("setenforce 0", shell=True)
+
             shell.runCommand("mount -o remount,rw /system", shell=True)
             shell.runCommand("mount -o remount,rw /", shell=True)
 
