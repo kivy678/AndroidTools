@@ -10,3 +10,5 @@ tmp
 test.py
 __session__
 build
+spark
+cache
