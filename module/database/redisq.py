@@ -13,6 +13,10 @@ class RedisQueue:
         self._conn = None
         self._conn_pool = None
 
+    def __del__(self):
+        if self._conn:
+            self.close()
+
     def connect(self, config):
         if self._conn is None:
             try:
@@ -26,18 +30,7 @@ class RedisQueue:
                 LOG.info(e)
                 return False
 
-        return True
-
-    @property
-    def conn(self):
-        if self._conn is not None:
-            return self._conn
-        else:
-            return False
-
-    def query(self, g, s):
-        pass
-
+        return self._conn
 
     def close(self):
         self._conn.connection_pool.disconnect()

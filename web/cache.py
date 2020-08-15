@@ -35,10 +35,10 @@ reids_config = {
 
 def getConfig():
     rq = RedisQueue()
-    rq.connect(_REDIS_CACHE_CONFIG)
+    r_conn = rq.connect(_REDIS_CACHE_CONFIG)
 
     try:
-        if rq.conn:
+        if r_conn:
             return reids_config
         else:
             return simple_config

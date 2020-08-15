@@ -21,7 +21,7 @@ from module.database.redisq import RedisQueue
 ##################################################################################################
 
 rq = RedisQueue()
-rq.connect(_REDIS_SESSION_CONFIG)
+r_conn = rq.connect(_REDIS_SESSION_CONFIG)
 
 sess = Session()
 
@@ -31,9 +31,9 @@ def setup(app):
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
     app.config['SESSION_FILE_THRESHOLD'] = 500
 
-    if rq.conn:
+    if r_conn:
         app.config['SESSION_TYPE'] = "redis"
-        app.config['SESSION_REDIS'] = rq.conn
+        app.config['SESSION_REDIS'] = r_conn
     else:
         app.config['SESSION_TYPE'] = "filesystem"
         app.config['SESSION_FILE_DIR'] = FLASK_SESSION
