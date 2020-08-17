@@ -103,4 +103,4 @@ def Walk(path):
     for _r, _d, _fl in os.walk(path):
         for fn in _fl:
             yield os.path.join(_r, fn)
-    raise StopIteration
+    #raise StopIteration

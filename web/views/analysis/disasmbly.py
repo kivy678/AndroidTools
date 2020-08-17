@@ -25,7 +25,7 @@ class Disasm(MethodView):
             opcode = ''.join([f"\\x{opcode}" for opcode in data.split()]).encode()
             opcode = opcode.decode('unicode-escape').encode('ISO-8859-1')
 
-            return disassemble.dis(opcode)
+            return disassemble.disasmX86(opcode)
 
         return render_template(self.template_name)
 

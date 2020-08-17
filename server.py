@@ -13,10 +13,6 @@ from web.views.analysis.frida_ws import FridaDataStreamDataSocket
 
 ##################################################################################################
 
-__version__ = '0.9.0'
-
-##################################################################################################
-
 """
 def getServer(port):
     server = HTTPServer(WSGIContainer(app))
