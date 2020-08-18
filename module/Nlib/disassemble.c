@@ -6,18 +6,19 @@
 #include "capstone/capstone.h"
 
 #define ERROR "Failed to disassemble given code!"
-
+#define BUFFER_SIZE		500
 
 PyObject* DisassembleException = NULL;
 
 
-PyObject *
+PyObject*
 disasmARM(PyObject* self, PyObject* a_args)
 {
 	const char* args;
 	Py_ssize_t args_size;
+	PyObject* trn_string;
 
-	char* buffer = "1";
+	char* buffer;
 	char* tmp_buffer;
 
 	csh handle;
@@ -25,10 +26,12 @@ disasmARM(PyObject* self, PyObject* a_args)
 	size_t count;
 	size_t j;
 
-	//printf("%s\n", buffer);
 
 	if(!PyArg_ParseTuple(a_args, "s#", &args, &args_size))
 		return NULL;
+
+	buffer = (char*) malloc(sizeof(char) * BUFFER_SIZE);
+	memset(buffer, 0, sizeof(char) * BUFFER_SIZE);
 
 	if (cs_open(CS_ARCH_ARM, CS_MODE_ARM, &handle) != CS_ERR_OK)
 		DISASSEMBLE_EXCEPTION(-1, "ARM INIT FAILED");
@@ -52,18 +55,21 @@ disasmARM(PyObject* self, PyObject* a_args)
 
 	cs_close(&handle);
 
-    return Py_BuildValue("s", buffer);
+	trn_string = Py_BuildValue("s", buffer);
+	free(buffer);
+
+    return trn_string;
 }
 
 
-PyObject *
+PyObject*
 disasmX86(PyObject* self, PyObject* a_args)
 {
 	const char* args;
 	Py_ssize_t args_size;
+	PyObject* trn_string;
 
-
-	char* buffer = "";
+	char* buffer;
 	char* tmp_buffer;
 
 	csh handle;
@@ -74,6 +80,9 @@ disasmX86(PyObject* self, PyObject* a_args)
 
 	if(!PyArg_ParseTuple(a_args, "s#", &args, &args_size))
 		return NULL;
+
+	buffer = (char*) malloc(sizeof(char) * BUFFER_SIZE);
+	memset(buffer, 0, sizeof(char) * BUFFER_SIZE);
 
 	if (cs_open(CS_ARCH_X86, CS_MODE_32, &handle) != CS_ERR_OK)
 		DISASSEMBLE_EXCEPTION(-1, "X86 INIT FAILED");
@@ -98,7 +107,10 @@ disasmX86(PyObject* self, PyObject* a_args)
 
 	cs_close(&handle);
 
-    return Py_BuildValue("s", buffer);
+	trn_string = Py_BuildValue("s", buffer);
+	free(buffer);
+
+    return trn_string;
 }
 
 

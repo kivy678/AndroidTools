@@ -1,4 +1,4 @@
-.env
+.env*
 *.pyc
 report
 __pycache__
@@ -13,4 +13,3 @@ build
 spark
 cache/*
 STORAGE
-

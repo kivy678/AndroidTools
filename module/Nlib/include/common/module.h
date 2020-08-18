@@ -13,7 +13,7 @@
 
 #define __GET_REFCOUNT(obj, ...)           		 \
     {                                            \
-        printf("%d\n", obj, ##__VA_ARGS__);      \
+        printf("%d (%s)\n", obj, __VA_ARGS__);   \
     }
 
 #define GET_REFCOUNT(obj, ...)      		__GET_REFCOUNT(PyLong_AsLong(PyLong_FromSsize_t(Py_REFCNT(obj))), ##__VA_ARGS__)
