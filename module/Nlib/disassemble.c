@@ -17,7 +17,7 @@ disasmARM(PyObject* self, PyObject* a_args)
 	const char* args;
 	Py_ssize_t args_size;
 
-	char* buffer = "";
+	char* buffer = "1";
 	char* tmp_buffer;
 
 	csh handle;
@@ -25,11 +25,13 @@ disasmARM(PyObject* self, PyObject* a_args)
 	size_t count;
 	size_t j;
 
+	//printf("%s\n", buffer);
+
 	if(!PyArg_ParseTuple(a_args, "s#", &args, &args_size))
 		return NULL;
 
 	if (cs_open(CS_ARCH_ARM, CS_MODE_ARM, &handle) != CS_ERR_OK)
-		DISASSEMBLE_EXCEPTION(-1, "init failed");
+		DISASSEMBLE_EXCEPTION(-1, "ARM INIT FAILED");
 
 	count = cs_disasm(handle, args, args_size, 0x1000, 0, &insn);
 
@@ -74,7 +76,7 @@ disasmX86(PyObject* self, PyObject* a_args)
 		return NULL;
 
 	if (cs_open(CS_ARCH_X86, CS_MODE_32, &handle) != CS_ERR_OK)
-		DISASSEMBLE_EXCEPTION(-1, "init failed");
+		DISASSEMBLE_EXCEPTION(-1, "X86 INIT FAILED");
 
 
 	count = cs_disasm(handle, args, args_size, 0x1000, 0, &insn);

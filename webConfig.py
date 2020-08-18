@@ -26,7 +26,6 @@ FLASK_SESSION	= Join(BASE_DIR, "__session__")
 
 APP_PATH 		= Join(VAR_PATH, "app")
 SERVER_PATH 	= Join(VAR_PATH, "server")
-DEBUG_PATH 		= Join(VAR_PATH, "debug")
 DECOMPLIE_PATH 	= Join(VAR_PATH, "decomplie")
 
 #############################################################################

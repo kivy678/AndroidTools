@@ -6,6 +6,7 @@ import os
 import uuid
 
 import xml.etree.ElementTree as ET
+import xml.etree as etree
 
 ##########################################################################
 
@@ -136,7 +137,7 @@ class SharedPreferences:
 
         def commit(self):
             path = os.path.join(SHARED_DIR, uuid.uuid4().hex)
-            self.context.tree.write(path)
+            self.context.tree.write(path, encoding='utf-8')
 
             os.remove(self.context.fpath)
             os.rename(path, self.context.fpath)

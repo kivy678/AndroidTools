@@ -35,14 +35,14 @@ WorkerSetup(app)
 ##################################################################################################
 
 from web.views.base import setup as BaseSetup
-from web.views.preferences import setup as PreferencesSetup
 from web.views.device import setup as DevSetup
-from web.views.decomplie import setup as DecomplieSetup
+from web.views.app import setup as AppSetup
 from web.views.analysis import setup as AnalysisSetup
+from web.views.preferences import setup as PreferencesSetup
 
 BaseSetup(app)
 DevSetup(app)
-DecomplieSetup(app)
+AppSetup(app)
 AnalysisSetup(app)
 PreferencesSetup(app)
 

@@ -1,4 +1,8 @@
 <map>
-	<string name="WORKING_DIR">C:\tmp\sample</string>
-	
+	<string name="WORKING_DIR">C:\tmp\a</string>
+	<string name="SAMPLE_DIR">C:\tmp\a\sample</string>
+	<string name="DECODE_DIR">C:\tmp\a\decode</string>
+	<string name="ANALYSIS_DIR">C:\tmp\a\analysis</string>
+	<string name="TMP_DIR">C:\tmp\a\tmp</string>
+	<boolean name="INIT_SETTING">true</boolean>
 </map>

@@ -23,6 +23,7 @@ class DEVICE_LIST(MethodView):
 
     def get(self):
         dev = EMULATOR.getPlatform()
+
         if dev.setup() is False:
             return "NOT CONNECT DEVICE"
 

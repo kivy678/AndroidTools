@@ -20,35 +20,38 @@ from util.hash import getSHA256
 
 from webConfig import *
 
-###########################################################################################
-
-APK_TOOL 			= Join(DEBUG_PATH, "apktool_2.4.1.jar")
-
-IN_PATH 			= Join(ANALYSIS_WORK, "in")
-OUT_PATH 			= Join(ANALYSIS_WORK, "out")
+from common import getSharedPreferences
+from webConfig import SHARED_PATH
 
 ###########################################################################################
 
-def cleanFile():
-    Delete(IN_PATH)
-    Delete(OUT_PATH)
+sp                  = getSharedPreferences(SHARED_PATH)
+
+SAMPLE_DIR          = sp.getString('SAMPLE_DIR')
+DECODE_DIR          = sp.getString('DECODE_DIR')
+TMP_DIR             = sp.getString('TMP_DIR')
+
+APK_TOOL 			= Join(DECOMPLIE_PATH, "apktool_2.4.1.jar")
+
+###########################################################################################
+
+def readySample(_path) -> str: 			# DecodePath
+    _, fileName = PathSplit(_path)
+    tmp_dst = Join(TMP_DIR, fileName)
+
+    Copy(_path, tmp_dst)
 
 
-def readySample(_file) -> str: 			# DecodePath
-    sdir, fileName = PathSplit(_file)
-    fdst = Join(IN_PATH, fileName)
-
-    Copy(_file, fdst)
-
-    zipDecompress(fdst, Join(OUT_PATH, SplitExt(fileName)[0]))
+    LOG.info(f"{'[*]':<5}start unzip: {fileName}")
+    zipDecompress(tmp_dst, Join(DECODE_DIR, fileName, 'unzip'))
 
     LOG.info(f"{'[*]':<5}start decode: {fileName}")
-    DECODE_PATH = Join(OUT_PATH, fileName)
 
-    cmd = f"{APK_TOOL} d -f -o {DECODE_PATH} {fdst}"
+    DECODE_PATH = Join(DECODE_DIR, fileName, 'apktool')
+    cmd = f"{APK_TOOL} d -f -o {DECODE_PATH} {_path}"
     shell.runCommand(cmd, java=True)
 
-    return Join(OUT_PATH, fileName)
+    return DECODE_PATH
 
 
 def setApplicationInfor(_path):
@@ -67,7 +70,4 @@ def setApplicationInfor(_path):
 
     LOG.info(f"{'[*]':<5}PackageName:{app.pkgName}")
 
-    LOG.info(f"{'[*]':<5}File Clean")
-    #cleanFile()
-
-    return True
+    return None

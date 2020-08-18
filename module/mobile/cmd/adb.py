@@ -3,6 +3,7 @@
 #############################################################################
 
 from module.mobile.cmd import shell
+import re
 
 #############################################################################
 
@@ -19,8 +20,10 @@ __all__ = [
 
 def adbDevices():
     stdout = shell.runCommand("adb devices")
+    #dev_list = list(map(lambda x: re.match(r"(.*)\\t.*", x).group(1), repr(stdout).split(r'\r\n')[1:]))
+    #return dev_list
     return True if r'\n' in repr(stdout) else False
-
+    
 
 def adbRestart():
     shell.runCommand("adb kill-server")

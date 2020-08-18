@@ -21,6 +21,7 @@ class DEVICE_WORKER(MethodView):
     def get(self):
         model = request.args['model']
         dev = EMULATOR.getPlatform()
+
         if dev.setup() is False:
             return "NOT CONNECT DEVICE"
 

@@ -7,7 +7,7 @@ import glob
 from flask.views import MethodView
 from flask import render_template, request
 
-from web.views.decomplie import view
+from web.views.app import view
 
 from common import getSharedPreferences
 from webConfig import SHARED_PATH
@@ -92,7 +92,7 @@ class AppDecomplie(MethodView):
         return "디컴파일 완료"
 
 
-appindex = DecomplieIndex.as_view('index', template_name='decomplie/index.jinja')
+appindex = DecomplieIndex.as_view('index', template_name='app/index.jinja')
 view.add_url_rule('index', view_func=appindex)
 
 

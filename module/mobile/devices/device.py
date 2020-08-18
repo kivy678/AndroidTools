@@ -6,9 +6,6 @@ from module.mobile.cmd import shell, adb
 from module.mobile.devices.base import DEVICE_BASIS
 from module.mobile.devices.install import DEVICE_INSTALLER
 
-from common import getSharedPreferences
-from webConfig import SHARED_PATH
-
 #############################################################################
 
 __all__=[
@@ -24,7 +21,7 @@ class EMULATOR(DEVICE_BASIS):
         self._model = None
         self._installer = None
 
-    def setup(self):
+    def setup(self, dev_name=None):
         if self._isConnect:
             shell.runCommand("setenforce 0", shell=True)
 

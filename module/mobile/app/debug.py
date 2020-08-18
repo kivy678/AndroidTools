@@ -18,11 +18,11 @@ from webConfig import *
 
 ###########################################################################################
 
-APK_TOOL            = Join(DEBUG_PATH,  "apktool_2.4.1.jar")
+APK_TOOL            = Join(DECOMPLIE_PATH,  "apktool_2.4.1.jar")
 
-SIGNAPK_TOOL        = Join(DEBUG_PATH,  "signapk", "signapk.jar")
-CERTIFICATE_TOOL    = Join(DEBUG_PATH,  "signapk", "certificate.pem")
-PK8_TOOL            = Join(DEBUG_PATH,  "signapk", "key.pk8")
+SIGNAPK_TOOL        = Join(DECOMPLIE_PATH,  "signapk", "signapk.jar")
+CERTIFICATE_TOOL    = Join(DECOMPLIE_PATH,  "signapk", "certificate.pem")
+PK8_TOOL            = Join(DECOMPLIE_PATH,  "signapk", "key.pk8")
 
 IN_PATH             = Join(DMOD_WORK,   "in")
 OUT_PATH            = Join(DMOD_WORK,   "out")
