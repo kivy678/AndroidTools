@@ -43,7 +43,7 @@ def setup(app):
 ##################################################################################################
 
 def getSession(k):
-    return session.get(k, False)
+    return session.get(k, None)
 
 def setSession(k, r):
     session[k] = r

@@ -9,7 +9,7 @@ from flask import render_template
 
 from web.views.device import view
 
-from module.mobile.devices.device import EMULATOR
+from module.mobile.DeviceManager.device import EMULATOR
 from module.database import df_dev
 
 ##########################################################################

@@ -10,7 +10,7 @@ import glob
 
 from module.mobile.cmd import shell
 
-from module.mobile.Analysis.app import APP_INFOR
+from module.mobile.AppManager.app import APP_INFOR
 
 from util.Logger import LOG
 from util.parser import *
@@ -40,7 +40,6 @@ def readySample(_path) -> str: 			# DecodePath
     tmp_dst = Join(TMP_DIR, fileName)
 
     Copy(_path, tmp_dst)
-
 
     LOG.info(f"{'[*]':<5}start unzip: {fileName}")
     zipDecompress(tmp_dst, Join(DECODE_DIR, fileName, 'unzip'))

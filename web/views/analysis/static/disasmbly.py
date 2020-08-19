@@ -5,7 +5,7 @@
 from flask.views import MethodView
 from flask import render_template, request
 
-from web.views.analysis import view
+from web.views.analysis.static import view
 
 import disassemble
 

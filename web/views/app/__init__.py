@@ -10,4 +10,9 @@ def setup(app):
 
 
 import web.views.app.index
-import web.views.app.static
+import web.views.app.applist
+import web.views.app.analysis
+import web.views.app.installer
+import web.views.app.debug
+import web.views.app.wait
+import web.views.app.decomplie

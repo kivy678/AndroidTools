@@ -9,7 +9,7 @@ from flask import render_template, request
 
 from web.views.analysis import view
 
-from module.mobile.Analysis.static.parseApp import setApplicationInfor
+
 from module.mobile.Analysis.dynamic.dynamic_server import *
 from module.mobile.Analysis.frida.memdump import getMemoryDump
 
@@ -23,17 +23,7 @@ from web.cache import getCache
 ##########################################################################
 
 
-class StaticAnalysis(MethodView):
-    def get(self):
-        sp = getSharedPreferences(SHARED_PATH)
-        wk_dir = sp.getString('WORKING_DIR')
 
-        app_list = (path for path in glob.glob(Join(wk_dir, '*')))
-
-        for _path in app_list:
-            setApplicationInfor(_path)
-
-        return "정적 분석 완료"
 
 
 class DynamicAnalysis(MethodView):
@@ -66,8 +56,6 @@ class Frida(MethodView):
         return render_template(self.template_name)
 
 
-static = StaticAnalysis.as_view('static')
-view.add_url_rule('static', view_func=static)
 
 dynamic = DynamicAnalysis.as_view('dynamic')
 view.add_url_rule('dynamic', view_func=dynamic)

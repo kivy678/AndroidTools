@@ -13,7 +13,7 @@ class SHELL(object):
     def runCommand(self, cmd):
         with subp(self.parseString(cmd), stdout=subprocess.PIPE) as proc:
             try:
-                return proc.communicate(timeout=10)[0].decode('utf-8').strip()
+                return proc.communicate(timeout=60)[0].decode('utf-8').strip()
             except subprocess.TimeoutExpired:
                 proc.kill()
                 return proc.communicate()[0].decode('utf-8').strip()

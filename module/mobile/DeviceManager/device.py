@@ -3,8 +3,8 @@
 #############################################################################
 
 from module.mobile.cmd import shell, adb
-from module.mobile.devices.base import DEVICE_BASIS
-from module.mobile.devices.install import DEVICE_INSTALLER
+from module.mobile.DeviceManager.base import DEVICE_BASIS
+from module.mobile.DeviceManager.install import DEVICE_INSTALLER
 
 #############################################################################
 

@@ -3,13 +3,14 @@
 ##########################################################################
 
 from flask.views import MethodView
-from flask import render_template, request
+from flask import render_template
 
-from web.views.app import view
+from web.views.analysis import view_static
 
 ##########################################################################
 
-class DecomplieIndex(MethodView):
+
+class StaticIndex(MethodView):
     template_name = None
 
     def __init__(self, template_name):
@@ -19,5 +20,5 @@ class DecomplieIndex(MethodView):
         return render_template(self.template_name)
 
 
-appindex = DecomplieIndex.as_view('index', template_name='app/index.jinja')
-view.add_url_rule('index', view_func=appindex)
+index = StaticIndex.as_view('index', template_name='analysis/static/index.jinja')
+view_static.add_url_rule('index', view_func=index)

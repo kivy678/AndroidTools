@@ -2,6 +2,12 @@
 
 ##################################################################################################
 
+__version__ = '0.15.1'
+
+##################################################################################################
+
+import platform
+
 import argparse
 import configparser
 
@@ -12,20 +18,33 @@ from webConfig import *
 
 ##################################################################################################
 
+sp = getSharedPreferences(SHARED_PATH)
+
 config = configparser.ConfigParser()
 config.read(GLOBAL_SETTINGS)
 
-WORKING_DIR     = config['WORK'].get('working_dir')
+WORKING_DIR         = config['WORK'].get('WORKING_DIR')
 
-SAMPLE_DIR      = Join(WORKING_DIR, 'sample')
-DECODE_DIR      = Join(WORKING_DIR, 'decode')
-ANALYSIS_DIR    = Join(WORKING_DIR, 'analysis')
+SAMPLE_DIR          = Join(WORKING_DIR, 'sample')
+DECODE_DIR          = Join(WORKING_DIR, 'decode')
+ANALYSIS_DIR        = Join(WORKING_DIR, 'analysis')
 
-TMP_DIR         = Join(WORKING_DIR, 'tmp')
+TMP_DIR             = Join(WORKING_DIR, 'tmp')
+
+
+JADX_PATH           = config['TOOL'].get('JADX')
+JUST_DECOMPILE_PATH = config['TOOL'].get('JUST_DECOMPILE')
+IL2CPP_DUMPER_PATH  = config['TOOL'].get('IL2CPP_DUMPER')
 
 ##################################################################################################
 
-__version__ = '0.13.0'
+system_os           = platform.system()
+arch, _             = platform.architecture()
+
+ed = sp.edit()
+ed.putString("OS",      system_os )
+ed.putString("ARCH",    f'x{arch[:2]}')
+ed.commit()
 
 ##################################################################################################
 
@@ -39,6 +58,9 @@ if __name__ == '__main__':
     parser.add_argument('-i', '--init', action='store_true',
                         help='init', dest='i')
 
+    parser.add_argument('-c', '--clear', action='store_true',
+                        help='clear', dest='c')
+
     args = parser.parse_args()
 
     if args is None:
@@ -46,8 +68,6 @@ if __name__ == '__main__':
         exit()
 
     if args.i:
-        sp = getSharedPreferences(SHARED_PATH)
-
         print("INIT SETTING")
 
         Delete(WORKING_DIR)
@@ -61,7 +81,16 @@ if __name__ == '__main__':
         ed.putString('ANALYSIS_DIR', ANALYSIS_DIR)
         ed.putString('TMP_DIR', TMP_DIR)
 
+        ed.putString('JADX_PATH', JADX_PATH)
+        ed.putString('JUST_DECOMPILE_PATH', JUST_DECOMPILE_PATH)
+        ed.putString('IL2CPP_DUMPER_PATH', IL2CPP_DUMPER_PATH)
+
         ed.putBoolean('INIT_SETTING', True)
         ed.commit()
+
+    if args.c:
+        for dirName in [DECODE_DIR, ANALYSIS_DIR, TMP_DIR]:
+            Delete(dirName)
+            DirCheck(dirName)
 
     print("Main Done...")

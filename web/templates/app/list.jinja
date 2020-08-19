@@ -1,0 +1,29 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row" >
+
+
+	<form action={{ mode_url }} method="POST" enctype="multipart/form-data">
+		<div class="form-group">
+			<div class="checkbox">
+				{% for AppName in enter %}
+				<label id="fm">{{ name }}</label>
+				<label>
+					<input type="checkbox" name="AppName" value= {{ AppName }}>{{ AppName }}
+				</label>
+				{% endfor %}
+			</div>
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2">
+				<button type="submit" class="btn btn-primary">전송</button>
+			</div>
+		</div>
+
+	</form>
+
+
+</div>
+{% endblock container %}

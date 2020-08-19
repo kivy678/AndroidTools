@@ -16,7 +16,13 @@ from util.Logger import LOG
 
 from webConfig import *
 
+from common import getSharedPreferences
+from webConfig import SHARED_PATH
+
 ###########################################################################################
+
+sp                  = getSharedPreferences(SHARED_PATH)
+TMP_DIR             = sp.getString('TMP_DIR')
 
 APK_TOOL            = Join(DECOMPLIE_PATH,  "apktool_2.4.1.jar")
 
@@ -24,22 +30,20 @@ SIGNAPK_TOOL        = Join(DECOMPLIE_PATH,  "signapk", "signapk.jar")
 CERTIFICATE_TOOL    = Join(DECOMPLIE_PATH,  "signapk", "certificate.pem")
 PK8_TOOL            = Join(DECOMPLIE_PATH,  "signapk", "key.pk8")
 
-IN_PATH             = Join(DMOD_WORK,   "in")
-OUT_PATH            = Join(DMOD_WORK,   "out")
-DECODE_PATH         = Join(DMOD_WORK,   "out", "decode")
+DBG_DIR             = Join(TMP_DIR,         "dbg")
+DECODE_PATH         = Join(DBG_DIR,         "decode")
 
-MANIFEST            = Join(DECODE_PATH, "AndroidManifest.xml")
-MANIFEST_WRITE      = Join(DECODE_PATH, "AndroidManifest_tmp.xml")
+MANIFEST            = Join(DECODE_PATH,     "AndroidManifest.xml")
+MANIFEST_WRITE      = Join(DECODE_PATH,     "AndroidManifest_tmp.xml")
 
-OUT_APK             = Join(OUT_PATH,    "out.apk")
-KEY_APK             = Join(OUT_PATH,    "signed.apk")
+OUT_APK             = Join(DBG_DIR,         "out.apk")
+KEY_APK             = Join(DBG_DIR,         "signed.apk")
 
 ###########################################################################################
 
 def cleanDir():
-    Delete(IN_PATH)
-    Delete(OUT_PATH)
-
+    Delete(DBG_DIR)
+    DirCheck(DBG_DIR)
 
 def readManifest():
     try:
@@ -56,42 +60,41 @@ def readManifest():
 
 def fileManger():
     try:
-        os.remove(MANIFEST)
+        Delete(MANIFEST)
         os.rename(MANIFEST_WRITE, MANIFEST)
     except Exception as e:
         LOG.info(e)
         return False
 
 
-def debugger(_file):
+def debugger(_path, force=False):
+    option = '-f' if force else ''
     cleanDir()
 
-    sdir, fileName = PathSplit(_file)
-    fdst = Join(IN_PATH, fileName)
+    fdir, fileName = PathSplit(_path)
+    tmp_dst = Join(TMP_DIR, fileName)
 
-    Copy(_file, fdst)
+    Copy(_path, tmp_dst)
 
     LOG.info(f"{'[*]':<5}start decode: {fileName}")
 
-    cmd = f"{APK_TOOL} d -f  -o {DECODE_PATH} {fdst}"
+    cmd = f"{APK_TOOL} d {option} -o {DECODE_PATH} {tmp_dst}"
     shell.runCommand(cmd, java=True)
 
     #readManifest()
     #fileManger()
 
     LOG.info(f"{'[*]':<5}start build")
-    cmd = f"{APK_TOOL} b -f -d -o {OUT_APK} {DECODE_PATH}"
+    cmd = f"{APK_TOOL} b {option} -d -o {OUT_APK} {DECODE_PATH}"
     shell.runCommand(cmd, java=True)
 
     LOG.info(f"{'[*]':<5}sign code")
     cmd = f"{SIGNAPK_TOOL} {CERTIFICATE_TOOL} {PK8_TOOL} {OUT_APK} {KEY_APK}"
     shell.runCommand(cmd, java=True)
 
-    f, ext = os.path.splitext(fileName)
-    dpath = Join(sdir, f +'_signed.apk')
-    Copy(KEY_APK, dpath)
+    f, ext = SplitExt(fileName)
+    signed_apk = Join(fdir, f+'_signed.apk')
+    Copy(KEY_APK, signed_apk)
 
     LOG.info(f"{'[*]':<5}File Clean")
     cleanDir()
-
-    LOG.info(f"{'[*]':<5}injection End")

@@ -11,7 +11,7 @@ from util.hash import *
 from module.database import df_app
 
 from webConfig import CACHE
-from web.cache import setCache
+from web.session import setSession
 
 ###########################################################################################
 
@@ -39,7 +39,7 @@ class APP_INFOR:
 
             df_app.DATA_FRAME.to_csv(Join(CACHE, ".data.csv"), mode='w')
 
-            setCache('pkg', self._pkgName)
+            setSession('pkg', self._pkgName)
 
         elif isinstance(p, JsonParser):
             ManifestJson = p.parser()
