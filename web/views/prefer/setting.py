@@ -5,7 +5,7 @@
 from flask.views import MethodView
 from flask import render_template
 
-from web.views.preferences import view
+from web.views.prefer import view
 
 from common import getSharedPreferences
 from webConfig import SHARED_PATH
@@ -26,5 +26,5 @@ class SetupPage(MethodView):
         return f"작업 디렉토리: {sp.getString('WORKING_DIR')}"
 
 
-setup_page = SetupPage.as_view('', template_name='')
-view.add_url_rule('', view_func=setup_page)
+setup_page = SetupPage.as_view('set', template_name='')
+view.add_url_rule('set', view_func=setup_page)

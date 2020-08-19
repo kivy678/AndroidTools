@@ -43,7 +43,15 @@ class JsonParser:
 	            return json.dumps(xmltodict.parse(fr.read()),
 	            					indent=4,
 	            					separators=(',', ': '))
-	          
+
 	    except Exception as e:
 	        print(e)
 	        return False
+
+
+class JsonString:
+	def dump(self, s):
+	    return json.dump(s)
+
+	def load(self, s):
+		return json.load(s)

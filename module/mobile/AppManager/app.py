@@ -17,6 +17,7 @@ from web.session import setSession
 
 class APP_INFOR:
     def __init__(self):
+        self._fileName = None
         self._decodePath = None
         self._sha256 = None
         self._pkgName = None
@@ -33,12 +34,12 @@ class APP_INFOR:
             self._pkgName = p.parser('manifest', 'package')
             applicatopmActivity = p.parser('application', 'android:name')
 
-            add_idx = pd.Series({'pkg': self._pkgName}).rename(self._sha256)
+            data = {'pkg': self._pkgName, 'fileName': self._fileName}
+            add_idx = pd.Series(data).rename(self._sha256)
             df_app.DATA_FRAME = df_app.DATA_FRAME.append(add_idx)
             df_app.DATA_FRAME = df_app.DATA_FRAME[~df_app.DATA_FRAME.duplicated(['pkg'], keep='first')]
 
-            df_app.DATA_FRAME.to_csv(Join(CACHE, ".data.csv"), mode='w')
-
+            df_app.saveCSV()
             setSession('pkg', self._pkgName)
 
         elif isinstance(p, JsonParser):
@@ -67,3 +68,11 @@ class APP_INFOR:
     @pkgName.setter
     def pkgName(self, pkgName):
         self._pkgName = pkgName
+
+    @property
+    def fileName(self):
+        return self._fileName
+
+    @fileName.setter
+    def fileName(self, fileName):
+        self._fileName = fileName

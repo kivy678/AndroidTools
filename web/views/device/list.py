@@ -25,7 +25,7 @@ class DEVICE_LIST(MethodView):
         dev = EMULATOR.getPlatform()
 
         if dev.setup() is False:
-            return "NOT CONNECT DEVICE"
+            return "연결된 기기가 없습니다."
 
         rows = pd.Series({
             "model": dev.model,

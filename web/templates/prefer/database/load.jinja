@@ -7,20 +7,18 @@
 		<table class="table table-bordered table-striped table-sm table-hover">
 			<thead class="thead-dark">
 				<tr>
-					<th>모델</th>
-					<th>CPU</th>
-					<th>루팅</th>
-					<th>설정</th>
+					<th>SHA256</th>
+					<th>파일 이름</th>
+					<th>패키지 명</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				{% for value in enter.itertuples() %}
-				<tr class="clickable-device-list">
+				<tr>
+					<td>{{ value[0] }}</td>
 					<td>{{ value[1] }}</td>
 					<td>{{ value[2] }}</td>
-					<td>{{ value[3] }}</td>
-					<td>{{ value[4] }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>

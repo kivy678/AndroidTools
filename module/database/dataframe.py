@@ -33,14 +33,22 @@ class DATA_FRAME(Singleton):
 
             df = pd.DataFrame(data=csv)
             df = df.where(pd.notnull(df), '')
-            LOG.info("Load Data.CSV")
+            LOG.info(f"Load {fileName}")
 
             return df[~df.index.duplicated(keep='first')]
 
         except FileNotFoundError as e:
             LOG.info("Create Data Frame")
             return pd.DataFrame(columns=COLUMN)
- 
+
+        except DATAFRAME_EXCEPTION_HANDER as e:
+            LOG.info(e)
+            return False
+
+    def saveCSV(self, fileName):
+        try:
+            self._DATA_FRAME.to_csv(Join(CACHE, f"{fileName}"), mode='w')
+
         except DATAFRAME_EXCEPTION_HANDER as e:
             LOG.info(e)
             return False
@@ -64,7 +72,13 @@ class DEVICE(DATA_FRAME):
     def setup(self):
         self._DATA_FRAME = self.setCSV(".dev.csv", DEV_COLUMNS)
 
+    def saveCSV(self):
+        super().saveCSV(".dev.csv")
+
 
 class APPLICATION(DATA_FRAME):
     def setup(self):
         self._DATA_FRAME = self.setCSV(".app.csv", APP_COLUMNS)
+
+    def saveCSV(self):
+        super().saveCSV(".app.csv")

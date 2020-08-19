@@ -31,7 +31,7 @@ class EMULATOR(DEVICE_BASIS):
             self._model = adb.getModel()
             self._installer = DEVICE_INSTALLER(self._platform)
 
-        return None
+        return False
 
     @property
     def model(self):

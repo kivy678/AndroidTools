@@ -11,10 +11,10 @@ DEV_COLUMNS=[
     'model',
     'cpu',
     'su',
-    'setup'
+    'setup',
 ]
 
 APP_COLUMNS=[
-    'pkg'
+	'fileName',
+    'pkg',
 ]
-

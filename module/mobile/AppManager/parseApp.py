@@ -54,10 +54,12 @@ def readySample(_path) -> str: 			# DecodePath
 
 
 def setApplicationInfor(_path):
+    _, fileName = PathSplit(_path)
     app = APP_INFOR()
 
     app.decodePath = readySample(_path)
     app.sha256 = getSHA256(_path)
+    app.fileName = fileName
 
     MANIFEST = Join(app.decodePath, "AndroidManifest.xml")
 

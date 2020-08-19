@@ -1,0 +1,17 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+
+	<div class="col-md-3 sidebar">
+		<ul class="nav navbar-nav">
+
+			<li><a href="{{ url_for('prefer.database.load') }}">로드</a></li>
+			<li><a href="{{ url_for('prefer.database.index') }}">저장</a></li>
+
+		</ul>
+	</div>
+	<div class="col-md-10 col-md-offset-2 main"></div>
+
+</div>
+{% endblock container %}
