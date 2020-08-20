@@ -5,11 +5,11 @@
 <div class="row">
 	<div class="col-md-2 sidebar">
 		<ul class="nav navbar-nav">
-			<li><a href="{{ url_for('app.list', mode='analysis') }}">기본 분석</a></li>
-			<li><a href="{{ url_for('app.list', mode='install') }}">설치</a></li>
-			<li><a href="{{ url_for('app.list', mode='uninstall') }}">삭제</a></li>
-			<li><a href="{{ url_for('app.list', mode='debug') }}">디버깅모드</a></li>
-					
+			<li><a href="{{ url_for('app.', mode='analysis') }}">기본 분석</a></li>
+			<li><a href="{{ url_for('app.', mode='install') }}">설치</a></li>
+			<li><a href="{{ url_for('app.', mode='uninstall') }}">삭제</a></li>
+			<li><a href="{{ url_for('app.', mode='debug') }}">디버깅모드</a></li>
+
 			<li class="menu">
 				<a>Watting 모드</a>
 				<ul class="hide">

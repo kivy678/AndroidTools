@@ -42,7 +42,7 @@ KEY_APK             = Join(DBG_DIR,         "signed.apk")
 ###########################################################################################
 
 def cleanDir():
-    for path in [DBG_DIR, TMP_DIR]:
+    for path in [DBG_DIR]:
         Delete(path)
         DirCheck(path)
 

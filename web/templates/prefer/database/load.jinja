@@ -9,23 +9,27 @@
 				<tr>
 					<th>SHA256</th>
 					<th>파일 이름</th>
-					<th>패키지 명</th>
+					<th>패키지 이름</th>
+					<th>수집 시간</th>
+					<th>상태 값</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				{% for value in enter.itertuples() %}
-				<tr>
+				<tr class="clickable-pkg-list">
 					<td>{{ value[0] }}</td>
 					<td>{{ value[1] }}</td>
 					<td>{{ value[2] }}</td>
+					<td>{{ value[3] }}</td>
+					<td>{{ value[4] }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
 		</table>
     </div>
 
-    <div id="device"></div>
+    <div id="viewer"></div>
 
 </div>
 {% endblock container %}

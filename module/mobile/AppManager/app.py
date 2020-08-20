@@ -2,11 +2,13 @@
 
 ###########################################################################################
 
+from datetime import datetime
 import pandas as pd
 
 from util.fsUtils import Join
 from util.parser import *
 
+from module.database.structure import STATUS
 from module.database import df_app
 from web.session import setSession
 
@@ -31,7 +33,7 @@ class APP_INFOR:
             self._pkgName = p.parser('manifest', 'package')
             applicatopmActivity = p.parser('application', 'android:name')
 
-            data = {'pkg': self._pkgName, 'fileName': self._fileName}
+            data = {'pkg': self._pkgName, 'fileName': self._fileName, 'ctime': datetime.now(), 'status': STATUS.INIT.value}
             add_idx = pd.Series(data).rename(self._sha256)
             df_app.DATA_FRAME = df_app.DATA_FRAME.append(add_idx)
             df_app.DATA_FRAME = df_app.DATA_FRAME[~df_app.DATA_FRAME.duplicated(['pkg'], keep='first')]

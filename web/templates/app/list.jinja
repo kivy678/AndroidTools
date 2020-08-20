@@ -3,8 +3,7 @@
 {% block container %}
 <div class="row" >
 
-
-	<form action={{ mode_url }} method="POST" enctype="multipart/form-data">
+	<form action={{ url_for('app.', mode='analysis') }} method="POST" enctype="multipart/form-data">
 		<div class="form-group">
 			<div class="checkbox">
 				{% for AppName in enter %}
@@ -23,7 +22,6 @@
 		</div>
 
 	</form>
-
 
 </div>
 {% endblock container %}

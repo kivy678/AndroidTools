@@ -28,8 +28,8 @@ sess = Session()
 ##################################################################################################
 
 def setup(app):
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=30)
-    app.config['SESSION_FILE_THRESHOLD'] = 500
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)
+    app.config['SESSION_FILE_THRESHOLD'] = 10
 
     if r_conn:
         app.config['SESSION_TYPE'] = "redis"

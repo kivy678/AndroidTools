@@ -47,6 +47,31 @@ $(document).ready(function($) {
   });
 });
 
+$(document).ready(function($) {
+  $(".clickable-pkg-list").click(function() {
+    var tr = $(this);
+    var td = tr.children();
+
+    var fileName = td.eq(1).text();
+    var pkg = td.eq(2).text();
+
+    $.ajax({
+      url: "/prefer/database/load",
+      type: "POST",
+      data: {'fileName': fileName, "pkg": pkg},
+
+      success: function(response) {
+          console.log("SUCCESS: ");
+          $("#viewer").html(response);
+      },
+      error: function(error) {
+          console.log("ERROR: " + error);
+      }
+
+    });
+  });
+});
+
 
 $(document).ready(function($) {
   $('li[name=dbg-wait]').click(function() {

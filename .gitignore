@@ -11,5 +11,5 @@ test.py
 __session__
 build
 spark
-.*.csv
+*.csv
 STORAGE

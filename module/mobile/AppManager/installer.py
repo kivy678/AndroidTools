@@ -7,8 +7,6 @@ from module.mobile.cmd import shell
 from util.fsUtils import PathSplit
 from util.Logger import LOG
 
-from web.session import getSession
-
 ###########################################################################################
 
 def cmdInstall(_path):
@@ -19,8 +17,7 @@ def cmdInstall(_path):
 
     LOG.info(f"{'[*]':<5}Install End")
 
-def cmdUninstall():
-    pkg = getSession('pkg')
+def cmdUninstall(pkg):
     LOG.info(f"{'[*]':<5}start uninstall: " + pkg)
 
     cmd = f"adb uninstall {pkg}"

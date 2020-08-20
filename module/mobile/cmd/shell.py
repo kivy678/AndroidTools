@@ -17,6 +17,8 @@ class SHELL(object):
             except subprocess.TimeoutExpired:
                 proc.kill()
                 return proc.communicate()[0].decode('utf-8').strip()
+            except Exception as e:
+                print(f"COMMAND ERROR: {cmd}: {e}")
 
     def parseString(self, cmd):
         s = shlex.shlex(cmd)

@@ -5,6 +5,9 @@ from enum import Enum, unique, auto
 @unique
 class STATUS(Enum):
     INIT              = 'INIT'
+    FILE_INIT         = 'FILE_INIT'
+    ANALYSIS          = 'ANALYSIS'
+    FAILED            = 'FAILED'
 
 
 DEV_COLUMNS=[
@@ -15,6 +18,8 @@ DEV_COLUMNS=[
 ]
 
 APP_COLUMNS=[
-	'fileName',
+    'fileName',
     'pkg',
+    'ctime',
+    'status',
 ]
