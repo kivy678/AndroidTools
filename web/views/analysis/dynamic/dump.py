@@ -3,27 +3,37 @@
 ################################################################################
 
 from flask.views import MethodView
-from flask import render_template
+from flask import render_template, request
+from flask import redirect, url_for
 
 from web.views.analysis import view_dynamic
 from module.mobile.Analysis.dynamic.trace import straceStart
+from module.mobile.Analysis.dynamic.memdump import getMemoryDump
 
 from web.session import getSession
 
 ################################################################################
 
-class StraceDump(MethodView):
-    template_name = None
+class DumpMode(MethodView):
+    def get(self, mode=''):
+        f = f'fetch_{mode}'
 
-    def __init__(self, template_name):
-        self.template_name = template_name
+        if False == hasattr(self, f):
+            return redirect('/app/index')
 
-    def get(self):
         pkg = getSession('pkg')
+        return getattr(self, f)(pkg)
+
+
+    def fetch_strace(self, pkg):
         straceStart(pkg)
+        return "Strace 덤프 완료"
 
-        return "덤프"
+
+    def fetch_memory(self, pkg):
+        getMemoryDump(pkg)
+        return "메모리 덤프 완료"
 
 
-strace = StraceDump.as_view('strace', template_name='')
-view_dynamic.add_url_rule('strace', view_func=strace)
+dump = DumpMode.as_view('dump')
+view_dynamic.add_url_rule('dump/<mode>', view_func=dump)
