@@ -6,6 +6,7 @@ from flask.views import MethodView
 from flask import render_template, request
 
 from web.views.app import view
+from web.session import getSession
 
 ##########################################################################
 
@@ -16,7 +17,10 @@ class AppIndex(MethodView):
         self.template_name = template_name
 
     def get(self):
-        return render_template(self.template_name)
+        pkg = getSession('pkg')
+        fileName = getSession('fileName')
+
+        return render_template(self.template_name, pkg=pkg, fileName=fileName)
 
 
 appindex = AppIndex.as_view('index', template_name='app/index.jinja')

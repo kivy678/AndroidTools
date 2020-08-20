@@ -5,7 +5,7 @@
 <div class="row">
 	<div class="col-md-2 sidebar">
 		<ul class="nav navbar-nav">
-			<li><a href="{{ url_for('app.', mode='analysis') }}">기본 분석</a></li>
+			<li><a href="{{ url_for('app.', mode='list') }}">기본 분석</a></li>
 			<li><a href="{{ url_for('app.', mode='install') }}">설치</a></li>
 			<li><a href="{{ url_for('app.', mode='uninstall') }}">삭제</a></li>
 			<li><a href="{{ url_for('app.', mode='debug') }}">디버깅모드</a></li>
@@ -23,6 +23,8 @@
 				<ul class="hide">
 					<li><a href="{{ url_for('app.decmp', mode='jadx') }}">jadx</a></li>
 					<li><a href="{{ url_for('app.decmp', mode='androg') }}">androg</a></li>
+					<li><a href="{{ url_for('app.decmp', mode='il2cpp') }}">il2cpp</a></li>
+					<li><a href="{{ url_for('app.decmp', mode='mono') }}">mono</a></li>
 				</ul>
 			</li>
 

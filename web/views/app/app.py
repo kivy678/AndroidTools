@@ -47,7 +47,7 @@ class AppBasis(MethodView):
         return getattr(self, f)()
 
     def fetch_list(self):
-        app_list = (PathSplit(path)[1] or path in glob.glob(Join(SAMPLE_DIR, '*')))
+        app_list = (PathSplit(path)[1] for path in glob.glob(Join(SAMPLE_DIR, '*')))
 
         return render_template('app/list.jinja', enter=app_list)
 
