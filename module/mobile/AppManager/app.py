@@ -6,11 +6,8 @@ import pandas as pd
 
 from util.fsUtils import Join
 from util.parser import *
-from util.hash import *
 
 from module.database import df_app
-
-from webConfig import CACHE
 from web.session import setSession
 
 ###########################################################################################
@@ -41,6 +38,7 @@ class APP_INFOR:
 
             df_app.saveCSV()
             setSession('pkg', self._pkgName)
+            setSession('fileName', self._fileName)
 
         elif isinstance(p, JsonParser):
             ManifestJson = p.parser()

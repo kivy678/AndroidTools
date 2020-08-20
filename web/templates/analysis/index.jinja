@@ -5,9 +5,16 @@
 
   <div class="col-md-2 sidebar">
     <ul class="nav navbar-nav">
+      <b>정적분석</b>
+      <li><a href="{{ url_for('analysis.static.disasm') }}">Disasambly</a></li>
+      <li><a href="{{ url_for('analysis.static.format') }}">ELF포맷</a></li>
+    </ul>
 
-      <li><a href="{{ url_for('analysis.static.index') }}">정적분석</a></li>
-
+    <ul class="nav navbar-nav">
+      <b>동적분석</b>
+      <li><a href="{{ url_for('analysis.dynamic.strace') }}">strace</a></li>
+      <li><a href="{{ url_for('analysis.static.disasm') }}">메모리 덤프</a></li>
+      <li><a href="{{ url_for('analysis.static.format') }}">동적 환경 셋팅</a></li>
     </ul>
   </div>
   <!--
@@ -19,9 +26,6 @@
         </ul>
       </li>  
 -->
-  <div class="col-md-10 col-md-offset-2 main">
-    분석 중인 패키지: {{ pkg }}
-  </div>
 
 </div>
 {% endblock container %}

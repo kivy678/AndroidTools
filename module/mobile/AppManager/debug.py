@@ -42,8 +42,9 @@ KEY_APK             = Join(DBG_DIR,         "signed.apk")
 ###########################################################################################
 
 def cleanDir():
-    Delete(DBG_DIR)
-    DirCheck(DBG_DIR)
+    for path in [DBG_DIR, TMP_DIR]:
+        Delete(path)
+        DirCheck(path)
 
 def readManifest():
     try:

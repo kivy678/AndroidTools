@@ -35,6 +35,11 @@ APK_TOOL 			= Join(DECOMPLIE_PATH, "apktool_2.4.1.jar")
 
 ###########################################################################################
 
+def cleanDir():
+    for path in [TMP_DIR]:
+        Delete(path)
+        DirCheck(path)
+
 def readySample(_path) -> str: 			# DecodePath
     _, fileName = PathSplit(_path)
     tmp_dst = Join(TMP_DIR, fileName)
@@ -70,5 +75,6 @@ def setApplicationInfor(_path):
     app.parser(JsonParser(MANIFEST))
 
     LOG.info(f"{'[*]':<5}PackageName:{app.pkgName}")
+    cleanDir()
 
     return None

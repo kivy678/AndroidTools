@@ -5,29 +5,24 @@
 import re
 from io import StringIO
 
+from module.mobile.cmd import shell
+
 from util.Logger import LOG
-from cmd import dev
-
-from mining.database import df
-
-#from time import perf_counter as pc
 
 ###########################################################################################
 
 
 class ProcessInfor:
     def __init__(self):
-        self.df = df.DATA_FRAME
-
         self._pid = None
         self._tpid = None
+
 
     def getPid(self, pkgName) -> list:
         result = "'{print $2}'"
         cmd = f"ps | grep {pkgName} | awk {result}"
-        pid = dev.runCommand(cmd, shell=True)
+        pid = shell.runCommand(cmd, shell=True)
         self._pid = pid.split()
-        print(self._pid)
 
         if pid == str():
             LOG.info(f"{'':>5}Not Running Process.")
@@ -35,24 +30,26 @@ class ProcessInfor:
 
         return self._pid
 
+
     def getTPid(self, pid):
         if (not self._pid is None) or (not self._pid is False):
             cmd = f"cat /proc/{pid}/status"
-            m = dev.runCommand(cmd, shell=True)
+            m = shell.runCommand(cmd, shell=True)
 
             r = re.compile(r".*^TracerPid:\s*(\d*)", re.M | re.S)
             with StringIO(m) as sio:
                 self._tpid = r.match(sio.getvalue()).group(1)
 
+            return self._tpid
+
+
     def getMaps(self, pid, filter=''):
         cmd = f"cat /proc/{pid}/maps"
-        m = dev.runCommand(cmd, shell=True)
+        m = shell.runCommand(cmd, shell=True)
 
         r = re.compile(rf"^.*{filter}.*", re.M)
-        with StringIO(m) as sio:
+        with StringIO(m) as sio, StringIO() as wio:
             for row in r.findall(sio.getvalue()):
-                print(row)
+                wio.write(row)
 
-    def getPackageName(self):
-        for sha256 in self.df.index.tolist():
-            yield self.df.loc[sha256, 'pkg']
+            return wio.getvalue()

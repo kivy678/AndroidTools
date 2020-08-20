@@ -11,7 +11,15 @@ from util.fsUtils import *
 
 from util.Logger import LOG
 
-from webConfig import SET_WORK, SERVER_PATH, APP_PATH
+from webConfig import SERVER_PATH, APP_PATH
+
+from common import getSharedPreferences
+from webConfig import SHARED_PATH
+
+################################################################################
+
+sp                  = getSharedPreferences(SHARED_PATH)
+TMP_DIR             = sp.getString('TMP_DIR')
 
 ################################################################################
 
@@ -43,7 +51,7 @@ class DEVICE_INSTALLER():
             return True if stdout != '' else False
 
     def toolInstall(self):
-        TOOL_PATH = Join(SET_WORK, f"strace")
+        TOOL_PATH = Join(TMP_DIR, f"strace")
 
         cmd = f"adb push {TOOL_PATH} /system/strace"
         shell.runCommand(cmd, shell=False)
@@ -61,7 +69,7 @@ class DEVICE_INSTALLER():
 
     def fridaServer(self):
         TOOL_PATH = Join(
-            SET_WORK, f"frida-server-12.7.15-android-{self._cpu}")
+            TMP_DIR, f"frida-server-12.7.15-android-{self._cpu}")
         cmd = f"adb push {TOOL_PATH} /system/frida-server"
         shell.runCommand(cmd, shell=False)
 
@@ -81,7 +89,7 @@ class DEVICE_INSTALLER():
         #shell.runCommand(cmd, shell=True, su=True)
 
     def androidServer(self):
-        TOOL_PATH = Join(SET_WORK, f"android_{self._cpu}_server")
+        TOOL_PATH = Join(TMP_DIR, f"android_{self._cpu}_server")
 
         cmd = f"adb forward tcp:22222 tcp:22222"
         shell.runCommand(cmd, shell=False)
@@ -96,7 +104,7 @@ class DEVICE_INSTALLER():
         #shell.runCommand(cmd, shell=True, su=True)
 
     def cowExploit(self):
-        cmd = "adb push {0} /data/local/tmp".format(Join(SET_WORK, 'mprop'))
+        cmd = "adb push {0} /data/local/tmp".format(Join(TMP_DIR, 'mprop'))
         print(cmd)
         shell.runCommand(cmd, shell=False)
 
@@ -115,16 +123,16 @@ class DEVICE_INSTALLER():
         for _path in glob.glob(Join(APP_PATH, '*')):
             _, app_name = PathSplit(_path)
 
-            zipDecompress(_path, SET_WORK)
+            zipDecompress(_path, TMP_DIR)
 
-            yield Join(SET_WORK, app_name.replace('zip', 'apk'))
+            yield Join(TMP_DIR, app_name.replace('zip', 'apk'))
 
     def serverDecompress(self):
         for _path in glob.glob(Join(SERVER_PATH, '*')):
             _, server_name = PathSplit(_path)
 
-            zipDecompress(_path, SET_WORK)
+            zipDecompress(_path, TMP_DIR)
 
     def clean(self):
-        Delete(SET_WORK)
-        DirCheck(SET_WORK)
+        Delete(TMP_DIR)
+        DirCheck(TMP_DIR)

@@ -17,19 +17,16 @@ __all__ = [
 
 #############################################################################
 
-
 def adbDevices():
     stdout = shell.runCommand("adb devices")
     #dev_list = list(map(lambda x: re.match(r"(.*)\\t.*", x).group(1), repr(stdout).split(r'\r\n')[1:]))
     #return dev_list
     return True if r'\n' in repr(stdout) else False
-    
 
 def adbRestart():
     shell.runCommand("adb kill-server")
     shell.runCommand("adb start-server")
     return None
-
 
 #############################################################################
 
@@ -38,8 +35,8 @@ def getModel():
     return stdout
 
 def getSystem():
-	stdout = shell.runCommand("getprop ro.product.cpu.abi", shell=True)
-	return stdout.replace('-', '_')
+    stdout = shell.runCommand("getprop ro.product.cpu.abi", shell=True)
+    return stdout.replace('-', '_')
 
 def getBootImage(api):
     if api < 7:

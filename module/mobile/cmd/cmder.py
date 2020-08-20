@@ -3,11 +3,13 @@
 #############################################################################
 
 from module.mobile.cmd.shell import SHELL
+from functools import wraps
 
 #############################################################################
 
 class COMMANDER(SHELL):
     def mode(f):
+        @wraps(f)
         def inner(*args, **kwargs):
             self, cmd = args
 
@@ -33,5 +35,5 @@ class COMMANDER(SHELL):
         return inner
 
     @mode
-    def runCommand(self, cmd, shell=False, java=False, su=False):
-        return super().runCommand(cmd)
+    def runCommand(self, cmd, shell=False, java=False, su=False, timeout=60):
+        return super().runCommand(cmd, timeout)

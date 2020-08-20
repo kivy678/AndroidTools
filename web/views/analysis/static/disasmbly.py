@@ -5,7 +5,7 @@
 from flask.views import MethodView
 from flask import render_template, request
 
-from web.views.analysis.static import view
+from web.views.analysis import view_static
 
 import disassemble
 
@@ -30,5 +30,5 @@ class Disasm(MethodView):
         return render_template(self.template_name)
 
 
-disasm = Disasm.as_view('disasm', template_name='analysis/disasm.jinja')
-view.add_url_rule('disasm', view_func=disasm)
+disasm = Disasm.as_view('disasm', template_name='analysis/static/disasm.jinja')
+view_static.add_url_rule('disasm', view_func=disasm)

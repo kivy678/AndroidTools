@@ -19,7 +19,7 @@ class IndexPage(MethodView):
         self.template_name = template_name
 
     def get(self):
-        return render_template(self.template_name, pkg=getSession('pkg'))
+        return render_template(self.template_name, pkg=getSession('pkg'), fileName=getSession('fileName'))
 
 
 index_page = IndexPage.as_view('', template_name='index.jinja')

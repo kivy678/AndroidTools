@@ -3,7 +3,7 @@
 {% block container %}
 <div class="row">
 
-	<div class="col-md-3 sidebar">
+	<div class="col-md-2 sidebar">
 		<ul class="nav navbar-nav">
 
 			<li><a href="{{ url_for('dev.list') }}">단말기 관리</a></li>
@@ -13,7 +13,11 @@
 
 		</ul>
 	</div>
-	<div class="col-md-10 col-md-offset-2 main"></div>
+
+	<div class="col-md-10 col-md-offset-2 main">
+    <p>분석 중인 패키지 명: {{ pkg }}</p>
+    <p>분석 중인 파일  명: {{ fileName }}</p>
+	</div>
 
 </div>
 {% endblock container %}

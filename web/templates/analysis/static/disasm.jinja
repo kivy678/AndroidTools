@@ -5,8 +5,8 @@
 
   <div class="col-md-2 sidebar">
     <div class="row">
-      <label id="fm">텍스트 입력</label>
-      <input type="text" class="form-control" name="GetText" placeholder="텍스트를 쓰시오">
+      <label id="fm">OP코드 입력</label>
+      <input type="text" class="form-control" name="GetText" placeholder="X86 전용">
     </div>
 
     <div class="col-sm-offset-2">
@@ -31,7 +31,7 @@ $(document).ready(function($) {
     var content = $('input[name=GetText]').val();
 
     $.ajax({
-      url: "/analysis/disasm",
+      url: "/analysis/static/disasm",
       type: "GET",
       data: {"data": content},
 
