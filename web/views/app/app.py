@@ -55,7 +55,7 @@ class AppBasis(MethodView):
         for app in request.form.getlist('AppName'):
             setApplicationInfor(Join(SAMPLE_DIR, app))
 
-        return "기본 분석 완료"
+        return redirect('/app/index')
 
     def fetch_install(self):
         fileName = getSession('fileName')

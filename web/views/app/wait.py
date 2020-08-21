@@ -23,7 +23,7 @@ class AppWait(MethodView):
 
         setDebug(getSession('pkg'), m)
 
-        return "모드를 변경하였습니다."
+        return f"{mode} 모드를 변경하였습니다."
 
 
 appwait = AppWait.as_view('wait')

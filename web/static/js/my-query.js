@@ -82,6 +82,7 @@ $(document).ready(function($) {
 
       success: function(response) {
           console.log("SUCCESS: ");
+          $("#viewer").html(response);
       },
       error: function(error) {
           console.log("ERROR: " + error);
