@@ -58,7 +58,7 @@ class Decomplier(MethodView):
 
 
     def fetch_mono(self, fileName):
-        runDecodeMono(Join(DECODE_DIR, fileName, 'unzip'))
+        runDecodeMono(Join(DECODE_DIR, fileName, 'unzip'), fileName)
 
         return "mono 완료"
 

@@ -52,13 +52,14 @@ $(document).ready(function($) {
     var tr = $(this);
     var td = tr.children();
 
+    var sha256 = td.eq(0).text();
     var fileName = td.eq(1).text();
     var pkg = td.eq(2).text();
 
     $.ajax({
       url: "/prefer/database/load",
       type: "POST",
-      data: {'fileName': fileName, "pkg": pkg},
+      data: {'fileName': fileName, "pkg": pkg, "sha256": sha256},
 
       success: function(response) {
           console.log("SUCCESS: ");

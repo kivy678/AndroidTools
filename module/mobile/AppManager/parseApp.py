@@ -77,4 +77,4 @@ def setApplicationInfor(_path):
     LOG.info(f"{'[*]':<5}PackageName:{app.pkgName}")
     cleanDir()
 
-    return None
+    return (app.pkgName, app.fileName)

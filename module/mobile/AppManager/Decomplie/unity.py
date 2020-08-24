@@ -58,7 +58,6 @@ def isMono(_path):
 
 
 def runDecodeMono(_path, fileName):
-    _, fileName = SplitExt(_path)
     out = Join(DECODE_DIR, fileName, 'mono')
     clean(out)
 
@@ -71,7 +70,7 @@ def runDecodeMono(_path, fileName):
         shell.runCommand(cmd)
 
         for name in FILTER_LIST:
-            Delete(Join(out2, name))
+            Delete(Join(out, name))
 
         LOG.info(f"{'[*]':<5}End mono Decode: {fileName}")
 

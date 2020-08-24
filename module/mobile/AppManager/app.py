@@ -10,7 +10,6 @@ from util.parser import *
 
 from module.database.structure import STATUS
 from module.database import df_app
-from web.session import setSession
 
 ###########################################################################################
 
@@ -36,11 +35,9 @@ class APP_INFOR:
             data = {'pkg': self._pkgName, 'fileName': self._fileName, 'ctime': datetime.now(), 'status': STATUS.INIT.value}
             add_idx = pd.Series(data).rename(self._sha256)
             df_app.DATA_FRAME = df_app.DATA_FRAME.append(add_idx)
-            df_app.DATA_FRAME = df_app.DATA_FRAME[~df_app.DATA_FRAME.duplicated(['pkg'], keep='first')]
+            df_app.DATA_FRAME = df_app.DATA_FRAME[~df_app.DATA_FRAME.duplicated(keep='first')]
 
             df_app.saveCSV()
-            setSession('pkg', self._pkgName)
-            setSession('fileName', self._fileName)
 
         elif isinstance(p, JsonParser):
             ManifestJson = p.parser()

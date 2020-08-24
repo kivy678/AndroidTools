@@ -9,6 +9,7 @@ from web.views.prefer import view_db
 
 from module.database import df_app
 from web.session import setSession
+from web.cache import setAnalisysCache
 
 ##################################################################################################
 
@@ -26,6 +27,9 @@ class DatabaseLoader(MethodView):
 
         pkg = request.form.get('pkg')
         fileName = request.form.get('fileName')
+        sha256 = request.form.get('sha256')
+
+        setAnalisysCache('analysis', {sha256: {'pkg': pkg, 'fileName': fileName}})
 
         setSession('pkg', pkg)
         setSession('fileName', fileName)

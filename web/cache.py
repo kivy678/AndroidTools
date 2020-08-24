@@ -60,6 +60,14 @@ def getCache(k):
 def setCache(k, r, timeout=600):
     FlaskCache.set(k, r, timeout=timeout)
 
+def setAnalisysCache(k, r, timeout=600):
+    if getCache(k):
+        d = getCache(k)
+        d.update(r)
+        setCache(k, d)
+    else:
+        setCache(k, r)
+
 def delCache(k):
     FlaskCache.delete(k)
 

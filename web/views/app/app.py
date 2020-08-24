@@ -20,6 +20,9 @@ from module.mobile.AppManager.parseApp import setApplicationInfor
 from module.mobile.AppManager.debug import debugger
 
 from web.session import getSession
+from web.session import setSession
+
+from module.database import df_app
 
 ##########################################################################
 
@@ -53,9 +56,12 @@ class AppBasis(MethodView):
 
     def fetch_analysis(self):
         for app in request.form.getlist('AppName'):
-            setApplicationInfor(Join(SAMPLE_DIR, app))
+            pkg, fileName = setApplicationInfor(Join(SAMPLE_DIR, app))
 
-        return redirect('/app/index')
+            setSession('pkg', pkg)
+            setSession('fileName', fileName)
+
+        return redirect('/')
 
     def fetch_install(self):
         fileName = getSession('fileName')
