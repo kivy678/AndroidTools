@@ -12,6 +12,7 @@ def MemToFile(fp, ptr, size):
 		fd.write(GetManyBytes(ptr, size))
 		fd.flush()
 
+ida_dbg.run_to(here())
 def getSegInfo():
     for i in Segments():
         if SegName(i).startswith('debug'):

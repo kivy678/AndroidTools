@@ -32,10 +32,10 @@ def dynamicServer():
     shell.runCommand(cmd, shell=False)
 
     cmd = f"nohup /data/local/tmp/android_server &"
-    shell.runCommand(cmd, shell=True, su=True)
+    shell.runCommand(cmd, shell=True, su=True, timeout=5)
 
 
     cmd = f"nohup /system/frida-server &"
-    shell.runCommand(cmd, shell=True, su=True)
+    shell.runCommand(cmd, shell=True, su=True, timeout=5)
 
     LOG.info(f"{'[*]':<5}End Commnad")

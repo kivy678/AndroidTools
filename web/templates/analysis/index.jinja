@@ -13,9 +13,11 @@
     <ul class="nav navbar-nav">
       <b>동적분석</b>
       <li><a href="{{ url_for('analysis.dynamic.dump', mode='strace') }}">strace</a></li>
-      <li><a href="{{ url_for('analysis.dynamic.dump', mode='memory') }}">메모리 덤프</a></li>
       <li><a href="{{ url_for('analysis.dynamic.server') }}">동적 환경 셋팅</a></li>
+      <li><a href="{{ url_for('analysis.dynamic.dump', mode='memory') }}">메모리 덤프</a></li>
+      <li><a href="{{ url_for('analysis.dynamic.yara', rule='dex.rule') }}">yara 검색(dex)</a></li>
     </ul>
+    
     <ul class="nav navbar-nav">
       <b>비교분석</b>
       <li><a href="{{ url_for('analysis.static.mono') }}">MONO파일비교</a></li>

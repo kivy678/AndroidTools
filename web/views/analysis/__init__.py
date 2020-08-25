@@ -21,3 +21,4 @@ import web.views.analysis.static.mono
 
 import web.views.analysis.dynamic.dump
 import web.views.analysis.dynamic.server
+import web.views.analysis.dynamic.yara_search
