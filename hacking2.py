@@ -16,8 +16,8 @@ except ImportError: import json
 #############################################################################
 
 BASE        = r'C:\tmp\data'
-MOD_FILE    = Join(BASE, 'mod', 'libil2cpp.so')
-ORG_FILE    = Join(BASE, 'org', 'libil2cpp.so')
+MOD_FILE    = r'C:\tmp\a\decode\grow-castle-mod_1.24.2-android-1.com.apk\unzip\lib\armeabi-v7a\libil2cpp.so'
+ORG_FILE    = r'C:\tmp\a\decode\obase.apk\unzip\lib\armeabi-v7a\libil2cpp.so'
 
 REPORT_FILE = Join(BASE, 'report.txt')
 
@@ -41,18 +41,12 @@ ORG_COMILE_HEX = [re.compile(x) for x in STRIP_HEX]
 #############################################################################
 
 def isSizeSame(opath, hpath):
-    if os.path.getsize(opath) == os.path.getsize(hpath):
-        return True
-    else:
-        return False
-
+    return True if GetSize(opath) == GetSize(hpath) else False
 
 def getULong(fr):
     content = fr.read(4)
-    if content:
-        return struct.unpack("<L", content)[0]
-    else:
-        return None
+    return struct.unpack("<L", content)[0] if content else None
+
 
 def longToHex(v):
     return '0x{:X}'.format(v)

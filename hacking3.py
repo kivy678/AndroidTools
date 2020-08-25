@@ -23,7 +23,7 @@ import disassemble
 #############################################################################
 
 REPORT_FILE = Join(r'C:\tmp\data', 'report.txt')
-DUMP_CSS = Join(r'C:\tmp\data\output', 'dump.cs')
+DUMP_CSS = r'C:\tmp\a\decode\grow-castle-mod_1.24.2-android-1.com.apk\il2cpp\dump.cs'
 
 #############################################################################
 
@@ -65,7 +65,9 @@ with open(DUMP_CSS, 'rb', 0) as file, mmap.mmap(file.fileno(), 0, access=mmap.AC
             else:
                 func = ""
 
-            print(f"0x{offset_before:X}\t{dis(convSplit(bin_org))}\t{dis(convSplit(bin_mod))}\t{func}")
+            print(f"Offset:0x{offset_before:X}\t\tFunctionName: {func}")
+            print(f"Org:\n{dis(convSplit(bin_org))}\nMod:\n{dis(convSplit(bin_mod))}")
+            print("*"*150)
 
         else:
             offset_before = offset_current

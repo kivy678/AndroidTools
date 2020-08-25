@@ -27,7 +27,7 @@ CSHARP_FILE         = "Assembly-CSharp.dll"
 IL2CPP_FILE         = "libil2cpp.so"
 GLOBAL_META         = "global-metadata.dat"
 
-FILTER_LIST         = ["Assembly-CSharp.csproj", "Assembly-CSharp.sln"]
+FILTER_LIST         = ["Assembly-CSharp.csproj", "Assembly-CSharp.sln", "Assembly-CSharpReferences"]
 
 #############################################################################
 
@@ -39,7 +39,6 @@ def clean(_path):
 def searchFile(dir, fileName):
     for i in Walk(dir):
         if PathSplit(i)[1] == fileName:
-            print(i)
             return i
 
 

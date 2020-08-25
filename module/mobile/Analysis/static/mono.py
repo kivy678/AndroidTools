@@ -2,6 +2,7 @@
 
 #############################################################################
 
+import re
 import sys
 from io import StringIO
 
@@ -10,18 +11,17 @@ import pandas as pd
 
 from util.fsUtils import *
 from util.hash import *
+from util.Logger import LOG
 
 #############################################################################
 
-CMP_DIR1     = r'C:\tmp\a\decode\city-island-5-mod.apk\mono'
-CMP_DIR2     = r'C:\tmp\a\decode\ocity5.apk\mono'
+EXCEPT_FILE     = ['Assembly-CSharp.csproj', 'Assembly-CSharp.sln']
+FILTER_STRING   = ['Assembly-CSharp.dll']
 
 #############################################################################
 
-EXCEPT_FILE = ['Assembly-CSharp.csproj', 'Assembly-CSharp.sln']
-
-#############################################################################
-
+class ESCAPE_CONDITION(Exception):
+    pass
 
 def startCmp(CMP_DIR1, CMP_DIR2):
     cmp_dict1 = dict()
@@ -73,9 +73,22 @@ def startCmp(CMP_DIR1, CMP_DIR2):
             with open(df.loc[index, 'cmp2_path'], encoding="utf-8") as fr:
                 text2 = fr.readlines()
 
-            for s in difflib.unified_diff(text1, text2, fromfile='cmp1: '+index, tofile='cmp2: '+index, n=2, lineterm='\n'):
-                fw.write(s)
+            try:
+                tmpString = []
+                for s in difflib.unified_diff(text1, text2,                     \
+                    fromfile='cmp1: '+index, tofile='cmp2: '+index, n=0, lineterm='\n'):
+                    filter_list = list(filter(lambda x: re.search(x, s), FILTER_STRING))
 
+                    if len(filter_list) > 0:
+                        raise ESCAPE_CONDITION(''.join(filter_list))
+                    else:
+                        tmpString.append(s)
+
+            except ESCAPE_CONDITION as e:
+                LOG.info(e)
+                continue
+
+            fw.write(''.join(tmpString))
             fw.write('*'*150 + '\n\n')
 
         return fw.getvalue()
