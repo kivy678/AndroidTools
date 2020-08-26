@@ -11,47 +11,50 @@ except ImportError: import json
 ###########################################################################################
 
 class XmlParser:
-	def __init__(self, path):
-		self._path = path
-		self._soup = None
+    def __init__(self, path):
+        self._path = path
+        self._soup = None
 
-		self.createParer()
+        self.createParer()
 
-	def createParer(self):
-	    try:
-	        with open(self._path) as fr:
-	            self._soup = BeautifulSoup(fr, "lxml-xml")
+    def createParer(self):
+        try:
+            with open(self._path) as fr:
+                self._soup = BeautifulSoup(fr, "lxml-xml")
 
-	            return True
+                return True
 
-	    except Exception as e:
-	        print(e)
-	        return False
+        except Exception as e:
+            print(e)
+            return False
 
-	def parser(self, tag=None, attr=None):
-		for i in self._soup.find_all(tag):
-			return i.get(attr)
+    def parser(self, tag=None, attr=None):
+        for i in self._soup.find_all(tag):
+            return i.get(attr)
 
 
 class JsonParser:
-	def __init__(self, path):
-		self._path = path
+    def __init__(self, path):
+        self._path = path
 
-	def parser(self):
-	    try:
-	        with open(self._path) as fr:
-	            return json.dumps(xmltodict.parse(fr.read()),
-	            					indent=4,
-	            					separators=(',', ': '))
+    def parser(self):
+        try:
+            with open(self._path) as fr:
+                return json.dumps(xmltodict.parse(fr.read()),
+                                    indent=4,
+                                    separators=(',', ': '))
 
-	    except Exception as e:
-	        print(e)
-	        return False
+        except Exception as e:
+            print(e)
+            return False
 
+class JSON:
+    @staticmethod
+    def dump(s, f):
+        json.dump(s, f)
 
-class JsonString:
-	def dump(self, s):
-	    return json.dump(s)
+        return None
 
-	def load(self, s):
-		return json.load(s)
+    @staticmethod
+    def loads(s):
+        return json.loads(s)

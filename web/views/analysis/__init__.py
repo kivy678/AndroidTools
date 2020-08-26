@@ -18,6 +18,7 @@ import web.views.analysis.index
 import web.views.analysis.static.disasmbly
 import web.views.analysis.static.format
 import web.views.analysis.static.mono
+import web.views.analysis.static.il2cpp
 
 import web.views.analysis.dynamic.dump
 import web.views.analysis.dynamic.server
