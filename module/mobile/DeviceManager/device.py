@@ -1,5 +1,9 @@
 # -*- coding:utf-8 -*-
 
+__all__=[
+    "EMULATOR",
+]
+
 #############################################################################
 
 from module.mobile.cmd import shell, adb
@@ -7,13 +11,6 @@ from module.mobile.DeviceManager.base import DEVICE_BASIS
 from module.mobile.DeviceManager.install import DEVICE_INSTALLER
 
 #############################################################################
-
-__all__=[
-	"EMULATOR",
-]
-
-#############################################################################
-
 
 class EMULATOR(DEVICE_BASIS):
     def __init__(self, *args, **kwargs):
@@ -54,3 +51,11 @@ class GALAXY(DEVICE_BASIS):
 
         shell.runCommand("mount -o remount,rw /system", shell=True)
         shell.runCommand("mount -o remount,rw /", shell=True)
+
+
+class LDPlayer(DEVICE_BASIS):
+    def __init__(self, *args, **kwargs):
+        super().__init__(args, kwargs)
+
+    def cmd(self):
+        shell.runCommand("dnconsole list", shell=False)
