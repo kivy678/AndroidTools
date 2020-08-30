@@ -8,6 +8,8 @@ from flask import render_template, request
 from web.views.prefer import view_db
 
 from module.database import df_app
+from module.database import df_unity
+
 from web.session import setSession
 from web.cache import setAnalisysCache
 
@@ -21,7 +23,7 @@ class DatabaseLoader(MethodView):
         self.template_name = template_name
 
     def get(self):
-        return render_template(self.template_name, enter=df_app.DATA_FRAME)
+        return render_template(self.template_name, enter=df_app.DATA_FRAME, enter2=df_unity.DATA_FRAME)
 
     def post(self):
 

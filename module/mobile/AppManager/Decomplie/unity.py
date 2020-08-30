@@ -88,3 +88,7 @@ def runDecodeil2cpp(_path, fileName):
         shell.runCommand(cmd)
 
         LOG.info(f"{'[*]':<5}End il2cpp Decode: {fileName}")
+
+        return lib_path
+
+    return None

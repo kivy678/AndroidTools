@@ -72,7 +72,7 @@ class MemoryMap(MethodView):
         pid_list = pi.getPid(pkg)
 
         if pid_list is None:
-            return "현재 앱이 실행되고 있지 않습니다."
+            return "앱을 실행하세요"
 
         for pid in pid_list:
             cmd = f"/data/local/tmp/GetMemory {pid} {start_addr} 50"    # 현재 힙 사이즈 = 가로 100 * 50 = 5000
@@ -87,7 +87,7 @@ class MemoryMap(MethodView):
         pid_list = pi.getPid(pkg)
 
         if pid_list is None:
-            return "현재 앱이 실행되고 있지 않습니다."
+            return "앱을 실행하세요"
 
         for pid in pid_list:
             return pid

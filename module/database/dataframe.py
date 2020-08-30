@@ -6,7 +6,7 @@ import pandas as pd
 import numpy as np
 
 from common.singleton import Singleton
-from module.database.structure import DEV_COLUMNS, APP_COLUMNS
+from module.database.structure import *
 
 from util.Logger import LOG
 from util.fsUtils import Join
@@ -82,3 +82,11 @@ class APPLICATION(DATA_FRAME):
 
     def saveCSV(self):
         super().saveCSV(".app.csv")
+
+
+class UNITY(DATA_FRAME):
+    def setup(self):
+        self._DATA_FRAME = self.setCSV(".unity.csv", UNITY_COLUMNS)
+
+    def saveCSV(self):
+        super().saveCSV(".unity.csv")

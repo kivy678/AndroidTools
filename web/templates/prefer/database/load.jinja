@@ -22,11 +22,40 @@
 					<td>{{ value[1] }}</td>
 					<td>{{ value[2] }}</td>
 					<td>{{ value[3] }}</td>
-					<td>{{ value[4] }}</td>
+					<td>{{ value[5] }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
 		</table>
+
+		<table class="table table-bordered table-striped table-sm table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>SHA256</th>
+					<th>파일 이름</th>
+					<th>파일 사이즈</th>
+					<th>빌드 방식</th>
+					<th>부모 파일</th>
+					<th>상태 값</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for value in enter2.itertuples() %}
+				<tr>
+					<td>{{ value[0] }}</td>
+					<td>{{ value[1] }}</td>
+					<td>{{ value[2] }}</td>
+					<td>{{ value[3] }}</td>
+					<td>{{ value[4] }}</td>
+					<td>{{ value[5] }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+
+
     </div>
 
     <div id="viewer"></div>

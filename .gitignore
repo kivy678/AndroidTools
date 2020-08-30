@@ -7,7 +7,7 @@ decode
 .*egg-info
 .*dex
 tmp
-test.py
+test*.py
 __session__
 build
 spark

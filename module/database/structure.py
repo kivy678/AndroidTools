@@ -21,5 +21,14 @@ APP_COLUMNS=[
     'fileName',
     'pkg',
     'ctime',
+    'parent',
+    'status',
+]
+
+UNITY_COLUMNS=[
+    'fileName',
+    'fileSize',
+    'build',
+    'parent',
     'status',
 ]

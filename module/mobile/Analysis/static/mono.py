@@ -85,7 +85,7 @@ def startCmp(CMP_DIR1, CMP_DIR2):
                         tmpString.append(s)
 
             except ESCAPE_CONDITION as e:
-                LOG.info(e)
+                #LOG.info(e)
                 continue
 
             fw.write(''.join(tmpString))

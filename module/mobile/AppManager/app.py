@@ -32,7 +32,7 @@ class APP_INFOR:
             self._pkgName = p.parser('manifest', 'package')
             applicatopmActivity = p.parser('application', 'android:name')
 
-            data = {'pkg': self._pkgName, 'fileName': self._fileName, 'ctime': datetime.now(), 'status': STATUS.INIT.value}
+            data = {'pkg': self._pkgName, 'fileName': self._fileName, 'parent': 1, 'ctime': datetime.now(), 'status': STATUS.INIT.value}
             add_idx = pd.Series(data).rename(self._sha256)
             df_app.DATA_FRAME = df_app.DATA_FRAME.append(add_idx)
             df_app.DATA_FRAME = df_app.DATA_FRAME[~df_app.DATA_FRAME.duplicated(keep='first')]
