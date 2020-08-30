@@ -1,0 +1,90 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+
+	<div class="center-block" >
+		<table class="table table-bordered table-striped table-sm table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>시작주소</th>
+					<th>끝 주소</th>
+					<th>권한</th>
+					<th>라이브러리 이름</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for value in enter %}
+				<tr class="clickable-mmap-list">
+					<td>{{ value.start_addr }}</td>
+					<td>{{ value.end_addr }}</td>
+					<td>{{ value.permission }}</td>
+					<td>{{ value.sharedName }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+		<form action="mmap" method="GET" enctype="multipart/form-data">
+			<div class="form-group">
+						<div class="radio">
+							<label><input type="radio" name="choiceMemory" value=read checked>메모리 읽기</label>
+							<label><input type="radio" name="choiceMemory" value=write>메모리 쓰기</label>
+						</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2">
+					<label id="addr" class="col-sm-5">주소 입력</label>
+					<div class="form-inline">
+			      <input type="text" class="form-control" name="GetStartAddr" placeholder="시작 주소" >
+			      <input type="text" class="form-control" name="GetSizeAddr" placeholder="사이즈">
+			      <input type="text" class="form-control" name="GetData" placeholder="데이터">
+		    	</div>
+		    </div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-sm-offset-2">
+					<button type="submit" class="btn btn-primary">전송</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+  <div id="viewer"></div>
+
+</div>
+{% endblock container %}
+
+{% block script %}
+<script>
+
+$(document).ready(function($) {
+  $(".clickable-mmap-list").click(function() {
+    var tr = $(this);
+    var td = tr.children();
+
+    var start_addr = td.eq(0).text();
+    var end_addr   = td.eq(1).text();
+
+    $.ajax({
+      url: "/analysis/dynamic/mmap",
+      type: "POST",
+      data: {"start_addr": start_addr, "end_addr": end_addr},
+
+      success: function(response) {
+          console.log("SUCCESS: ");
+          $("#viewer").html(response);
+      },
+      error: function(error) {
+          console.log("ERROR: " + error);
+      }
+
+    });
+  });
+});
+
+</script>
+{% endblock script %}

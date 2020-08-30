@@ -10,13 +10,13 @@ subp = subprocess.Popen
 #############################################################################
 
 class SHELL(object):
-    def runCommand(self, cmd, timeout=60):
+    def runCommand(self, cmd, timeout=60, encoder='utf-8'):
         with subp(self.parseString(cmd), stdout=subprocess.PIPE) as proc:
             try:
-                return proc.communicate(timeout=timeout)[0].decode('utf-8').strip()
+                return proc.communicate(timeout=timeout)[0].decode(encoder).strip()
             except subprocess.TimeoutExpired:
                 proc.kill()
-                return proc.communicate()[0].decode('utf-8').strip()
+                return proc.communicate()[0].decode(encoder).strip()
             except Exception as e:
                 print(f"COMMAND ERROR: {cmd}: {e}")
 

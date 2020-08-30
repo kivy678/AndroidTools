@@ -11,7 +11,7 @@ from util.fsUtils import *
 
 from util.Logger import LOG
 
-from webConfig import SERVER_PATH, APP_PATH
+from webConfig import SERVER_PATH, APP_PATH, TOOL_PATH
 
 from common import getSharedPreferences
 from webConfig import SHARED_PATH
@@ -31,12 +31,14 @@ class DEVICE_INSTALLER():
     def __del__(self):
         self.clean()
 
+
     def commit(self):
         cmd = f"mkdir /data/local/tmp/.cache"
         shell.runCommand(cmd, shell=True)
 
         cmd = f"echo '1' > /data/local/tmp/.cache/AndroidDevice"
         shell.runCommand(cmd, shell=True)
+
 
     def isCommit(self):
         cmd = f"find /data/local/tmp -type d -name .cache"
@@ -50,6 +52,7 @@ class DEVICE_INSTALLER():
 
             return True if stdout != '' else False
 
+
     def toolInstall(self):
         TOOL_PATH = Join(TMP_DIR, f"strace")
 
@@ -59,11 +62,28 @@ class DEVICE_INSTALLER():
         cmd = f"chmod 755 /system/strace"
         shell.runCommand(cmd, shell=True)
 
-
         cmd = f"adb push {TOOL_PATH} /data/local/tmp/strace"
         shell.runCommand(cmd, shell=False)
 
         cmd = f"chmod 755 /data/local/tmp/strace"
+        shell.runCommand(cmd, shell=True)
+
+
+        TOOL_PATH = Join(TMP_DIR, f"GetMemory_{self._cpu}")
+
+        cmd = f"adb push {TOOL_PATH} /data/local/tmp/GetMemory"
+        shell.runCommand(cmd, shell=False)
+
+        cmd = f"chmod 755 /data/local/tmp/GetMemory"
+        shell.runCommand(cmd, shell=True)
+
+
+        TOOL_PATH = Join(TMP_DIR, f"WriteMemory_{self._cpu}")
+
+        cmd = f"adb push {TOOL_PATH} /data/local/tmp/WriteMemory"
+        shell.runCommand(cmd, shell=False)
+
+        cmd = f"chmod 755 /data/local/tmp/WriteMemory"
         shell.runCommand(cmd, shell=True)
 
 
@@ -88,6 +108,7 @@ class DEVICE_INSTALLER():
         #cmd = f"nohup /data/local/tmp/frida-server"
         #shell.runCommand(cmd, shell=True, su=True)
 
+
     def androidServer(self):
         TOOL_PATH = Join(TMP_DIR, f"android_{self._cpu}_server")
 
@@ -103,6 +124,7 @@ class DEVICE_INSTALLER():
         #cmd = f"nohup /data/local/tmp/android_server"
         #shell.runCommand(cmd, shell=True, su=True)
 
+
     def cowExploit(self):
         cmd = "adb push {0} /data/local/tmp".format(Join(TMP_DIR, 'mprop'))
         print(cmd)
@@ -114,10 +136,12 @@ class DEVICE_INSTALLER():
         cmd = f"getprop ro.debuggable"
         shell.runCommand(cmd, shell=True)
 
+
     def appInstaller(self):
         for app in self.appDecompress():
             cmd = f"adb install {app}"
             shell.runCommand(cmd, shell=False)
+
 
     def appDecompress(self):
         for _path in glob.glob(Join(APP_PATH, '*')):
@@ -127,11 +151,20 @@ class DEVICE_INSTALLER():
 
             yield Join(TMP_DIR, app_name.replace('zip', 'apk'))
 
+
     def serverDecompress(self):
         for _path in glob.glob(Join(SERVER_PATH, '*')):
             _, server_name = PathSplit(_path)
 
             zipDecompress(_path, TMP_DIR)
+
+
+    def toolDecompress(self):
+        for _path in glob.glob(Join(TOOL_PATH, '*')):
+            _, server_name = PathSplit(_path)
+
+            zipDecompress(_path, TMP_DIR)
+
 
     def clean(self):
         Delete(TMP_DIR)

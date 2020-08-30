@@ -38,14 +38,15 @@ class ProcessInfor:
         return tpid
 
 
-    def getMaps(self, pid, filter=''):
+    def getMaps(self, pid, mFilter=['']):
         cmd = f"cat /proc/{pid}/maps"
         m = shell.runCommand(cmd, shell=True)
 
-        r = re.compile(rf"^.*{filter}.*", re.M)
         with StringIO(m) as sio, StringIO() as wio:
-            for row in r.findall(sio.getvalue()):
-                wio.write(row)
-                wio.write('\n')
+            for r in map(lambda s: re.compile(rf"^.*{s}.*", re.M)       \
+                            .findall(sio.getvalue()), mFilter):
+                for row in r:
+                    wio.write(row)
+                    wio.write('\n')
 
             return wio.getvalue()

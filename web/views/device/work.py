@@ -30,6 +30,7 @@ class DEVICE_WORKER(MethodView):
         if installer.isCommit() is False:
             LOG.info(f"{'[*]':<5}Settings Start")
             installer.serverDecompress()
+            installer.toolDecompress()
 
             LOG.info(f"{'':>5}1. Basis App Install Start")
             installer.appInstaller()

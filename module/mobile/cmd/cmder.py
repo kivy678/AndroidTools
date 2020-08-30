@@ -35,5 +35,5 @@ class COMMANDER(SHELL):
         return inner
 
     @mode
-    def runCommand(self, cmd, shell=False, java=False, su=False, timeout=60):
-        return super().runCommand(cmd, timeout)
+    def runCommand(self, cmd, shell=False, java=False, su=False, timeout=60, encoder='utf-8'):
+        return super().runCommand(cmd, timeout, encoder)
