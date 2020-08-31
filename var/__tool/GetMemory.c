@@ -15,7 +15,7 @@ int GetBinary(pid_t pid, struct iovec* local, struct iovec* remote)
 {
 	ssize_t nread;
 
-	if ((nread = process_vm_readv(pid, local, 1, remote, 1, 0)) < 0)
+	if ((nread = process_vm_readv(pid, local, 1, remote, 1, 0)) <= 0)
 	{
 		printf("[%d] Failed Read\n", errno);
 
@@ -26,7 +26,7 @@ int GetBinary(pid_t pid, struct iovec* local, struct iovec* remote)
 		//printf("[DBG] nread: %d\n", nread);
 	}
 
-	return 0;
+	return nread;
 }
 
 
@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	if (argc != 4)
 	{
 		printf("[*] Help\n");
-		printf("application [PID] [StartAddress] [Print Row]\n");
+		printf("[*] application [PID] [StartAddress] [Print Row]\n");
 		exit(0);
 	}
 
@@ -75,7 +75,7 @@ GET_BIN:
 	remote[0].iov_base 	= (void*) MemAddress;
 	remote[0].iov_len 	= BUFFER_SIZE;
 
-	if (GetBinary(pid, local, remote) < 0)
+	if (GetBinary(pid, local, remote) <= 0)
 	{
 		return -1;
 	}

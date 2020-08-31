@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 	if (argc != 5)
 	{
 		printf("[*] Help\n");
-		printf("application [PID] [Address] [Path Size] [Path Data]\n");
+		printf("[*] application [PID] [Address] [Path Size] [Path Data]\n");
 		exit(0);
 	}
 
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 	//////////////////////////////////////////////////////////////////////////////////
 
 	sprintf(mFileName, "/proc/%d/mem", pid);
-	if ((fd = open(mFileName, O_RDWR | O_LARGEFILE)) == -1)
+	if ((fd = open(mFileName, O_RDWR | O_LARGEFILE)) <= 0)
 	{
 		printf("Failed Open Mem\n");
 	}
@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
 	strcat(strBuffer, tmpBuffer);
 
 	lseek(fd, MemAddress, SEEK_SET);
-	if ((nByte = read(fd, OpcodeBuffer, PathSize)) < 0)
+	if ((nByte = read(fd, OpcodeBuffer, PathSize)) <= 0)
 	{
 		printf("Failed Read\n");
 	}
@@ -90,7 +90,7 @@ int main(int argc, char *argv[])
 	//////////////////////////////////////////////////////////////////////////////////
 
 	lseek(fd, MemAddress, SEEK_SET);
-	if ((nByte = write(fd, OpcodePatch, PathSize)) < 0)
+	if ((nByte = write(fd, OpcodePatch, PathSize)) <= 0)
 	{
 		printf("Failed Write\n");
 	}

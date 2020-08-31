@@ -37,5 +37,3 @@ def getMemory(pid, mFilter=['']):
         mmap_list.append(mmap)
 
     return mmap_list
-
-#print(shell.runCommand("/data/local/tmp/hello2 4066 0xb7e57000 0xb7e8f000", shell=True, encoder='unicode-escape'))
