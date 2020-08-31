@@ -4,10 +4,11 @@
 <div class="row">
 
   <div class="col-md-2 sidebar">
-    <div class="row">
-      <label id="fm">OP코드 입력</label>
-      <input type="text" class="form-control" name="GetText" placeholder="X86 전용">
+    <div class="radio">
+      <label><input type="radio" name="platform" value=X86 checked>X86</label>
+      <label><input type="radio" name="platform" value=ARM>ARM</label>
     </div>
+    <input type="text" class="form-control" name="GetText" placeholder="OP코드 입력">
 
     <div class="col-sm-offset-2">
       <button class="btn btn-primary" type="submit" name="send">전송</button>
@@ -28,12 +29,13 @@
 
 $(document).ready(function($) {
   $('button[name=send]').click(function() {
-    var content = $('input[name=GetText]').val();
+    var platform = $('input[name=platform]:checked').val();
+    var text = $('input[name=GetText]').val();
 
     $.ajax({
       url: "/analysis/static/disasm",
       type: "GET",
-      data: {"data": content},
+      data: {"platform": platform, "text": text},
 
       success: function(response) {
           console.log("SUCCESS: ");

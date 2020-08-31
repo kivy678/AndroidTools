@@ -90,3 +90,11 @@ class UNITY(DATA_FRAME):
 
     def saveCSV(self):
         super().saveCSV(".unity.csv")
+
+
+class IL2CPP(DATA_FRAME):
+    def setup(self):
+        self._DATA_FRAME = self.setCSV(".il2cpp.csv", IL2CPP_COLUMNS)
+
+    def saveCSV(self):
+        super().saveCSV(".il2cpp.csv")

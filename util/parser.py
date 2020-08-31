@@ -53,7 +53,9 @@ class JSON:
     def dump(s, f):
         json.dump(s, f)
 
-        return None
+    @staticmethod
+    def dumps(s):
+        return json.dumps(s)
 
     @staticmethod
     def loads(s):

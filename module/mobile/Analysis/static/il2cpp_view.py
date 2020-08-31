@@ -7,7 +7,7 @@ import mmap
 
 from io import StringIO
 
-from collections import OrderedDict
+from collections import OrderedDict, namedtuple
 from operator import itemgetter
 
 from util.fsUtils import *
@@ -18,6 +18,7 @@ import disassemble
 
 #############################################################################
 
+SAVE_FORMAT = namedtuple("SAVE_FORMAT", "offset, function, cmp1, cmp2")
 
 def convSplit(s):
     d = list(s)
@@ -33,11 +34,12 @@ def dis(data):
 
 def view(jsons, cs_path):
     data = dict()
+    save_data = list()
     String_Buffer  = StringIO()
 
     for content in jsons.split('\n'):
         j = JSON.loads(content)
-        data[j["offset"]] = [j["ORG_BIN"], j["MOD_BIN"]]
+        data[j["offset"]] = [j["CMP1_BIN"], j["CMP2_BIN"]]
 
 
     data = OrderedDict(sorted(data.items(), key=itemgetter(0), reverse=False))
@@ -48,8 +50,8 @@ def view(jsons, cs_path):
             offset_current = k
 
             if (offset_current - offset_before) == 4:
-                bin_org = f"{data[offset_before][0]:08x}{data[offset_current][0]:08x}"
-                bin_mod = f"{data[offset_before][1]:08x}{data[offset_current][1]:08x}"
+                bin_cmp1 = f"{data[offset_before][0]:08x}{data[offset_current][0]:08x}"
+                bin_cmp2 = f"{data[offset_before][1]:08x}{data[offset_current][1]:08x}"
 
                 pattern = f".*0x{offset_before:X}.*\n(.*)"
                 m = re.search(pattern.encode(), s)
@@ -60,9 +62,11 @@ def view(jsons, cs_path):
                     func = ""
 
                 String_Buffer.write(f"Offset:0x{offset_before:X}\t\tFunctionName: {func}\n")
-                String_Buffer.write(f"CMP1:\n{dis(convSplit(bin_org))}\nCMP2:\n{dis(convSplit(bin_mod))}\n")
+                String_Buffer.write(f"CMP1:\n{dis(convSplit(bin_cmp1))}\nCMP2:\n{dis(convSplit(bin_cmp2))}\n")
                 String_Buffer.write("*"*150)
                 String_Buffer.write("\n")
+
+                save_data.append(SAVE_FORMAT(f"0x{offset_before:X}", func, convSplit(bin_cmp1), convSplit(bin_cmp2)))
 
             else:
                 offset_before = offset_current
@@ -71,4 +75,4 @@ def view(jsons, cs_path):
     content = String_Buffer.getvalue()
     String_Buffer.close()
 
-    return content
+    return (content, save_data)

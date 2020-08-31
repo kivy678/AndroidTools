@@ -77,7 +77,7 @@ def startCmp(CMP1, CMP2):
                     if p.match(longToHex(bin_cmp2)):
                         raise ESCAPE_CONDITION(longToHex(bin_cmp2))
 
-                json_encoder = {"offset": f_cmp1.tell()-4, "ORG_BIN": bin_cmp2, "MOD_BIN": bin_cmp1}
+                json_encoder = {"offset": f_cmp1.tell()-4, "CMP1_BIN": bin_cmp2, "CMP2_BIN": bin_cmp1}
                 JSON.dump(json_encoder, Json_Buffer)
                 Json_Buffer.write('\n')
 
@@ -92,4 +92,4 @@ def startCmp(CMP1, CMP2):
     f_cmp2.close()
     Json_Buffer.close()
 
-    return content.strip()
+    return (content.strip(), (CMP1, CMP2))

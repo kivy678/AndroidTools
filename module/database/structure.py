@@ -32,3 +32,11 @@ UNITY_COLUMNS=[
     'parent',
     'status',
 ]
+
+IL2CPP_COLUMNS=[
+    'ref_id',
+    'function',
+    'offset',
+    'opcode',
+    'cmp_ref',
+]
