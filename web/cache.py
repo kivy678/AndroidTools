@@ -63,7 +63,13 @@ def setCache(k, r, timeout=600):
 def setAnalisysCache(k, r, timeout=600):
     if getCache(k):
         d = getCache(k)
-        d.update(r)
+        sha256 = list(r.keys())[0]
+
+        try:
+            d.pop(sha256)
+        except KeyError:
+            d.update(r)
+
         setCache(k, d)
     else:
         setCache(k, r)

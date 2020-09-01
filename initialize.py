@@ -2,7 +2,7 @@
 
 ##################################################################################################
 
-__version__ = '0.22.5'
+__version__ = '0.22.6'
 
 ##################################################################################################
 
@@ -94,7 +94,7 @@ if __name__ == '__main__':
         ed.commit()
 
     if args.c:
-        for dirName in [DECODE_DIR, ANALYSIS_DIR, TMP_DIR, CACHE]:
+        for dirName in [DECODE_DIR, ANALYSIS_DIR, TMP_DIR]:
             Delete(dirName)
             DirCheck(dirName)
 

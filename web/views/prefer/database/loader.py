@@ -11,6 +11,7 @@ from module.database import *
 
 from web.session import setSession
 from web.cache import setAnalisysCache
+from web.cache import getCache
 
 ##################################################################################################
 
@@ -33,11 +34,12 @@ class DatabaseLoader(MethodView):
         sha256 = request.form.get('sha256')
 
         setAnalisysCache('analysis', {sha256: {'pkg': pkg, 'fileName': fileName}})
+        cmp_analysis = ', '.join([k for k in getCache('analysis')])
 
         setSession('pkg', pkg)
         setSession('fileName', fileName)
 
-        return f"현재 분석중인 패키지명: {pkg}"
+        return f"<pre>분석중인 패키지명:\t{pkg}\n비교 분석중인:\t{cmp_analysis}</pre>"
 
 
 load = DatabaseLoader.as_view('load', template_name='prefer/database/load.jinja')
