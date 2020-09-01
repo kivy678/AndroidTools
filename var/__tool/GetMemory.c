@@ -1,14 +1,23 @@
 #define _GNU_SOURCE
 
+//////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/uio.h>
 
+#include <sys/ptrace.h>
+#include <sys/wait.h>
+
 #include <errno.h>
+
+//////////////////////////////////////////////////////////////////////////////////
 
 #define BUFFER_SIZE 		16
 #define STR_BUFFER_SIZE 	sizeof(char) * 5000
+
+//////////////////////////////////////////////////////////////////////////////////
 
 
 int GetBinary(pid_t pid, struct iovec* local, struct iovec* remote)
@@ -61,6 +70,16 @@ int main(int argc, char *argv[])
 					  "Offset\t\t00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15   ASCII\n"
 					  "===================================================================================\n");
 
+	if (ptrace(PTRACE_ATTACH, pid, 0, 0) < 0)
+	{
+		printf("Ptrace Attach Failed\n");
+
+		free(strBuffer);
+		return 0;
+	}
+
+	waitpid(pid, NULL, WUNTRACED);
+
 	//////////////////////////////////////////////////////////////////////////////////
 
 	int	cnt = 1;
@@ -111,6 +130,8 @@ GET_BIN:
 	//////////////////////////////////////////////////////////////////////////////////
 
 	printf("%s\n", strBuffer);
+
+	ptrace(PTRACE_DETACH, pid, 0, 0);
 
 	free(strBuffer);
 

@@ -17,7 +17,7 @@ sp                  = getSharedPreferences(SHARED_PATH)
 ANALYSIS_DIR        = sp.getString('ANALYSIS_DIR')
 DUMP_PATH           = Join(ANALYSIS_DIR, 'strace.txt')
 
-TRACE_TIMEOUT       = 60*2
+TRACE_TIMEOUT       = 60
 
 ################################################################################
 

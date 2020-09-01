@@ -28,21 +28,22 @@
 
 		<form action="mmap" method="GET" enctype="multipart/form-data">
 			<div class="form-group">
-						<div class="radio">
-							<label><input type="radio" name="choiceMemory" value=read checked>메모리 읽기</label>
-							<label><input type="radio" name="choiceMemory" value=write>메모리 쓰기</label>
-						</div>
+				<div class="radio">
+					<label><input type="radio" name="choiceMemory" value=read checked>읽기</label>
+					<label><input type="radio" name="choiceMemory" value=search>검색</label>
+					<label><input type="radio" name="choiceMemory" value=write>쓰기</label>
+				</div>
 			</div>
 
 			<div class="form-group">
 				<div class="col-sm-offset-2">
 					<label id="addr" class="col-sm-5">주소 입력</label>
-					<div class="form-inline">
-			      <input type="text" class="form-control" name="GetStartAddr" placeholder="시작 주소" >
-			      <input type="text" class="form-control" name="GetSizeAddr" placeholder="사이즈">
-			      <input type="text" class="form-control" name="GetData" placeholder="데이터">
+						<div class="form-inline">
+				      <input type="text" class="form-control" name="GetStartAddr" placeholder="시작 주소" >
+				      <input type="text" class="form-control" name="GetSizeAddr" placeholder="사이즈">
+				      <input type="text" class="form-control" name="GetData" placeholder="00AABBCC">
+			    	</div>
 		    	</div>
-		    </div>
 			</div>
 
 			<div class="form-group">

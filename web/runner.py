@@ -9,7 +9,6 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 
 from util.fsUtils import Join
-from webConfig import STORAGE_PATH
 
 ##################################################################################################
 

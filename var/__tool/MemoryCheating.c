@@ -8,6 +8,9 @@
 #include <string.h>
 #include <unistd.h>
 
+#include <sys/ptrace.h>
+#include <sys/wait.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -48,7 +51,7 @@ int main(int argc, char *argv[])
 	if (argc != 6)
 	{
 		printf("[*] Help\n");
-		printf("application [PID] [Start Address] [End Address] [Search Size] [Search Data]\n");
+		printf("[*] application [PID] [Start Address] [End Address] [Search Size] [Search Data]\n");
 		exit(0);
 	}
 
@@ -67,6 +70,16 @@ int main(int argc, char *argv[])
 	{
 		printf("Failed Open Mem\n");
 	}
+
+	if (ptrace(PTRACE_ATTACH, pid, 0, 0) < 0)
+	{
+		printf("Ptrace Attach Failed\n");
+
+		free(strBuffer);
+		return 0;
+	}
+
+	waitpid(pid, NULL, WUNTRACED);
 	
 	//////////////////////////////////////////////////////////////////////////////////
 
@@ -95,6 +108,8 @@ int main(int argc, char *argv[])
 	//////////////////////////////////////////////////////////////////////////////////
 
 	printf("%s", strBuffer);
+
+	ptrace(PTRACE_DETACH, pid, 0, 0);
 
 	close(fd);
 	free(strBuffer);

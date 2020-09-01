@@ -1,17 +1,26 @@
 #define _GNU_SOURCE
 #define _LARGEFILE64_SOURCE
 
+//////////////////////////////////////////////////////////////////////////////////
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
+#include <sys/ptrace.h>
+#include <sys/wait.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 
+//////////////////////////////////////////////////////////////////////////////////
+
 #define OPCODE_BUFFER_SIZE 	sizeof(char) * 50
 #define STR_BUFFER_SIZE 	sizeof(char) * 200
+
+//////////////////////////////////////////////////////////////////////////////////
 
 
 void PathDataParser(char* data, unsigned long PathSize, unsigned char buffer[])
@@ -68,6 +77,16 @@ int main(int argc, char *argv[])
 	{
 		printf("Failed Open Mem\n");
 	}
+
+	if (ptrace(PTRACE_ATTACH, pid, 0, 0) < 0)
+	{
+		printf("Ptrace Attach Failed\n");
+
+		free(strBuffer);
+		return 0;
+	}
+
+	waitpid(pid, NULL, WUNTRACED);
 	
 	//////////////////////////////////////////////////////////////////////////////////
 
@@ -123,6 +142,8 @@ int main(int argc, char *argv[])
 	//////////////////////////////////////////////////////////////////////////////////
 
 	printf("%s\n", strBuffer);
+
+	ptrace(PTRACE_DETACH, pid, 0, 0);
 
 	close(fd);
 	free(strBuffer);

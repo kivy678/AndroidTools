@@ -16,7 +16,8 @@ from web.session import getSession
 
 ################################################################################
 
-MEM_FILTER = ['shell']
+MEM_FILTER  = ['heap', 'shell']
+HEAP_SEARCH = ['heap']
 
 ################################################################################
 
@@ -47,6 +48,15 @@ class MemoryMap(MethodView):
                     return "시작 주소, 사이즈를 입력해주세요."
                 else:
                     cmd = f"/data/local/tmp/GetMemory {pid} {start_addr} {size}"
+                    return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
+
+            if f == "search":
+                if (size is '') or (pathed_data is ''):
+                    return "사이즈, 데이터를 입력해주세요."
+                else:
+                    start_addr, end_addr = [(i.start_addr, i.end_addr) for i in getMemory(pid, HEAP_SEARCH)][0]
+                    cmd = f"/data/local/tmp/MemoryCheating {pid} {start_addr} {end_addr} {size} {pathed_data}"
+
                     return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
 
             elif f == "write":

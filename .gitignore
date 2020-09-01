@@ -10,6 +10,6 @@ tmp
 test*.py
 __session__
 build
-spark
 *.csv
 STORAGE
+dump
