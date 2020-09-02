@@ -9,5 +9,6 @@
 	<boolean name="INIT_SETTING">true</boolean>
 	<string name="JADX_PATH">C:\Users\android\Desktop\tool\jadx\jadx-1.1.0\bin\jadx.bat</string>
 	<string name="JUST_DECOMPILE_PATH">C:\Program Files (x86)\Progress\JustDecompile\Libraries\JustDecompile.exe</string>
-	<string name="IL2CPP_DUMPER_PATH">C:\Users\shw\Desktop\tool\game\Il2CppDumper-v6.4.4\Il2CppDumper.exe</string>
+	<string name="IL2CPP_DUMPER_PATH">C:\Users\android\Desktop\tool\Il2CppDumper-v6.4.4\Il2CppDumper.exe</string>
+	<string name="IDA_PATH">C:\Program Files\IDA 7.2\ida.exe</string>
 </map>

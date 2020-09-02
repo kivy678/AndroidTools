@@ -13,3 +13,4 @@ build
 *.csv
 STORAGE
 dump
+setup.xml

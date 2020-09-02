@@ -35,6 +35,7 @@ TMP_DIR             = Join(WORKING_DIR, 'tmp')
 JADX_PATH           = config['TOOL'].get('JADX')
 JUST_DECOMPILE_PATH = config['TOOL'].get('JUST_DECOMPILE')
 IL2CPP_DUMPER_PATH  = config['TOOL'].get('IL2CPP_DUMPER')
+IDA_PATH            = config['TOOL'].get('IDA')
 
 ##################################################################################################
 
