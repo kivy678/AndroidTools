@@ -48,6 +48,30 @@ $(document).ready(function($) {
 });
 
 $(document).ready(function($) {
+  $(".clickable-lib2-list").click(function() {
+    var tr = $(this);
+    var td = tr.children();
+
+    var lib = td.eq(0).text();
+
+    $.ajax({
+      url: "/analysis/static/ida",
+      type: "POST",
+      data: {"lib": lib},
+
+      success: function(response) {
+          console.log("SUCCESS: ");
+          $("#viewer").html(response);
+      },
+      error: function(error) {
+          console.log("ERROR: " + error);
+      }
+
+    });
+  });
+});
+
+$(document).ready(function($) {
   $(".clickable-pkg-list").click(function() {
     var tr = $(this);
     var td = tr.children();

@@ -7,7 +7,7 @@ from flask import render_template, request
 
 from web.views.analysis import view_static
 
-from util.fsUtils import Join, Walk
+from util.fsUtils import Join, Walk, PathSplit, SplitExt
 
 from common import getSharedPreferences
 from webConfig import SHARED_PATH
@@ -30,9 +30,17 @@ class FileFormat(MethodView):
         self.template_name = template_name
 
     def get(self):
+        data = list()
         analysis_path = Join(DECODE_DIR, getSession('fileName'), 'unzip')
-        lib_path = Join(analysis_path, 'lib')
-        data = map(lambda x: x.replace(lib_path, 'lib'), Walk(lib_path))
+
+        for _path in Walk(analysis_path):
+            p = PathSplit(_path)[1]
+            ext = SplitExt(p)[1]
+
+            if ext == ".so":
+                data.append(_path)
+
+        data = map(lambda x: x.replace(analysis_path, '')[1:], data)
 
         return render_template(self.template_name, enter=data)
 

@@ -24,6 +24,7 @@ config = configparser.ConfigParser()
 config.read(GLOBAL_SETTINGS)
 
 WORKING_DIR         = config['WORK'].get('WORKING_DIR')
+DATA_DIR            = config['DATA'].get('DATA_DIR')
 
 SAMPLE_DIR          = Join(WORKING_DIR, 'sample')
 DECODE_DIR          = Join(WORKING_DIR, 'decode')
@@ -72,11 +73,14 @@ if __name__ == '__main__':
         print("INIT SETTING")
 
         Delete(WORKING_DIR)
-        for dirName in [SAMPLE_DIR, DECODE_DIR, ANALYSIS_DIR, TMP_DIR]:
+        Delete(DATA_DIR)
+        for dirName in [DATA_DIR, SAMPLE_DIR, DECODE_DIR, ANALYSIS_DIR, TMP_DIR]:
             DirCheck(dirName)
 
         ed = sp.edit()
         ed.putString('WORKING_DIR', WORKING_DIR)
+        ed.putString('WORKING_DIR', DATA_DIR)
+
         ed.putString('SAMPLE_DIR', SAMPLE_DIR)
         ed.putString('DECODE_DIR', DECODE_DIR)
         ed.putString('ANALYSIS_DIR', ANALYSIS_DIR)

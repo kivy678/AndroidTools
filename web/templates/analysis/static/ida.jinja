@@ -1,0 +1,29 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+
+	<div class="center-block" >
+		<table class="table table-bordered table-striped table-sm table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>라이브러리 경로</th>
+					<th>사이즈(KB)</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for value in enter %}
+				<tr class="clickable-lib2-list">
+					<td>{{ value[0] }}</td>
+					<td>{{ value[1] }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+    </div>
+
+    <div id="viewer"></div>
+
+</div>
+{% endblock container %}

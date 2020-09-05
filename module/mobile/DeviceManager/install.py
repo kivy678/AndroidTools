@@ -9,8 +9,6 @@ from module.mobile.cmd import shell
 from util.util import zipDecompress
 from util.fsUtils import *
 
-from util.Logger import LOG
-
 from webConfig import SERVER_PATH, APP_PATH, TOOL_PATH
 
 from common import getSharedPreferences

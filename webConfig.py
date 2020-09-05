@@ -43,9 +43,11 @@ CACHE 			= Join(BASE_DIR, 'module', 'database', 'cache')
 
 #############################################################################
 
-REDIS_IP = '127.0.0.1'
-REDIS_PORT = 6379
-REDIS_PASSWD = ''
+ES_URL          = "http://172.16.12.111:9200"
+
+REDIS_IP        = '127.0.0.1'
+REDIS_PORT      = 6379
+REDIS_PASSWD    = ''
 
 _REDIS_CACHE_CONFIG = {
     'host'              : REDIS_IP,

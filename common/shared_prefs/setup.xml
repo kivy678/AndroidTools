@@ -2,6 +2,7 @@
 	<string name="OS">Windows</string>
 	<string name="ARCH">x64</string>
 	<string name="WORKING_DIR">C:\tmp\a</string>
+	<string name="DATA_DIR">C:\tmp\a\data</string>
 	<string name="SAMPLE_DIR">C:\tmp\a\sample</string>
 	<string name="DECODE_DIR">C:\tmp\a\decode</string>
 	<string name="ANALYSIS_DIR">C:\tmp\a\analysis</string>
@@ -9,6 +10,6 @@
 	<boolean name="INIT_SETTING">true</boolean>
 	<string name="JADX_PATH">C:\Users\android\Desktop\tool\jadx\jadx-1.1.0\bin\jadx.bat</string>
 	<string name="JUST_DECOMPILE_PATH">C:\Program Files (x86)\Progress\JustDecompile\Libraries\JustDecompile.exe</string>
-	<string name="IL2CPP_DUMPER_PATH">C:\Users\android\Desktop\tool\Il2CppDumper-v6.4.4\Il2CppDumper.exe</string>
+	<string name="IL2CPP_DUMPER_PATH">C:\Users\android\Desktop\tool\Il2CppDumper-v6.4.12\Il2CppDumper.exe</string>
 	<string name="IDA_PATH">C:\Program Files\IDA 7.2\ida.exe</string>
 </map>
