@@ -1,0 +1,51 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+	<div class="center-block" >
+		<table class="table table-bordered table-striped table-sm table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>패키지명</th>
+					<th>함수명</th>
+					<th>OPCODE</th>
+					<th>HEX</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for value in enter.itertuples() %}
+				<tr>
+					<td>{{ value[1] }}</td>
+					<td>{{ value[2] }}</td>
+					<td>{{ value[3] }}</td>
+					<td>{{ value[4] }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+  </div>
+
+  	<div class="col-md-13 col-md-offset-2 main">
+			<form action=opcode method="POST" enctype="multipart/form-data">
+
+				<div class="form-group">
+					<input type="text" class="form-control" name="GetHash" placeholder="SHA256">
+					<input type="text" class="form-control" name="GetPkg" placeholder="패키지명">
+					<input type="text" class="form-control" name="GetFunc" placeholder="함수명">
+					<input type="text" class="form-control" name="GetOpcode" placeholder="OPCODE">
+					<input type="text" class="form-control" name="GetBin" placeholder="00 AA BB CC">
+				</div>
+
+				<div class="form-group">
+					<div class="col-sm-offset-2">
+						<button type="submit" class="btn btn-primary">전송</button>
+					</div>
+				</div>
+
+			</form>
+	</div>
+
+</div>
+{% endblock container %}

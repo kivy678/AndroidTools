@@ -40,3 +40,10 @@ IL2CPP_COLUMNS=[
     'opcode',
     'cmp_ref',
 ]
+
+OPCDOE_COLUMNS=[
+    'pkg',
+    'func',
+    'opcode',
+    'binary',
+]

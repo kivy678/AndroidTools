@@ -41,6 +41,8 @@ def searchFile(dir, fileName):
             return i
 
 def isSizeSame(opath, hpath):
+    print(opath)
+    print(hpath)
     return True if GetSize(opath) == GetSize(hpath) else False
 
 def getULong(fr):
@@ -56,7 +58,7 @@ def startCmp(CMP1, CMP2):
     CMP2 = searchFile(Join(CMP2, 'lib'), IL2CPP_FILE)
 
     if not isSizeSame(CMP1, CMP2):
-        return "Not Same FileSize"
+        return ("Not Same FileSize", False)
 
 
     f_cmp1       = open(CMP1, 'rb')

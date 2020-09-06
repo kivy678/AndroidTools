@@ -23,7 +23,11 @@ SAVE_FORMAT = namedtuple("SAVE_FORMAT", "offset, function, cmp1, cmp2")
 def convSplit(s):
     d = list(s)
 
-    return ' '.join(reversed([i+j for i, j in zip(d[::2], d[1::2])]))
+    d = ([i+j for i, j in zip(d[::2], d[1::2])])
+    for i in range(0,len(d),4):
+        d[i:i+4] = list(reversed(d[i:i+4]))
+
+    return ' '.join(d)
 
 def dis(data):
     opcode = ''.join([f"\\x{opcode}" for opcode in data.split()]).encode()

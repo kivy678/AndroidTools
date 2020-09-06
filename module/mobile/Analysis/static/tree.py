@@ -19,7 +19,7 @@ sp                  = getSharedPreferences(SHARED_PATH)
 ANALYSIS_DIR        = sp.getString('ANALYSIS_DIR')
 APP_DIR             = Join(ANALYSIS_DIR, 'tree', 'app')
 
-STRIP_STRING = ['res']
+STRIP_STRING = ['res', 'Data']
 
 Delete(APP_DIR)
 DirCheck(APP_DIR)

@@ -23,6 +23,7 @@ import web.views.analysis.static.tree
 import web.views.analysis.static.spark
 import web.views.analysis.static.ida
 
+
 import web.views.analysis.dynamic.dump
 import web.views.analysis.dynamic.server
 import web.views.analysis.dynamic.yara_search

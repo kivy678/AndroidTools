@@ -35,6 +35,9 @@ def pushES(data, index):
     if FileSize(JSON_PATH) == 0:
         return False
 
+    cmd = f'curl -XDELETE "{ES_URL}/{index}"'
+    sub.Popen(cmd).wait()
+
     cmd = f'curl -XPUT "{ES_URL}/{index}/AndroidOS/_bulk?pretty" -H "Content-Type: application/x-ndjson" --data-binary @{JSON_PATH}'
     sub.Popen(cmd).wait()
 

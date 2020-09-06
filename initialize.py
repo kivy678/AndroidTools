@@ -24,7 +24,7 @@ config = configparser.ConfigParser()
 config.read(GLOBAL_SETTINGS)
 
 WORKING_DIR         = config['WORK'].get('WORKING_DIR')
-DATA_DIR            = config['DATA'].get('DATA_DIR')
+DATA_DIR            = config['WORK'].get('DATA_DIR')
 
 SAMPLE_DIR          = Join(WORKING_DIR, 'sample')
 DECODE_DIR          = Join(WORKING_DIR, 'decode')

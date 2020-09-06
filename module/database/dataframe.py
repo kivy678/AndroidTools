@@ -27,7 +27,7 @@ class DATA_FRAME(Singleton):
     def setup(self):
         pass
 
-    def setCSV(self, fileName, COLUMN):
+    def setCSV(self, fileName, COLUMN, dup=True):
         try:
             csv = pd.read_csv(Join(CACHE, fileName), sep=',', index_col=0)
 
@@ -35,7 +35,10 @@ class DATA_FRAME(Singleton):
             df = df.where(pd.notnull(df), '')
             LOG.info(f"Load {fileName}")
 
-            return df[~df.index.duplicated(keep='first')]
+            if dup:
+                df = df[~df.index.duplicated(keep='first')]
+
+            return df
 
         except FileNotFoundError as e:
             LOG.info("Create Data Frame")
@@ -98,3 +101,12 @@ class IL2CPP(DATA_FRAME):
 
     def saveCSV(self):
         super().saveCSV(".il2cpp.csv")
+
+
+class OPCDOE(DATA_FRAME):
+    def setup(self):
+        self._DATA_FRAME = self.setCSV(".opcode.csv", OPCDOE_COLUMNS, dup=False)
+
+    def saveCSV(self):
+        super().saveCSV(".opcode.csv")
+

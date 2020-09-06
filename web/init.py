@@ -11,3 +11,4 @@ def setup():
     df_app.setup()
     df_unity.setup()
     df_il2cpp.setup()
+    df_opcode.setup()

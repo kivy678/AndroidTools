@@ -89,12 +89,6 @@ def runDecodeil2cpp(_path, fileName):
 
         LOG.info(f"{'[*]':<5}End il2cpp Decode: {fileName}")
 
-        ida_file        = Join(DirName(IL2CPP_DUMPER_PATH), 'ida.py')
-        ida_struct_file = Join(DirName(IL2CPP_DUMPER_PATH), 'ida_with_struct.py')
-
-        Copy(ida_file, Join(out, 'ida.py'))
-        Copy(ida_struct_file, Join(out, 'ida_with_struct.py'))
-
         return lib_path
 
     return None

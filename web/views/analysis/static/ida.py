@@ -17,7 +17,8 @@ from webConfig import SHARED_PATH, BASE_DIR
 
 from web.session import getSession
 
-from module.ipython.pretreatment import pushES
+from module.ipython.convES.pretreatment import pushES
+from module.ipython.scriptjs import parserScriptJson
 
 ##########################################################################
 
@@ -127,9 +128,37 @@ class IL2CPP(MethodView):
         return "데이터 처리 완료"
 
 
+class IL2CPP_SCRIPTJS(MethodView):
+    template_name = None
+
+    def __init__(self, template_name):
+        self.template_name = template_name
+
+    def get(self):
+        DirCheck(DATA_DIR)
+
+        il2cpp_path = Join(DECODE_DIR, getSession('fileName'), 'il2cpp')
+        jsonPath    = Join(il2cpp_path, 'script.json')
+
+        unzip_path  = Join(DECODE_DIR, getSession('fileName'), 'unzip')
+        lib_path    = findFile(unzip_path, 'libil2cpp.so')
+
+        es_json     = Join(DATA_DIR, 'data.txt')
+
+        parserScriptJson(lib_path, jsonPath, es_json)
+        pushES(es_json, 'aosfunctions')
+
+
+        #Delete(DATA_DIR)
+
+        return "데이터 처리 완료"
+
+
 ida_view = IDA.as_view('ida', template_name='analysis/static/ida.jinja')
 view_static.add_url_rule('ida', view_func=ida_view)
 
-
 il2cpp_view = IL2CPP.as_view('ida/il2cpp', template_name='')
 view_static.add_url_rule('ida/il2cpp', view_func=il2cpp_view)
+
+il2cpp_script_view = IL2CPP_SCRIPTJS.as_view('ida/script', template_name='')
+view_static.add_url_rule('ida/script', view_func=il2cpp_script_view)
