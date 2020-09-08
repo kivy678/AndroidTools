@@ -43,7 +43,7 @@ class ProcessInfor:
         m = shell.runCommand(cmd, shell=True)
 
         with StringIO(m) as sio, StringIO() as wio:
-            for r in map(lambda s: re.compile(rf"^.*{s}.*", re.M)       \
+            for r in map(lambda s: re.compile(rf"^.*{s}.*\.so.*", re.M)       \
                             .findall(sio.getvalue()), mFilter):
                 for row in r:
                     wio.write(row)

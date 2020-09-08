@@ -27,26 +27,14 @@ class TipOPCDE(MethodView):
         return render_template(self.template_name, enter=df_opcode.DATA_FRAME)
 
     def post(self):
-        sha256 = request.form.get('GetHash')
-        pkg = request.form.get('GetPkg')
-        func = request.form.get('GetFunc')
-        opcode = request.form.get('GetOpcode')
-        binary = request.form.get('GetBin')
+        sha256      = request.form.get('GetHash')
 
-        if (sha256 is '') and (pkg is '')           \
-                          and (func is '')          \
-                          and (opcode is '')        \
-                          and (binary is ''):
-
-            return "모든 값들을 입력 해주세요."
-
-        data = {'pkg':          pkg,
-                'func':         func,
-                'opcode':       opcode,
-                'binary':       binary}
-
-        add_idx = pd.Series(data).rename(sha256)
-        df_opcode.DATA_FRAME = df_opcode.DATA_FRAME.append(add_idx)
+        df_opcode.DATA_FRAME.loc[sha256, 'pkg']         = request.form.get('GetPkg')
+        df_opcode.DATA_FRAME.loc[sha256, 'func']        = request.form.get('GetFunc')
+        df_opcode.DATA_FRAME.loc[sha256, 'opcode']      = request.form.get('GetOpcode')
+        df_opcode.DATA_FRAME.loc[sha256, 'binary']      = request.form.get('GetBin')
+        df_opcode.DATA_FRAME.loc[sha256, 'engine']      = request.form.get('GetEngine')
+        df_opcode.DATA_FRAME.loc[sha256, 'platform']    = request.form.get('GetPlatform')
         #df_opcode.DATA_FRAME = df_opcode.DATA_FRAME[~df_opcode.DATA_FRAME.index.duplicated(keep='first')]
 
         df_opcode.saveCSV()

@@ -42,8 +42,8 @@ class IL2CPPAnalysis(MethodView):
         f3, _ = [Join(DECODE_DIR, v['fileName'], 'il2cpp') for k, v in getCache('analysis').items()]
 
         cmp_data, path = startCmp(f1, f2)
-        if path is False:
-            return "IL2CPP 사이즈가 다릅니다."
+        if cmp_data is False:
+            return path
 
         view_data, save_data = view(cmp_data, f3)
 

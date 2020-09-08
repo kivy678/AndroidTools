@@ -39,7 +39,7 @@ def dis(data):
 def view(jsons, cs_path):
     data = dict()
     save_data = list()
-    String_Buffer  = StringIO()
+    String_Buffer = StringIO()
 
     for content in jsons.split('\n'):
         j = JSON.loads(content)

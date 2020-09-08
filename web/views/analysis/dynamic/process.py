@@ -16,7 +16,7 @@ from web.session import getSession
 
 ################################################################################
 
-MEM_FILTER  = ['heap', 'libil2cpp.so', 'libc.so']
+MEM_FILTER  = ['libc', '/data/app/', '/data/data/']
 HEAP_SEARCH = ['heap']
 
 ################################################################################
@@ -88,8 +88,6 @@ class MemoryMap(MethodView):
             cmd = f"/data/local/tmp/GetMemory {pid} {start_addr} 50"    # 현재 힙 사이즈 = 가로 100 * 50 = 5000
 
             return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
-
-
 
 
     def getPid(self, pkg):

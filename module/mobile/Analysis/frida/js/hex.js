@@ -1,8 +1,5 @@
 
 console.log("[*] Start Script");
-
-
-
     var add_array = [
     "0xb7ca1857",
     "0xb41a33ea",

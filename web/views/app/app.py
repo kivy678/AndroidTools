@@ -26,8 +26,9 @@ from module.database import df_app
 
 ##########################################################################
 
-sp = getSharedPreferences(SHARED_PATH)
-SAMPLE_DIR = sp.getString('SAMPLE_DIR')
+sp          = getSharedPreferences(SHARED_PATH)
+SAMPLE_DIR  = sp.getString('SAMPLE_DIR')
+TMP_DIR     = sp.getString('TMP_DIR')
 
 ##########################################################################
 
@@ -74,6 +75,12 @@ class AppBasis(MethodView):
         cmdUninstall(pkg)
 
         return "삭제 완료"
+
+    def fetch_download(self):
+        pkg = getSession('pkg')
+        cmdDownload(pkg, TMP_DIR)
+
+        return "다운 완료"
 
     def fetch_debug(self):
         fileName = getSession('fileName')

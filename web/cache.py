@@ -51,6 +51,7 @@ FlaskCache = Cache(config=getConfig())
 
 def setup(app):
     FlaskCache.init_app(app)
+    clearCache()
 
 ##################################################################################################
 
@@ -76,6 +77,9 @@ def setAnalisysCache(k, r, timeout=600):
 
 def delCache(k):
     FlaskCache.delete(k)
+
+def clearCache():
+    FlaskCache.clear()
 
 ##################################################################################################
 

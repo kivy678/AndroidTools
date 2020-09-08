@@ -21,7 +21,7 @@ Interceptor.attach(Module.getExportByName('libc.so', 'read'), {
     // char* fgets(char* str, int num, FILE* stream);
     // void *dlsym(void *handle, const char *symbol);
     // ssize_t read (int fd, void *buf, size_t nbytes);
-      console.log("#############################");
+    console.log("#############################");
     console.log(hexdump(read_addr, { length: 16, ansi: true }));
     console.log("#############################");
 

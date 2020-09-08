@@ -4,7 +4,7 @@
 
 from module.mobile.cmd import shell
 
-from util.fsUtils import PathSplit
+from util.fsUtils import PathSplit, Join
 from util.Logger import LOG
 
 ###########################################################################################
@@ -24,3 +24,12 @@ def cmdUninstall(pkg):
     shell.runCommand(cmd, shell=False)
 
     LOG.info(f"{'[*]':<5}uninstall End")
+
+
+def cmdDownload(pkg, down):
+    LOG.info(f"{'[*]':<5}start download: " + pkg)
+
+    cmd = f"adb pull /data/app/{pkg}-1 {Join(down, pkg)}"
+    shell.runCommand(cmd, shell=False)
+
+    LOG.info(f"{'[*]':<5}download End")

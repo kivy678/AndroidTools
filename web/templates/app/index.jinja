@@ -6,10 +6,17 @@
 	<div class="col-md-2 sidebar">
 		<ul class="nav navbar-nav">
 			<li><a href="{{ url_for('app.', mode='list') }}">기본 분석</a></li>
-			<li><a href="{{ url_for('app.', mode='install') }}">설치</a></li>
-			<li><a href="{{ url_for('app.', mode='uninstall') }}">삭제</a></li>
-			<li><a href="{{ url_for('app.', mode='debug') }}">디버깅모드</a></li>
 
+			<li class="menu">
+				<a>앱 설치</a>
+				<ul class="hide">
+					<li><a href="{{ url_for('app.', mode='install') }}">설치</a></li>
+					<li><a href="{{ url_for('app.', mode='uninstall') }}">삭제</a></li>
+					<li><a href="{{ url_for('app.', mode='download') }}">다운</a></li>
+					<li><a href="{{ url_for('app.', mode='debug') }}">디버깅모드</a></li>
+				</ul>
+			</li>
+			
 			<li class="menu">
 				<a>Watting 모드</a>
 				<ul class="hide">

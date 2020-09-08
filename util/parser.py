@@ -55,6 +55,7 @@ class JSON:
 
     @staticmethod
     def dumps(s):
+        print(s)
         return json.dumps(s)
 
     @staticmethod

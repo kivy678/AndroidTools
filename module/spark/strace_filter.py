@@ -2,6 +2,8 @@
 
 #############################################################################
 
+import subprocess as sub
+
 from pyspark import SparkConf, SparkContext
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
@@ -16,6 +18,7 @@ from common import getSharedPreferences
 from webConfig import SHARED_PATH
 
 from web.session import getSession
+from webConfig import ES_URL
 
 #############################################################################
 
@@ -77,20 +80,17 @@ df = df.groupBy("function")                                     \
 df.printSchema()
 df.show(10, False)
 
-
-df = df.groupBy("sha256")                                       \
-    .pivot("function")                                          \
-    .sum("count")                                               \
-
 #############################################################################
 
 df.toPandas().to_csv(DUMP_PATH, sep=',', header=False, index=False)
 
-df.coalesce(1).write                                            \
+cmd = f'curl -XDELETE "{ES_URL}/dynamic"'
+sub.Popen(cmd).wait()
+
+df.write                                                        \
     .format("org.elasticsearch.spark.sql")                      \
     .options(**ES_CONF)                                         \
     .option("es.resource", "dynamic/strace")                    \
-    .option("es.mapping.id", "sha256")                          \
     .mode("append")                                             \
     .save()
 

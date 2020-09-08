@@ -6,20 +6,26 @@
 		<table class="table table-bordered table-striped table-sm table-hover">
 			<thead class="thead-dark">
 				<tr>
+					<th>SHA256</th>
 					<th>패키지명</th>
 					<th>함수명</th>
 					<th>OPCODE</th>
 					<th>HEX</th>
+					<th>엔진</th>
+					<th>플랫폼</th>
 				</tr>
 			</thead>
 
 			<tbody>
 				{% for value in enter.itertuples() %}
 				<tr>
+					<td>{{ value[0] }}</td>
 					<td>{{ value[1] }}</td>
 					<td>{{ value[2] }}</td>
 					<td>{{ value[3] }}</td>
 					<td>{{ value[4] }}</td>
+					<td>{{ value[5] }}</td>
+					<td>{{ value[6] }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>
@@ -36,6 +42,8 @@
 					<input type="text" class="form-control" name="GetFunc" placeholder="함수명">
 					<input type="text" class="form-control" name="GetOpcode" placeholder="OPCODE">
 					<input type="text" class="form-control" name="GetBin" placeholder="00 AA BB CC">
+					<input type="text" class="form-control" name="GetEngine" placeholder="Unity">
+					<input type="text" class="form-control" name="GetPlatform" placeholder="X86 or ARM">
 				</div>
 
 				<div class="form-group">

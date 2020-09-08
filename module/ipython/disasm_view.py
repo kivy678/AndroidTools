@@ -18,18 +18,16 @@ def convSplit(s):
     return ' '.join(d)
 
 
-def dis(data):
+def dis(data, platform="ARM"):
     opcode = ''.join([f"\\x{opcode}" for opcode in data.split()]).encode()
     opcode = opcode.decode('unicode-escape').encode('ISO-8859-1')
 
-    return disassemble.disasmARM(opcode)
+    return getattr(disassemble, f'disasm{platform}')(opcode)
 
 
-def getULong(fr, p, size):
+def getBinay(fr, p, size):
+    sig = {2: "<H", 4: "<L", 8: "<Q"}
+
     fr.seek(p, 0)
     content = fr.read(size)
-    return struct.unpack("<L", content)[0] if content else None
-
-
-def longToHex(v):
-    return '0x{:X}'.format(v)
+    return struct.unpack(sig[size], content)[0] if content else None

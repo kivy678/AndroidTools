@@ -46,4 +46,6 @@ OPCDOE_COLUMNS=[
     'func',
     'opcode',
     'binary',
+    'engine',
+    'platform',
 ]

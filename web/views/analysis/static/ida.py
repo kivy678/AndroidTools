@@ -18,7 +18,7 @@ from webConfig import SHARED_PATH, BASE_DIR
 from web.session import getSession
 
 from module.ipython.convES.pretreatment import pushES
-from module.ipython.scriptjs import parserScriptJson
+from module.ipython.convES.scriptjs import parserScriptJson
 
 ##########################################################################
 
@@ -71,17 +71,17 @@ class IDA(MethodView):
 
         script = "getStringToES.py"
         DATA_PATH = Join(DATA_DIR, md5 + '_str.txt')
-        sub.Popen(RUN_PATH + f" {script} {md5} {DATA_PATH} {lib_path}").wait()
+        sub.Popen(f"{RUN_PATH} {script} {md5} {DATA_PATH} {lib_path}").wait()
         pushES(DATA_PATH, 'aosstrings')
 
         script = "getImportsToES.py"
         DATA_PATH = Join(DATA_DIR, md5 + '_imp.txt')
-        sub.Popen(RUN_PATH + f" {script} {md5} {DATA_PATH} {lib_path}").wait()
+        sub.Popen(f"{RUN_PATH} {script} {md5} {DATA_PATH} {lib_path}").wait()
         pushES(DATA_PATH, 'aosimports')
 
         script = "getFunctionsToES.py"
         DATA_PATH = Join(DATA_DIR, md5 + '_func.txt')
-        sub.Popen(RUN_PATH + f" {script} {md5} {DATA_PATH} {lib_path}").wait()
+        sub.Popen(f"{RUN_PATH} {script} {md5} {DATA_PATH} {lib_path}").wait()
         pushES(DATA_PATH, 'aosfunctions')
 
 
@@ -109,21 +109,21 @@ class IL2CPP(MethodView):
 
         #script = "getStringToES.py"
         #DATA_PATH = Join(DATA_DIR, md5 + '_str.txt')
-        #sub.Popen(RUN_IL2CPP_PATH + f" {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
+        #sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
         #pushES(DATA_PATH, 'aosstrings')
 
         #script = "getImportsToES.py"
         #DATA_PATH = Join(DATA_DIR, md5 + '_imp.txt')
-        #sub.Popen(RUN_IL2CPP_PATH + f" {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
+        #sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
         #pushES(DATA_PATH, 'aosimports')
 
         script = Join(BASE_DIR, "module", "ipython", "getFunctionsToES.py")
         DATA_PATH = Join(DATA_DIR, md5 + '_func.txt')
-        sub.Popen(RUN_IL2CPP_PATH + f" {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
+        sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
         pushES(DATA_PATH, 'aosfunctions')
 
 
-        #Delete(DATA_DIR)
+        Delete(DATA_DIR)
 
         return "데이터 처리 완료"
 
@@ -137,6 +137,8 @@ class IL2CPP_SCRIPTJS(MethodView):
     def get(self):
         DirCheck(DATA_DIR)
 
+        platform = request.args.get("platform")
+
         il2cpp_path = Join(DECODE_DIR, getSession('fileName'), 'il2cpp')
         jsonPath    = Join(il2cpp_path, 'script.json')
 
@@ -145,11 +147,11 @@ class IL2CPP_SCRIPTJS(MethodView):
 
         es_json     = Join(DATA_DIR, 'data.txt')
 
-        parserScriptJson(lib_path, jsonPath, es_json)
+        parserScriptJson(lib_path, jsonPath, es_json, platform)
         pushES(es_json, 'aosfunctions')
 
 
-        #Delete(DATA_DIR)
+        Delete(DATA_DIR)
 
         return "데이터 처리 완료"
 

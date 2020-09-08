@@ -41,8 +41,6 @@ def searchFile(dir, fileName):
             return i
 
 def isSizeSame(opath, hpath):
-    print(opath)
-    print(hpath)
     return True if GetSize(opath) == GetSize(hpath) else False
 
 def getULong(fr):
@@ -58,7 +56,7 @@ def startCmp(CMP1, CMP2):
     CMP2 = searchFile(Join(CMP2, 'lib'), IL2CPP_FILE)
 
     if not isSizeSame(CMP1, CMP2):
-        return ("Not Same FileSize", False)
+        return (False, "IL2CPP 사이즈가 다릅니다.")
 
 
     f_cmp1       = open(CMP1, 'rb')
@@ -89,6 +87,9 @@ def startCmp(CMP1, CMP2):
 
 
     content = Json_Buffer.getvalue()
+
+    if content is '':
+        return (False, "IL2CPP 파일이 동일합니다.")
 
     f_cmp1.close()
     f_cmp2.close()

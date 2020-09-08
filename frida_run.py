@@ -36,10 +36,10 @@ if __name__ == '__main__':
         exit()
 
     if args.h:
-        Hook("com.omn.vvi")
+        Hook("com.wolffun.herostrike.offline")
 
     if args.a:
-        attachHook("com.omn.vvi")
+        attachHook("com.wolffun.herostrike.offline")
 
 
     print('Main done...')
