@@ -12,5 +12,4 @@ __session__
 build
 *.csv
 STORAGE
-dump
 setup.xml

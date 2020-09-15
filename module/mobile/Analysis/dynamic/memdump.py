@@ -2,7 +2,7 @@
 
 ##########################################################################
 
-from module.mobile.Analysis.frida.dump.fridump3 import DUMP
+from module.frida.dump.fridump3 import DUMP
 
 from util.fsUtils import Join, DirCheck, Delete
 from util.Logger import LOG

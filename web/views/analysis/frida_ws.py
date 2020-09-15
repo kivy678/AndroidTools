@@ -9,7 +9,7 @@ from io import StringIO
 
 from tornado.websocket import WebSocketHandler
 
-from module.mobile.Analysis.frida.run import FridaRun
+from module.frida.run import FridaRun
 from web.session import getSession
 
 from util.Logger import LOG

@@ -8,13 +8,12 @@ import sys
 import frida
 
 from util.fsUtils import Join
-from webConfig import ANALYSIS_PATH
-
 from util.Logger import LOG
 
 ###########################################################################################
 
-JS_PATH = Join(ANALYSIS_PATH, "frida", "js", "merge.js")
+BASE_DIR = os.path.dirname(os.path.realpath(__file__))
+JS_PATH = Join(BASE_DIR, "js", "merge.js")
 
 ###########################################################################################
 

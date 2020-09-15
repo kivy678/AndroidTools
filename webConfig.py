@@ -29,15 +29,6 @@ DECOMPLIE_PATH 	= Join(VAR_PATH, "decomplie")
 TOOL_PATH       = Join(VAR_PATH, "tool")
 
 #############################################################################
-############################## PROJECT NAME #################################
-
-ANALYSIS_PATH   = Join(BASE_DIR, "module", "mobile", "Analysis")
-ANALYSIS_WORK	= Join(TMP_PATH, "work")
-
-YARA_RULE 		= Join(ANALYSIS_PATH, "yara")
-DUMP_PATH 		= r'c:\tmp\dump'
-
-#############################################################################
 
 CACHE 			= Join(BASE_DIR, 'module', 'database', 'cache')
 

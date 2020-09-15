@@ -7,7 +7,7 @@ import env
 import os
 import argparse
 
-from module.mobile.Analysis.frida.local_run import *
+from module.frida.local_run import *
 
 #############################################################################
 
@@ -23,10 +23,7 @@ if __name__ == '__main__':
     parser.add_argument('-v', '--version', action='version',
                         version='%(prog)s {0}'.format(__version__))
 
-    parser.add_argument('--hook', action='store_true',
-                        help='Hook', dest='h')
-
-    parser.add_argument('-a', '--attach', action='store_true',
+    parser.add_argument('-a', '--attach',
                         help='Attach', dest='a')
 
     args = parser.parse_args()
@@ -35,10 +32,7 @@ if __name__ == '__main__':
         parser.print_help()
         exit()
 
-    if args.h:
-        Hook("dz.angie.clean.master")
-
     if args.a:
-        attachHook("dz.angie.clean.master")
+        attachHook(args.a)
 
     print('Main done...')

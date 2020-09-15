@@ -39,22 +39,22 @@ class LDPLAYER_MANAGER(MethodView):
 
     def fetch_create(self, ldName=None, appName=None):
         LDPlayer.create(ldName)
-        return f"생성 완료-{ldName}"
+        return f"{ldName}-생성 완료"
 
 
     def fetch_remove(self, ldName='', appName=None):
         LDPlayer.remove(ldName)
-        return f"삭제 완료-{ldName}"
+        return f"{ldName}-삭제 완료"
 
 
     def fetch_run(self, ldName, appName=None):
         LDPlayer.run(ldName)
-        return f"LDPlayer 실행 완료-{ldName}"
+        return f"{ldName}-실행 완료"
 
 
     def fetch_quit(self, ldName='', appName=None):
         LDPlayer.quit(ldName)
-        return f"LDPlayer 종료 완료-{ldName}"
+        return f"{ldName}-종료 완료"
 
 
     def fetch_runApp(self, ldName='', appName=''):
