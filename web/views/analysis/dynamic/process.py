@@ -85,7 +85,7 @@ class MemoryMap(MethodView):
             return "앱을 실행하세요"
 
         for pid in pid_list:
-            cmd = f"/data/local/tmp/GetMemory {pid} {start_addr} 50"    # 현재 힙 사이즈 = 가로 100 * 50 = 5000
+            cmd = f"/data/local/tmp/GetMemory {pid} {start_addr} 50"            # 현재 힙 사이즈 = 가로 100 * 50 = 5000
 
             return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
 

@@ -1,0 +1,27 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+
+<p class="container">출력값</p>
+
+{% endblock container %}
+
+
+{% block script %}
+<script type="text/javascript">
+
+$(document).ready(function() {
+  var socket = new WebSocket("ws://" + document.domain + ":7777/analysis/dynamic/frida/");
+
+  socket.onopen = function() {
+      socket.send("Joined");
+  }
+
+  socket.onmessage = function(message) {
+      var txt = message.data;
+      $(".container").append("<pre>" + txt + "</pre>");
+  }
+});
+  
+</script>
+{% endblock script %}

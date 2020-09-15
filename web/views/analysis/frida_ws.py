@@ -6,12 +6,11 @@ import contextlib
 import sys
 import time
 from io import StringIO
-import time
 
 from tornado.websocket import WebSocketHandler
 
 from module.mobile.Analysis.frida.run import FridaRun
-from web.cache import getCache
+from web.session import getSession
 
 from util.Logger import LOG
 
@@ -22,16 +21,16 @@ class FridaDataStreamDataSocket(WebSocketHandler):
     def open(self):
         print("Socket opened.")
         frida_run = FridaRun(self)
-        frida_run.attachHook(getCache('pkg'))
+        frida_run.attachHook("dz.angie.clean.master")
    
-        while True:
-        	buf = StringIO()
+        #while True:
+        buf = StringIO()
 
-	        with contextlib.redirect_stdout(buf):
-	        	time.sleep(10)
+        with contextlib.redirect_stdout(buf):
+            time.sleep(5)
 
-	        self.write_message(buf.getvalue())
-	        buf.close()
+        self.write_message(buf.getvalue())
+        buf.close()
 
 
     def on_message(self, message):
@@ -41,4 +40,4 @@ class FridaDataStreamDataSocket(WebSocketHandler):
         print("Socket closed.")
 
     def streaming(self, message):
-    	self.write_message(message)
+        self.write_message(message)

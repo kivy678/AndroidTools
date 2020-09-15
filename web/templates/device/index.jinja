@@ -1,0 +1,51 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+
+	<div class="col-md-2 sidebar">
+		<ul class="nav navbar-nav">
+			<li><a href="{{ url_for('dev.list') }}">단말기 리스트</a></li>
+			<li class="menu">
+				<a>LDPlayer 제어</a>
+				<ul class="hide">
+					<li><a href="{{ url_for('dev.manager', mode='list') }}" 			name="ldcontrol">리스트</a></li>
+					<li><a href="{{ url_for('dev.manager', mode='create') }}" 		name="ldcontrol">생성</a></li>
+					<li><a href="{{ url_for('dev.manager', mode='remove') }}" 		name="ldcontrol">삭제</a></li>			
+					<li><a href="{{ url_for('dev.manager', mode='run') }}" 				name="ldcontrol">실행</a></li>
+					<li><a href="{{ url_for('dev.manager', mode='quit') }}" 			name="ldcontrol">종료</a></li>
+					<li><a href="{{ url_for('dev.manager', mode='runApp') }}" 		name="ldcontrol">앱 실행</a></li>
+					<li><a href="{{ url_for('dev.manager', mode='runKillApp') }}" name="ldcontrol">앱 종료</a></li>
+				</ul>
+			</li>
+		</ul>	
+	</div>
+
+	<div class="col-sm-offset-2">
+		<label id="addr" class="col-sm-5">입력란</label>
+			<div class="form-inline">
+	      <input type="text" class="form-control" id="ldName" placeholder="LDPlayer 이름" >
+	      <input type="text" class="form-control" id="appName" placeholder="앱 이름">
+	  	</div>
+		</div>
+
+</div>
+{% endblock container %}
+
+{% block script %}
+<script type="text/javascript">
+
+$(document).ready(function($) {
+  $('a[name=ldcontrol]').click(function() {
+  	var currentURL = window.location.protocol + "//" + window.location.host + $(this).attr('href');
+
+	  var ldName  = document.getElementById("ldName");
+	  var appName = document.getElementById("appName");
+
+		$(this).attr("href", currentURL + "?ldName=" + ldName.value + "&appName=" + appName.value);
+
+  });
+});
+
+</script>
+{% endblock script %}

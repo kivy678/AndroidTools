@@ -20,12 +20,17 @@ script_key = [
 
 STRING_FILTER = [
     "Microsoft",
+    "MS",
+    "Firebase",
     "System",
     "Method$System",
+    "Method$UnityEngine",
     "Adverty",
     "anzu",
-    #"Unity",
-    #"Mono",
+    "Photon",
+    "Quantum",
+    "Unity",
+    "Mono",
 ]
 
 rSize = {"THUMB": 2, "ARM": 4, "ARM64": 4}
@@ -37,14 +42,15 @@ def stringFilter(data, rkey):
     tmpList = list()
 
     for row in data:
-        if (row[rkey].startswith("Microsoft") is False)                     \
-            and (row[rkey].startswith("System") is False)                   \
-            and (row[rkey].startswith("Method$System") is False)            \
-            and (row[rkey].startswith("Adverty") is False)                  \
-            and (row[rkey].startswith("Mono") is False)                     \
-            and (row[rkey].startswith("Unity") is False):
+        try:
+            for f in STRING_FILTER:
+                if row[rkey].startswith(f) is True:
+                    raise
 
             tmpList.append(row)
+
+        except:
+            continue
 
     return tmpList
 
@@ -120,7 +126,7 @@ def parserScriptJson(il2cpp, rpath, wpath, platform="ARM"):
             del(disasm2[1])
 
             row["disasm"] = [','.join(disasm1), ','.join(disasm2)]
-            row["MethodAddress"] = hex(row["MethodAddress"])
+            row["Address"] = hex(row["MethodAddress"])
 
             d.update({cnt: row})
             cnt +=1

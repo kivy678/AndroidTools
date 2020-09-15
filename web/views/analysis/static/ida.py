@@ -68,7 +68,7 @@ class IDA(MethodView):
         analysis_path   = Join(DECODE_DIR, getSession('fileName'), 'unzip')
         lib_path        = Join(analysis_path, request.form.get('lib'))
         md5             = getMD5(lib_path)
-
+        """
         script = "getStringToES.py"
         DATA_PATH = Join(DATA_DIR, md5 + '_str.txt')
         sub.Popen(f"{RUN_PATH} {script} {md5} {DATA_PATH} {lib_path}").wait()
@@ -78,7 +78,7 @@ class IDA(MethodView):
         DATA_PATH = Join(DATA_DIR, md5 + '_imp.txt')
         sub.Popen(f"{RUN_PATH} {script} {md5} {DATA_PATH} {lib_path}").wait()
         pushES(DATA_PATH, 'aosimports')
-
+        """
         script = "getFunctionsToES.py"
         DATA_PATH = Join(DATA_DIR, md5 + '_func.txt')
         sub.Popen(f"{RUN_PATH} {script} {md5} {DATA_PATH} {lib_path}").wait()
@@ -107,15 +107,15 @@ class IL2CPP(MethodView):
 
         md5         = getMD5(lib_path)
 
-        #script = "getStringToES.py"
-        #DATA_PATH = Join(DATA_DIR, md5 + '_str.txt')
-        #sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
-        #pushES(DATA_PATH, 'aosstrings')
+        script = "getStringToES.py"
+        DATA_PATH = Join(DATA_DIR, md5 + '_str.txt')
+        sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
+        pushES(DATA_PATH, 'aosstrings')
 
-        #script = "getImportsToES.py"
-        #DATA_PATH = Join(DATA_DIR, md5 + '_imp.txt')
-        #sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
-        #pushES(DATA_PATH, 'aosimports')
+        script = "getImportsToES.py"
+        DATA_PATH = Join(DATA_DIR, md5 + '_imp.txt')
+        sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
+        pushES(DATA_PATH, 'aosimports')
 
         script = Join(BASE_DIR, "module", "ipython", "getFunctionsToES.py")
         DATA_PATH = Join(DATA_DIR, md5 + '_func.txt')

@@ -11,11 +11,10 @@ from util.fsUtils import Join
 from webConfig import ANALYSIS_PATH
 
 from util.Logger import LOG
-from web.cache import lpush
 
 ###########################################################################################
 
-JS_PATH = Join(ANALYSIS_PATH, "frida", "js", "test.js")
+JS_PATH = Join(ANALYSIS_PATH, "frida", "js", "merge.js")
 
 ###########################################################################################
 
@@ -26,9 +25,9 @@ class FridaRun:
 
     def on_message(self, message, data):
         if message["type"] == "send":
-            print(repr(message["payload"]["return"]))
+            print(message["payload"])
         else:
-            LOG.info(message)
+            print(message)
 
 
     def Hook(self, _PACKAGE_NAME):

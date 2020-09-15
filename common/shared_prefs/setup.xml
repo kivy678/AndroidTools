@@ -1,12 +1,12 @@
 <map>
 	<string name="OS">Windows</string>
 	<string name="ARCH">x64</string>
-	<string name="WORKING_DIR">C:\tmp\a</string>
+	<string name="WORKING_DIR">E:\tmp\data</string>
 	<string name="DATA_DIR">C:\tmp\a\data</string>
-	<string name="SAMPLE_DIR">C:\tmp\a\sample</string>
-	<string name="DECODE_DIR">C:\tmp\a\decode</string>
-	<string name="ANALYSIS_DIR">C:\tmp\a\analysis</string>
-	<string name="TMP_DIR">C:\tmp\a\tmp</string>
+	<string name="SAMPLE_DIR">E:\tmp\work\sample</string>
+	<string name="DECODE_DIR">E:\tmp\work\decode</string>
+	<string name="ANALYSIS_DIR">E:\tmp\work\analysis</string>
+	<string name="TMP_DIR">E:\tmp\work\tmp</string>
 	<boolean name="INIT_SETTING">true</boolean>
 	<string name="JADX_PATH">C:\Users\android\Desktop\tool\jadx\jadx-1.1.0\bin\jadx.bat</string>
 	<string name="JUST_DECOMPILE_PATH">C:\Program Files (x86)\Progress\JustDecompile\Libraries\JustDecompile.exe</string>

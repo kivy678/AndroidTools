@@ -36,10 +36,9 @@ if __name__ == '__main__':
         exit()
 
     if args.h:
-        Hook("com.wolffun.herostrike.offline")
+        Hook("dz.angie.clean.master")
 
     if args.a:
-        attachHook("com.wolffun.herostrike.offline")
-
+        attachHook("dz.angie.clean.master")
 
     print('Main done...')

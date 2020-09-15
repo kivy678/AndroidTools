@@ -28,3 +28,4 @@ import web.views.analysis.dynamic.dump
 import web.views.analysis.dynamic.server
 import web.views.analysis.dynamic.yara_search
 import web.views.analysis.dynamic.process
+import web.views.analysis.dynamic.bp

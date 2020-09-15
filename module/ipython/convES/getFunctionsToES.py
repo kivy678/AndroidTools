@@ -18,13 +18,14 @@ d = dict()
 
 ##################################################################################################
 
+
 def getFuctionList():
     for ea in idautils.Functions():
         fpnt = idaapi.get_func(ea)
         name = idaapi.get_func_name(ea)
         #ordinal = idaapi.get_func_num(ea)
 
-        yield (ea, name)
+        yield (ea, name, idc.get_func_attr(ea, idc.FUNCATTR_START))
 
 
 def getOpcodeFromFunction(ea):
@@ -38,7 +39,6 @@ def getOpcodeFromFunction(ea):
         for head in idautils.Heads(startea, endea):
             #bin_list.append('{0}'.format(idc.get_bytes(head, idc.get_item_size(head)).encode('hex')))
             opcode_list.append(','.join([idc.print_insn_mnem(head), idc.print_operand(head, 0), idc.print_operand(head, 1)]))
-
 
         #binary.update({j: tuple(bin_list)})
         opcode.update({j: tuple(opcode_list)})
@@ -63,12 +63,13 @@ except KeyError:
 LOG.info("Start Get Function")
 ida_auto.auto_wait()
 
-for i, (ea, name) in enumerate(getFuctionList()):
+for i, (ea, name, start) in enumerate(getFuctionList()):
     for j, opcode in getOpcodeFromFunction(ea):
         d.update({i: {
             "md5":          md5,
             "name":         "{0}.{1}".format(name, j),      # func.1 , func.2 , func.3 ...
-            "opcode":       opcode
+            "opcode":       opcode,
+            "Address":      "{0:08x}".format(start)
             }
         })
 

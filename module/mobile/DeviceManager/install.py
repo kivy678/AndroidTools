@@ -76,6 +76,15 @@ class DEVICE_INSTALLER():
         shell.runCommand(cmd, shell=True)
 
 
+        TOOL_PATH = Join(TMP_DIR, f"ReadMemory_{self._cpu}")
+
+        cmd = f"adb push {TOOL_PATH} /data/local/tmp/ReadMemory"
+        shell.runCommand(cmd, shell=False)
+
+        cmd = f"chmod 755 /data/local/tmp/ReadMemory"
+        shell.runCommand(cmd, shell=True)
+
+
         TOOL_PATH = Join(TMP_DIR, f"WriteMemory_{self._cpu}")
 
         cmd = f"adb push {TOOL_PATH} /data/local/tmp/WriteMemory"

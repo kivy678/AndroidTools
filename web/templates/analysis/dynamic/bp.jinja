@@ -1,0 +1,29 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row" >
+
+	<form action="bp" method="POST" enctype="multipart/form-data">
+		<div class="form-group">
+			<label for="LogFile">BP를 겁니다</label>
+				<input type="file" id="LogFile" name="LogFileName">
+				<p class="help-block">엘라스틱 서치에서 저장한 CSV를 업로드하세요.</p>
+		</div>
+
+    	<div class="radio">
+			<label><input type="radio" name="platform" value="ARM" checked>ARM</label>
+			<label><input type="radio" name="platform" value="THUMB">THUMB</label>
+			<label><input type="radio" name="platform" value="X86" checked>X86</label>
+			<input type="text" class="form-control" name="GetBase" placeholder="BASE주소">
+		</div>
+
+		<div class="form-group">
+			<div class="col-sm-offset-2">
+				<button type="submit" class="btn btn-primary">전송</button>
+			</div>
+		</div>
+	</form>
+
+</div>
+{% endblock container %}
+

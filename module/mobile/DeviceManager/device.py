@@ -57,5 +57,30 @@ class LDPlayer(DEVICE_BASIS):
     def __init__(self, *args, **kwargs):
         super().__init__(args, kwargs)
 
-    def cmd(self):
-        shell.runCommand("dnconsole list", shell=False)
+    @staticmethod
+    def list():
+        return shell.runCommand("dnconsole list", shell=False)
+
+    @staticmethod
+    def create(name=''):
+        return shell.runCommand(f"dnconsole add --name {name}", shell=False)
+
+    @staticmethod
+    def remove(name):
+        return shell.runCommand(f"dnconsole remove --name {name}", shell=False)
+
+    @staticmethod
+    def run(name):
+        return shell.runCommand(f"dnconsole launch --name {name}", shell=False)
+
+    @staticmethod
+    def quit(name):
+        return shell.runCommand(f"dnconsole quit --name {name}", shell=False)
+
+    @staticmethod
+    def runApp(name, app):
+        return shell.runCommand(f"dnconsole runapp --name {name} --packagename {app}", shell=False)
+
+    @staticmethod
+    def runKillApp(name, app):
+        return shell.runCommand(f"dnconsole killapp --name {name} --packagename {app}", shell=False)

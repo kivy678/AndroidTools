@@ -2,7 +2,7 @@
 
 ##################################################################################################
 
-#import env
+import env
 
 from tornado.wsgi import WSGIContainer
 from tornado.httpserver import HTTPServer
@@ -25,7 +25,7 @@ def getServer(port):
 def getServer2(port):
     container = WSGIContainer(app)
     server = Application([
-        (r'/analysis/frida/stream/', FridaDataStreamDataSocket),
+        (r'/analysis/dynamic/frida/', FridaDataStreamDataSocket),
         (r'.*', FallbackHandler, dict(fallback=container))
     ], debug=True, autoreload=False)
     server.listen(port)

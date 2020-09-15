@@ -37,7 +37,7 @@ class AppBasis(MethodView):
     def get(self, mode=''):
         f = f'fetch_{mode}'
 
-        if False == hasattr(self, f):
+        if hasattr(self, f) is False:
             return redirect('/app/index')
 
         return getattr(self, f)()
@@ -45,7 +45,7 @@ class AppBasis(MethodView):
     def post(self, mode=''):
         f = f'fetch_{mode}'
 
-        if False == hasattr(self, f):
+        if hasattr(self, f) is False:
             return redirect('/app/index')
 
         return getattr(self, f)()
