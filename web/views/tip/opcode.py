@@ -36,6 +36,7 @@ class TipOPCDE(MethodView):
         df_opcode.DATA_FRAME.loc[sha256, 'engine']      = request.form.get('GetEngine')
         df_opcode.DATA_FRAME.loc[sha256, 'platform']    = request.form.get('GetPlatform')
         #df_opcode.DATA_FRAME = df_opcode.DATA_FRAME[~df_opcode.DATA_FRAME.index.duplicated(keep='first')]
+        df_opcode.DATA_FRAME = df_opcode.DATA_FRAME[df_opcode.DATA_FRAME.index.notnull()]
 
         df_opcode.saveCSV()
 

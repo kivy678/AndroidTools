@@ -10,6 +10,8 @@ from module.mobile.cmd import shell, adb
 from module.mobile.DeviceManager.base import DEVICE_BASIS
 from module.mobile.DeviceManager.install import DEVICE_INSTALLER
 
+from util.fsUtils import SplitExt
+
 #############################################################################
 
 class EMULATOR(DEVICE_BASIS):
@@ -59,7 +61,7 @@ class LDPlayer(DEVICE_BASIS):
 
     @staticmethod
     def list():
-        return shell.runCommand("dnconsole list", shell=False)
+        return list(map(lambda x: x.strip(), shell.runCommand("dnconsole list", shell=False).split()))
 
     @staticmethod
     def create(name=''):
@@ -76,6 +78,10 @@ class LDPlayer(DEVICE_BASIS):
     @staticmethod
     def quit(name):
         return shell.runCommand(f"dnconsole quit --name {name}", shell=False)
+
+    @staticmethod
+    def reboot(name):
+        return shell.runCommand(f"dnconsole reboot --name {name}", shell=False)
 
     @staticmethod
     def runApp(name, app):

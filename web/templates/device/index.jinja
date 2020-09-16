@@ -14,20 +14,33 @@
 					<li><a href="{{ url_for('dev.manager', mode='remove') }}" 		name="ldcontrol">삭제</a></li>			
 					<li><a href="{{ url_for('dev.manager', mode='run') }}" 				name="ldcontrol">실행</a></li>
 					<li><a href="{{ url_for('dev.manager', mode='quit') }}" 			name="ldcontrol">종료</a></li>
+					<li><a href="{{ url_for('dev.manager', mode='reboot') }}" 		name="ldcontrol">재시작</a></li>
 					<li><a href="{{ url_for('dev.manager', mode='runApp') }}" 		name="ldcontrol">앱 실행</a></li>
 					<li><a href="{{ url_for('dev.manager', mode='runKillApp') }}" name="ldcontrol">앱 종료</a></li>
 				</ul>
 			</li>
-		</ul>	
+		</ul>
+
+		<table class="table table-bordered table-striped table-sm table-hover">
+			<thead class="thead-dark">
+				<tr><th>모델</th></tr>
+			</thead>
+
+			<tbody>
+				{% for value in enter %}
+				<tr><td>{{ value }}</td></tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
 
 	<div class="col-sm-offset-2">
 		<label id="addr" class="col-sm-5">입력란</label>
-			<div class="form-inline">
-	      <input type="text" class="form-control" id="ldName" placeholder="LDPlayer 이름" >
-	      <input type="text" class="form-control" id="appName" placeholder="앱 이름">
-	  	</div>
-		</div>
+		<div class="form-inline">
+      <input type="text" class="form-control" id="ldName" placeholder="LDPlayer 이름" >
+      <input type="text" class="form-control" id="appName" placeholder="앱 이름">
+  	</div>
+	</div>
 
 </div>
 {% endblock container %}
@@ -43,7 +56,6 @@ $(document).ready(function($) {
 	  var appName = document.getElementById("appName");
 
 		$(this).attr("href", currentURL + "?ldName=" + ldName.value + "&appName=" + appName.value);
-
   });
 });
 

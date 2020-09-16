@@ -6,6 +6,9 @@
       "offset": {"type": "long"},
       "type":   {"type": "text"},
       "md5":    {"type": "text"}
+    },
+    "settings": {
+    	"index.mapping.total_fields.limit": 1000
     }
   }
 }
