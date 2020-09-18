@@ -17,9 +17,9 @@ from webConfig import SHARED_PATH
 
 sp                  = getSharedPreferences(SHARED_PATH)
 ANALYSIS_DIR        = sp.getString('ANALYSIS_DIR')
-APP_DIR             = Join(ANALYSIS_DIR, 'tree', 'app')
+APP_DIR             = Join(ANALYSIS_DIR, 'tree')
 
-STRIP_STRING = ['res', 'Data']
+STRIP_STRING        = ['res', 'Data']
 
 Delete(APP_DIR)
 DirCheck(APP_DIR)
@@ -44,11 +44,11 @@ def getPath(path):
 
 
 def startCmp(CMP_DIR1, CMP_DIR2):
-    cmp_dict1 = dict()
-    cmp_set1 = set()
+    cmp_dict1   = dict()
+    cmp_set1    = set()
 
-    cmp_dict2 = dict()
-    cmp_set2 = set()
+    cmp_dict2   = dict()
+    cmp_set2    = set()
 
     for path in getPath(CMP_DIR1):
         cmp_dict1.update( {getSHA256(path): path} )
