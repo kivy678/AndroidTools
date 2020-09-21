@@ -18,9 +18,9 @@ from webConfig import *
 
 ##################################################################################################
 
-sp = getSharedPreferences(SHARED_PATH)
+sp                  = getSharedPreferences(SHARED_PATH)
 
-config = configparser.ConfigParser()
+config              = configparser.ConfigParser()
 config.read(GLOBAL_SETTINGS)
 
 WORKING_DIR         = config['WORK'].get('WORKING_DIR')
@@ -32,6 +32,17 @@ ANALYSIS_DIR        = Join(WORKING_DIR, 'analysis')
 
 TMP_DIR             = Join(WORKING_DIR, 'tmp')
 
+##################################################################################################
+
+system_os           = platform.system()
+arch, _             = platform.architecture()
+
+ed                  = sp.edit()
+ed.putString("OS",    system_os )
+ed.putString("ARCH",  f'x{arch[:2]}')
+ed.commit()
+
+##################################################################################################
 
 JADX_PATH           = config['TOOL'].get('JADX')
 JUST_DECOMPILE_PATH = config['TOOL'].get('JUST_DECOMPILE')
@@ -40,13 +51,10 @@ IDA_PATH            = config['TOOL'].get('IDA')
 
 ##################################################################################################
 
-system_os           = platform.system()
-arch, _             = platform.architecture()
-
-ed = sp.edit()
-ed.putString("OS",      system_os )
-ed.putString("ARCH",    f'x{arch[:2]}')
-ed.commit()
+DYNAMORIO32         = config['TOOL-PC'].get('DYNAMORIO32')
+DYNAMORIO64         = config['TOOL-PC'].get('DYNAMORIO64')
+DRLTRACE32          = config['TOOL-PC'].get('DRLTRACE32')
+DRLTRACE64          = config['TOOL-PC'].get('DRLTRACE64')
 
 ##################################################################################################
 

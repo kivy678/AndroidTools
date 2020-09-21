@@ -32,12 +32,11 @@ class ESCAPE_CONDITION(Exception):
 def getPath(path):
     for r, d, f in os.walk(path):
         try:
-            _, subPath = PathSplit(r)
             for s in STRIP_STRING:
-                if subPath == s:
+                if BaseName(r) == s:
                     raise ESCAPE_CONDITION
         except ESCAPE_CONDITION:
-            break
+            continue
 
         for fileName in f:
            yield Join(r, fileName)
@@ -59,7 +58,6 @@ def startCmp(CMP_DIR1, CMP_DIR2):
 
     cmp_set1 = set(cmp_dict1.keys())
     cmp_set2 = set(cmp_dict2.keys())
-
 
     for sha256 in cmp_set1.symmetric_difference(cmp_set2):
         filePath = cmp_dict1.get(sha256)

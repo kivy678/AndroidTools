@@ -38,7 +38,7 @@ def pushES(data, index):
     cmd = f'curl -XDELETE "{ES_URL}/{index}"'
     sub.Popen(cmd).wait()
 
-    cmd = f'curl -XPUT "{ES_URL}/{index}/AndroidOS/_bulk?pretty" -H "Content-Type: application/x-ndjson" --data-binary @{JSON_PATH}'
+    cmd = f'curl -XPOST "{ES_URL}/{index}/AndroidOS/_bulk?pretty" -H "Content-Type: application/x-ndjson" --data-binary @{JSON_PATH}'
     sub.Popen(cmd).wait()
 
     #cmd = f'curl -XGET "{ES_URL}/ida/_search?pretty"'
