@@ -1,0 +1,22 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+
+  <div class="col-md-2 sidebar">
+    <ul class="nav navbar-nav">     
+      <li class="menu">
+        <a>DynamoRIO</a>
+        <ul class="hide">
+          <li><a href="{{ url_for('pc.dynamic.dynamorio', mode='debug') }}">debug</a></li>
+          <li><a href="{{ url_for('pc.dynamic.dynamorio', mode='instrace') }}">instrace</a></li>
+          <li><a href="{{ url_for('pc.dynamic.dynamorio', mode='instrcalls') }}">instrcalls</a></li>
+          <li><a href="{{ url_for('pc.dynamic.dynamorio', mode='drcov') }}">drcov</a></li>
+          <li><a href="{{ url_for('pc.dynamic.dynamorio', mode='drltrace') }}">drltrace</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+</div>
+{% endblock container %}

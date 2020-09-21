@@ -12,4 +12,8 @@
 	<string name="JUST_DECOMPILE_PATH">C:\Program Files (x86)\Progress\JustDecompile\Libraries\JustDecompile.exe</string>
 	<string name="IL2CPP_DUMPER_PATH">C:\Users\android\Desktop\tool\Il2CppDumper-v6.4.12\Il2CppDumper.exe</string>
 	<string name="IDA_PATH">C:\Program Files\IDA 7.2\ida.exe</string>
+	<string name="DYNAMORIO32">C:\DBI\DynamoRIO-7.1\bin32\drrun.exe</string>
+	<string name="DYNAMORIO64">C:\DBI\DynamoRIO-7.1\bin64\drrun.exe</string>
+	<string name="DRLTRACE32">C:\DBI\drltrace_win_x32\bin\drltrace.exe</string>
+	<string name="DRLTRACE64">C:\DBI\drltrace_win_x64\bin\drltrace.exe</string>
 </map>

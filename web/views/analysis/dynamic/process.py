@@ -16,7 +16,7 @@ from web.session import getSession
 
 ################################################################################
 
-MEM_FILTER  = ['libc', '/data/app/', '/data/data/']
+MEM_FILTER  = ['libc', 'libil2cpp']
 HEAP_SEARCH = ['heap']
 
 ################################################################################

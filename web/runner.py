@@ -33,17 +33,19 @@ WorkerSetup(app)
 
 ##################################################################################################
 
-from web.views.base import setup as BaseSetup
-from web.views.device import setup as DevSetup
-from web.views.app import setup as AppSetup
+from web.views.base 	import setup as BaseSetup
+from web.views.device 	import setup as DevSetup
+from web.views.app 		import setup as AppSetup
 from web.views.analysis import setup as AnalysisSetup
-from web.views.tip import setup as TipSetup
-from web.views.prefer import setup as PreferencesSetup
+from web.views.pc 		import setup as PCAnalysisSetup
+from web.views.tip 		import setup as TipSetup
+from web.views.prefer 	import setup as PreferencesSetup
 
 BaseSetup(app)
 DevSetup(app)
 AppSetup(app)
 AnalysisSetup(app)
+PCAnalysisSetup(app)
 TipSetup(app)
 PreferencesSetup(app)
 
