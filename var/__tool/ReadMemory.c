@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 	pid 			= (unsigned long) atoi(argv[1]);
 	MemAddress 		= strtoul(argv[2], NULL, 16);
 	ReadBuffer 		= (unsigned long) atoi(argv[3]);
-
+/*
 	if (ptrace(PTRACE_ATTACH, pid, 0, 0) < 0)
 	{
 		printf("Ptrace Attach Failed\n");
@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 	}
 
 	waitpid(pid, NULL, WUNTRACED);
-
+*/
 	//////////////////////////////////////////////////////////////////////////////////
 
 	struct iovec local[1];
@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
 
 	printf("%s\n", strBuffer);
 
-	ptrace(PTRACE_DETACH, pid, 0, 0);
+//	ptrace(PTRACE_DETACH, pid, 0, 0);
 
 	free(strBuffer);
 

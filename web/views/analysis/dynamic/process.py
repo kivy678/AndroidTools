@@ -16,8 +16,14 @@ from web.session import getSession
 
 ################################################################################
 
-MEM_FILTER  = ['libc', 'libil2cpp']
+MEM_FILTER  = ['/data/data/', '/data/app/', 'libc.so']
 HEAP_SEARCH = ['heap']
+
+HOOK_ARM = [
+    "04F01FE5",  # ldr   pc, [pc, #-4]
+]
+
+HOOK_ARM_SIZE = 4
 
 ################################################################################
 
@@ -50,7 +56,14 @@ class MemoryMap(MethodView):
                     cmd = f"/data/local/tmp/GetMemory {pid} {start_addr} {size}"
                     return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
 
-            if f == "search":
+            elif f == "write":
+                if (start_addr is '') or (size is '') or (pathed_data is ''):
+                    return "시작 주소, 사이즈, 데이터를 입력해주세요"
+                else:
+                    cmd = f"/data/local/tmp/WriteMemory {pid} {start_addr} {size} {pathed_data}"
+                    return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
+
+            elif f == "search":
                 if (size is '') or (pathed_data is ''):
                     return "사이즈, 데이터를 입력해주세요."
                 else:
@@ -59,12 +72,22 @@ class MemoryMap(MethodView):
 
                     return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
 
-            elif f == "write":
-                if (start_addr is '') or (size is '') or (pathed_data is ''):
-                    return "시작 주소, 사이즈, 데이터를 입력해주세요"
+            elif f == "hook":
+                if (start_addr is '') or (size is ''):
+                    return "시작주소, 끝주소를 입력해주세요."
                 else:
-                    cmd = f"/data/local/tmp/WriteMemory {pid} {start_addr} {size} {pathed_data}"
-                    return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
+                    cmd = f"/data/local/tmp/MemoryCheating {pid} {start_addr} {size} {HOOK_ARM_SIZE} {HOOK_ARM[0]}"
+                    data = shell.runCommand(cmd, shell=True, encoder='unicode-escape')
+
+                    output = list()
+                    for hook_addr in data.split('\r\n'):
+                        start_addr = int(hook_addr, 16) - 0x4
+
+                        cmd = f"/data/local/tmp/ReadMemory {pid} {start_addr:08x} 4"
+                        opcode = shell.runCommand(cmd, shell=True, encoder='unicode-escape')
+                        output.append(f"{hook_addr}\t{opcode}")
+
+                    return "<pre>" + '\n'.join(output) + "</pre>"
 
 
         data = getMemory(pid, MEM_FILTER)

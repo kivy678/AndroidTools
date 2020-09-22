@@ -11,9 +11,9 @@ from module.ipython.disasm_view import *
 ##################################################################################################
 
 script_key = [
-    "ScriptMethod",             # "Address", "Name", "Signature"
-    "ScriptString",             # "Address", "Value"
-    "ScriptMetadataMethod",     # "Address", "Name", "MethodAddress"
+    "ScriptMethod",              # "Address", "Name", "Signature"
+    #"ScriptMetadataMethod",     # "Address", "Name", "MethodAddress"
+    #"ScriptString",             # "Address", "Value"
     #"ScriptMetadata",
     #"Addresses"
 ]
@@ -68,9 +68,11 @@ def parserScriptJson(il2cpp, rpath, wpath, platform="ARM"):
         j = json.load(fr)
         del(j["ScriptMetadata"])
         del(j["Addresses"])
+        del(j["ScriptString"])
+        del(j["ScriptMetadataMethod"])
 
         j['ScriptMethod']           = stringFilter(j['ScriptMethod'], 'Name')
-        j['ScriptMetadataMethod']   = stringFilter(j['ScriptMetadataMethod'], 'Name')
+        #j['ScriptMetadataMethod']   = stringFilter(j['ScriptMetadataMethod'], 'Name')
 
         #############################################################################
 
@@ -103,7 +105,7 @@ def parserScriptJson(il2cpp, rpath, wpath, platform="ARM"):
             cnt +=1
 
         #############################################################################
-
+        """
         for row in j['ScriptMetadataMethod']:
             del(row["Address"])
             p = row["MethodAddress"]
@@ -138,7 +140,7 @@ def parserScriptJson(il2cpp, rpath, wpath, platform="ARM"):
 
             d.update({cnt: row})
             cnt +=1
-
+        """
         #############################################################################
 
 

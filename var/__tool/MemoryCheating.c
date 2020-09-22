@@ -70,7 +70,7 @@ int main(int argc, char *argv[])
 	{
 		printf("Failed Open Mem\n");
 	}
-
+/*
 	if (ptrace(PTRACE_ATTACH, pid, 0, 0) < 0)
 	{
 		printf("Ptrace Attach Failed\n");
@@ -80,7 +80,7 @@ int main(int argc, char *argv[])
 	}
 
 	waitpid(pid, NULL, WUNTRACED);
-	
+*/	
 	//////////////////////////////////////////////////////////////////////////////////
 
 	while (StartAddress < EndAddress)
@@ -109,7 +109,7 @@ int main(int argc, char *argv[])
 
 	printf("%s", strBuffer);
 
-	ptrace(PTRACE_DETACH, pid, 0, 0);
+//	ptrace(PTRACE_DETACH, pid, 0, 0);
 
 	close(fd);
 	free(strBuffer);

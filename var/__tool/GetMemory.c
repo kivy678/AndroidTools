@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
 	strcpy(strBuffer, "===================================================================================\n"
 					  "Offset\t\t00 01 02 03 04 05 06 07 08 09 10 11 12 13 14 15   ASCII\n"
 					  "===================================================================================\n");
-
+/*
 	if (ptrace(PTRACE_ATTACH, pid, 0, 0) < 0)
 	{
 		printf("Ptrace Attach Failed\n");
@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
 	}
 
 	waitpid(pid, NULL, WUNTRACED);
-
+*/
 	//////////////////////////////////////////////////////////////////////////////////
 
 	int	cnt = 1;
@@ -131,7 +131,7 @@ GET_BIN:
 
 	printf("%s\n", strBuffer);
 
-	ptrace(PTRACE_DETACH, pid, 0, 0);
+//	ptrace(PTRACE_DETACH, pid, 0, 0);
 
 	free(strBuffer);
 

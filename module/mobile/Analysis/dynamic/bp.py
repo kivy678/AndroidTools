@@ -49,8 +49,8 @@ def setBP(path, baddr, bp, size):
         next(cr)            # remove header
 
         for row in cr:
-            if row[0] is not '':
-                tmp_addr.append(row[0])
+            #if row[0] is not '':
+            tmp_addr.append(row[0])
 
 
     for start_addr in tmp_addr:
