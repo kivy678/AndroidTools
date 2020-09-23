@@ -78,6 +78,7 @@ class MemoryMap(MethodView):
                 else:
                     cmd = f"/data/local/tmp/SearchMemory {pid} {start_addr} {size} {HOOK_ARM_SIZE} {HOOK_ARM[0]}"
                     data = shell.runCommand(cmd, shell=True, encoder='unicode-escape')
+
                     if data == '':
                         return "없습니다."
 
