@@ -27,6 +27,7 @@ APP_PATH 		= Join(VAR_PATH, "app")
 SERVER_PATH 	= Join(VAR_PATH, "server")
 DECOMPLIE_PATH 	= Join(VAR_PATH, "decomplie")
 TOOL_PATH       = Join(VAR_PATH, "tool")
+TOOL_USER_PATH  = Join(VAR_PATH, "user")
 
 #############################################################################
 

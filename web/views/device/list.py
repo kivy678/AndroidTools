@@ -30,6 +30,7 @@ class DEVICE_LIST(MethodView):
         rows = pd.Series({
             "model": dev.model,
             "cpu": dev.platform,
+            "sdk": dev.sdk,
             "su": dev.su,
             "setup": dev.installer.isCommit()
         })

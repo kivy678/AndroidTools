@@ -13,6 +13,7 @@ class STATUS(Enum):
 DEV_COLUMNS=[
     'model',
     'cpu',
+    'sdk',
     'su',
     'setup',
 ]

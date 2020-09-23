@@ -2,7 +2,7 @@
 https://developer.android.com/ndk/downloads?hl=ko
 
 2. 안드로이드 툴 체인 생성
-$ python3 android-ndk-r21b/build/tools/ --arch x86  --api 24  --install-dir=my-toolchain
+$ python3 android-ndk-r21b/build/tools/make_standalone_toolchain.py --arch x86  --api 24  --install-dir=my-toolchain-24
 
 3. 크로스 컴파일
 $ my-toolchain/bin/i686-linux-android-clang -o example example.c
@@ -10,3 +10,8 @@ $ my-toolchain/bin/i686-linux-android-clang -o example example.c
 
 4. dockcross 를 이용한 크로스 컴파일
 docker run --rm -v /root/data:/work dockcross/linux-x86 bash -c 'my-toolchain/bin/i686-linux-android-clang -o example example.c'
+
+5. elf-cleaner (API22 부터 링커 경고가 뜨는데 이를 제거한다.)
+git clone https://github.com/termux/termux-elf-cleaner.git
+make
+termux-elf-cleaner <filenames>

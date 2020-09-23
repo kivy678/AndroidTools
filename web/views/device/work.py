@@ -31,6 +31,7 @@ class DEVICE_WORKER(MethodView):
             LOG.info(f"{'[*]':<5}Settings Start")
             installer.serverDecompress()
             installer.toolDecompress()
+            installer.userToolDecompress()
 
             LOG.info(f"{'':>5}1. Basis App Install Start")
             installer.appInstaller()
@@ -47,7 +48,10 @@ class DEVICE_WORKER(MethodView):
             LOG.info(f"{'':>5}5. Tool Install Start")
             installer.toolInstall()
 
-            LOG.info(f"{'':>5}6. Commit To Device")
+            LOG.info(f"{'':>5}6. User Tool Install Start")
+            installer.userToolInstall()
+
+            LOG.info(f"{'':>5}7. Commit To Device")
             installer.commit()
 
             LOG.info(f"{'[*]':<5}Settings End")

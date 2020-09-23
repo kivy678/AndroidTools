@@ -12,6 +12,7 @@ __all__ = [
     "adbRestart",
     "getModel",
     "getSystem",
+    "getSdk",
     "getBootImage",
 ]
 
@@ -37,6 +38,10 @@ def getModel():
 def getSystem():
     stdout = shell.runCommand("getprop ro.product.cpu.abi", shell=True)
     return stdout.replace('-', '_')
+
+def getSdk():
+    stdout = shell.runCommand("getprop ro.build.version.sdk", shell=True)
+    return int(stdout)
 
 def getBootImage(api):
     if api < 7:

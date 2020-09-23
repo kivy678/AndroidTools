@@ -68,7 +68,7 @@ class MemoryMap(MethodView):
                     return "사이즈, 데이터를 입력해주세요."
                 else:
                     start_addr, end_addr = [(i.start_addr, i.end_addr) for i in getMemory(pid, HEAP_SEARCH)][0]
-                    cmd = f"/data/local/tmp/MemoryCheating {pid} {start_addr} {end_addr} {size} {pathed_data}"
+                    cmd = f"/data/local/tmp/SearchMemory {pid} {start_addr} {end_addr} {size} {pathed_data}"
 
                     return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
 
@@ -76,11 +76,13 @@ class MemoryMap(MethodView):
                 if (start_addr is '') or (size is ''):
                     return "시작주소, 끝주소를 입력해주세요."
                 else:
-                    cmd = f"/data/local/tmp/MemoryCheating {pid} {start_addr} {size} {HOOK_ARM_SIZE} {HOOK_ARM[0]}"
+                    cmd = f"/data/local/tmp/SearchMemory {pid} {start_addr} {size} {HOOK_ARM_SIZE} {HOOK_ARM[0]}"
                     data = shell.runCommand(cmd, shell=True, encoder='unicode-escape')
+                    if data == '':
+                        return "없습니다."
 
                     output = list()
-                    for hook_addr in data.split('\r\n'):
+                    for hook_addr in data.rstrip().split('\r\n'):
                         start_addr = int(hook_addr, 16) - 0x4
 
                         cmd = f"/data/local/tmp/ReadMemory {pid} {start_addr:08x} 4"

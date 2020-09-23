@@ -15,12 +15,14 @@ class DEVICE_BASIS:
 
     _isConnect  = None
     _platform   = None
+    _sdk        = None
     _su         = None
 
     def __init__(self, *args, **kwargs):
         self._isConnect = adb.adbDevices()
         if self._isConnect:
             self._platform  = adb.getSystem()
+            self._sdk       = adb.getSdk()
             self._su        = self.isRoot()
 
     def __getattr__(self, key):
@@ -40,6 +42,10 @@ class DEVICE_BASIS:
     @property
     def platform(self):
         return self._platform
+
+    @property
+    def sdk(self):
+        return self._sdk
 
     @property
     def su(self):

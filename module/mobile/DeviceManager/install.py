@@ -9,7 +9,7 @@ from module.mobile.cmd import shell
 from util.util import zipDecompress
 from util.fsUtils import *
 
-from webConfig import SERVER_PATH, APP_PATH, TOOL_PATH
+from webConfig import SERVER_PATH, APP_PATH, TOOL_PATH, TOOL_USER_PATH
 
 from common import getSharedPreferences
 from webConfig import SHARED_PATH
@@ -22,8 +22,9 @@ TMP_DIR             = sp.getString('TMP_DIR')
 ################################################################################
 
 class DEVICE_INSTALLER():
-    def __init__(self, cpu):
+    def __init__(self, cpu, sdk):
         self._cpu = cpu
+        self._sdk = sdk
         self.clean()
 
     def __del__(self):
@@ -67,8 +68,9 @@ class DEVICE_INSTALLER():
         shell.runCommand(cmd, shell=True)
 
 
+    def userToolInstall(self):
         TOOL_PATH = Join(TMP_DIR, f"GetMemory_{self._cpu}")
-
+        
         cmd = f"adb push {TOOL_PATH} /data/local/tmp/GetMemory"
         shell.runCommand(cmd, shell=False)
 
@@ -91,6 +93,15 @@ class DEVICE_INSTALLER():
         shell.runCommand(cmd, shell=False)
 
         cmd = f"chmod 755 /data/local/tmp/WriteMemory"
+        shell.runCommand(cmd, shell=True)
+
+
+        TOOL_PATH = Join(TMP_DIR, f"SearchMemory_{self._cpu}")
+
+        cmd = f"adb push {TOOL_PATH} /data/local/tmp/SearchMemory"
+        shell.runCommand(cmd, shell=False)
+
+        cmd = f"chmod 755 /data/local/tmp/SearchMemory"
         shell.runCommand(cmd, shell=True)
 
 
@@ -168,6 +179,18 @@ class DEVICE_INSTALLER():
 
     def toolDecompress(self):
         for _path in glob.glob(Join(TOOL_PATH, '*')):
+            _, server_name = PathSplit(_path)
+
+            zipDecompress(_path, TMP_DIR)
+
+
+    def userToolDecompress(self):
+        if self._sdk >= 24:
+            path = Join(TOOL_USER_PATH, 'api-24')
+        elif self._sdk in [21, 22]:
+            path = Join(TOOL_USER_PATH, 'api-22')
+
+        for _path in glob.glob(Join(path, '*')):
             _, server_name = PathSplit(_path)
 
             zipDecompress(_path, TMP_DIR)
