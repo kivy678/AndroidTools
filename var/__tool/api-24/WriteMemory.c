@@ -15,6 +15,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+#include <errno.h>
+
 //////////////////////////////////////////////////////////////////////////////////
 
 #define OPCODE_BUFFER_SIZE 	sizeof(char) * 50
@@ -44,16 +46,15 @@ int main(int argc, char *argv[])
 	unsigned long PathSize;
 
 	int fd;
-	char mFileName[50];
+	char mFileName[50] = {0};
 	size_t nByte;
 	
+	char tmpBuffer[50] = {0};
 	char* strBuffer = (char*) malloc(STR_BUFFER_SIZE);
-	char tmpBuffer[50];
-
 	memset(strBuffer, 0, STR_BUFFER_SIZE);
-
-	unsigned char OpcodeBuffer[OPCODE_BUFFER_SIZE];
-	unsigned char OpcodePatch[OPCODE_BUFFER_SIZE];
+	
+	unsigned char OpcodeBuffer[OPCODE_BUFFER_SIZE] = {0};
+	unsigned char OpcodePatch[OPCODE_BUFFER_SIZE] = {0};
 
 	if (argc != 5)
 	{
@@ -73,14 +74,14 @@ int main(int argc, char *argv[])
 	//////////////////////////////////////////////////////////////////////////////////
 
 	sprintf(mFileName, "/proc/%d/mem", pid);
-	if ((fd = open(mFileName, O_RDWR | O_LARGEFILE)) <= 0)
+	if ((fd = open(mFileName, O_RDWR | O_LARGEFILE)) == -1)
 	{
-		printf("Failed Open Mem\n");
+		printf("[%d] Failed Open Mem\n", errno);
 	}
 
 	if (ptrace(PTRACE_ATTACH, pid, 0, 0) < 0)
 	{
-		printf("Ptrace Attach Failed\n");
+		printf("[%d] Ptrace Attach Failed\n", errno);
 
 		free(strBuffer);
 		return 0;
@@ -94,7 +95,7 @@ int main(int argc, char *argv[])
 	strcat(strBuffer, tmpBuffer);
 
 	lseek(fd, MemAddress, SEEK_SET);
-	if ((nByte = read(fd, OpcodeBuffer, PathSize)) <= 0)
+	if ((nByte = read(fd, OpcodeBuffer, PathSize)) == -1)
 	{
 		printf("Failed Read\n");
 	}
@@ -109,7 +110,7 @@ int main(int argc, char *argv[])
 	//////////////////////////////////////////////////////////////////////////////////
 
 	lseek(fd, MemAddress, SEEK_SET);
-	if ((nByte = write(fd, OpcodePatch, PathSize)) <= 0)
+	if ((nByte = write(fd, OpcodePatch, PathSize)) == -1)
 	{
 		printf("Failed Write\n");
 	}
@@ -128,7 +129,7 @@ int main(int argc, char *argv[])
 	strcat(strBuffer, tmpBuffer);
 
 	lseek(fd, MemAddress, SEEK_SET);
-	if ((nByte = read(fd, OpcodeBuffer, PathSize)) < 0)
+	if ((nByte = read(fd, OpcodeBuffer, PathSize)) == -1)
 	{
 		printf("Failed Read\n");
 	}

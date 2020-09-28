@@ -37,16 +37,16 @@ int main(int argc, char *argv[])
 	unsigned long SearchSize;
 
 	int fd;
-	char mFileName[50];
+	char mFileName[50] = {0};
 	size_t nByte;
 	
 	char* strBuffer = (char*) malloc(STR_BUFFER_SIZE);
-	char tmpBuffer[50];
+	char tmpBuffer[50] = {0};
 
 	memset(strBuffer, 0, STR_BUFFER_SIZE);
 
-	unsigned char OpcodeRead[OPCODE_BUFFER_SIZE];
-	unsigned char OpcodeSearch[OPCODE_BUFFER_SIZE];
+	unsigned char OpcodeRead[OPCODE_BUFFER_SIZE] = {0};
+	unsigned char OpcodeSearch[OPCODE_BUFFER_SIZE] = {0};
 
 	if (argc != 6)
 	{
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
 	{
 		lseek(fd, StartAddress, SEEK_SET);
 
-		if ((nByte = read(fd, OpcodeRead, SearchSize)) <= 0 )
+		if ((nByte = read(fd, OpcodeRead, SearchSize)) == -1 )
 		{
 			//printf("Failed Read\n");
 			break;
@@ -134,7 +134,7 @@ int CodeCompare(unsigned long SearchSize, unsigned char OpcodeRead[], unsigned c
 
 void PathDataParser(char* data, unsigned long SearchSize, unsigned char buffer[])
 {
-	char tmpBuffer[5];
+	char tmpBuffer[5] = {0};
 
 	for (int i=0; i<SearchSize; i++)
 	{

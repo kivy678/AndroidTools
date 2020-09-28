@@ -17,8 +17,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////
 
-#define OPCODE_BUFFER_SIZE 	sizeof(unsigned char) * 50
-#define STR_ReadBuffer 		sizeof(char) * 100
+#define STR_ReadBuffer 	sizeof(char) * 1000
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -33,14 +32,13 @@ int main(int argc, char *argv[])
 	unsigned long ReadBuffer;
 
 	int fd;
-	char mFileName[50];
+	char mFileName[50] = {0};
 	size_t nByte;
 	
-	unsigned char OpcodeRead[OPCODE_BUFFER_SIZE];
+	char tmpBuffer[50] = {0};
 	char* strBuffer = (char*) malloc(STR_ReadBuffer);	
-	char tmpBuffer[50];
-
 	memset(strBuffer, 0, STR_ReadBuffer);
+
 
 	if (argc != 4)
 	{
@@ -75,9 +73,12 @@ int main(int argc, char *argv[])
 */
 	//////////////////////////////////////////////////////////////////////////////////
 
+	unsigned char* OpcodeRead = (unsigned char*) malloc(ReadBuffer+1);
+	memset(OpcodeRead, 0, ReadBuffer+1);
+	
 	lseek(fd, MemAddress, SEEK_SET);
 
-	if ((nByte = read(fd, OpcodeRead, ReadBuffer)) <= 0 )
+	if ((nByte = read(fd, OpcodeRead, ReadBuffer)) == -1 )
 	{
 		printf("Failed Read\n");
 		return 0;

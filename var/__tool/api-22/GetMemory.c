@@ -34,12 +34,11 @@ int main(int argc, char *argv[])
 	off_t MemAddress;
 	
 	int fd;
-	char mFileName[50];
+	char mFileName[50] = {0};
 	size_t nByte;
 
+	char tmpBuffer[50] = {0};
 	char* strBuffer = (char*) malloc(STR_BUFFER_SIZE);
-	char tmpBuffer[50];
-
 	memset(strBuffer, 0, STR_BUFFER_SIZE);
 
 	if (argc != 4)
@@ -81,12 +80,12 @@ int main(int argc, char *argv[])
 	//////////////////////////////////////////////////////////////////////////////////
 
 	int	cnt = 1;
-	unsigned char buffer[BUFFER_SIZE];
+	unsigned char buffer[BUFFER_SIZE+1] = {0};
 	
 GET_BIN:
 	lseek(fd, MemAddress, SEEK_SET);
 
-	if ((nByte = read(fd, buffer, BUFFER_SIZE)) <= 0 )
+	if ((nByte = read(fd, buffer, BUFFER_SIZE)) == -1 )
 	{
 		printf("Failed Read\n");
 		return 0;

@@ -15,7 +15,7 @@ class COMMANDER(SHELL):
 
             try:
                 if kwargs['su'] == True:
-                    cmd = 'su -c ' + repr(cmd)
+                    cmd = repr('su -c ' + repr(cmd))
             except KeyError:
                 pass
 

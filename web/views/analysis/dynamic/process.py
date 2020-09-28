@@ -16,6 +16,7 @@ from web.session import getSession
 
 ################################################################################
 
+#MEM_FILTER  = ['']
 MEM_FILTER  = ['/data/data/', '/data/app/', 'libc.so']
 HEAP_SEARCH = ['heap']
 
@@ -36,14 +37,15 @@ class MemoryMap(MethodView):
 
     def get(self):
         pkg = getSession('pkg')
-        pid = self.getPid(pkg)
+        pid_list = self.getPid(pkg)
 
-        if isinstance(pid, str):
-            return pid
+        if pid_list is None:
+            return "앱을 실행하세요"
 
         if request.args:
             f = request.args.get("choiceMemory")
 
+            pid = request.args.get("pid")
             start_addr = request.args.get("GetStartAddr")
             size = request.args.get("GetSizeAddr")
             pathed_data = request.args.get("GetData")
@@ -53,7 +55,7 @@ class MemoryMap(MethodView):
                 if (start_addr is '') or (size is ''):
                     return "시작 주소, 사이즈를 입력해주세요."
                 else:
-                    cmd = f"/data/local/tmp/GetMemory {pid} {start_addr} {size}"
+                    cmd = f"/data/local/tmp/ReadMemory {pid} {start_addr} {size}"
                     return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
 
             elif f == "write":
@@ -84,47 +86,43 @@ class MemoryMap(MethodView):
 
                     output = list()
                     for hook_addr in data.rstrip().split('\r\n'):
-                        start_addr = int(hook_addr, 16) - 0x4
+                        start_addr = int(hook_addr, 16) + 0x4
 
                         cmd = f"/data/local/tmp/ReadMemory {pid} {start_addr:08x} 4"
                         opcode = shell.runCommand(cmd, shell=True, encoder='unicode-escape')
-                        output.append(f"{hook_addr}\t{opcode}")
+                        output.append(f"{hook_addr}\t{self.opcodeReverse(opcode)}")
 
                     return "<pre>" + '\n'.join(output) + "</pre>"
 
-
-        data = getMemory(pid, MEM_FILTER)
+        data = list()
+        for pid in pid_list:
+            data.append((pid, iter(getMemory(pid, MEM_FILTER))))
 
         return render_template(self.template_name, enter=data)
 
 
     def post(self):
-        start_addr = request.form.get("start_addr")
-        end_addr = request.form.get("end_addr")
+        start_addr  = request.form.get("start_addr")
+        end_addr    = request.form.get("end_addr")
+        pid         = request.form.get("pid")
 
-        pkg = getSession('pkg')
+        cmd = f"/data/local/tmp/GetMemory {pid} {start_addr} 50"            # 현재 힙 사이즈 = 가로 100 * 50 = 5000
 
-        pi = ProcessInfor()
-        pid_list = pi.getPid(pkg)
-
-        if pid_list is None:
-            return "앱을 실행하세요"
-
-        for pid in pid_list:
-            cmd = f"/data/local/tmp/GetMemory {pid} {start_addr} 50"            # 현재 힙 사이즈 = 가로 100 * 50 = 5000
-
-            return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
+        return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
 
 
     def getPid(self, pkg):
         pi = ProcessInfor()
         pid_list = pi.getPid(pkg)
 
-        if pid_list is None:
-            return "앱을 실행하세요"
+        return pid_list
 
-        for pid in pid_list:
-            return pid
+
+    def opcodeReverse(self, l):
+        l = l.strip().split()
+        l.reverse()
+
+        return f"0x{''.join(l)}"
 
 
 mmap = MemoryMap.as_view('mmap', template_name='analysis/dynamic/mmap.jinja')

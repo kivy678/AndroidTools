@@ -24,7 +24,7 @@ int GetBinary(pid_t pid, struct iovec* local, struct iovec* remote)
 {
 	ssize_t nread;
 
-	if ((nread = process_vm_readv(pid, local, 1, remote, 1, 0)) <= 0)
+	if ((nread = process_vm_readv(pid, local, 1, remote, 1, 0)) == -1)
 	{
 		printf("[%d] Failed Read\n", errno);
 
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
 	off_t MemAddress;
 	
 	char* strBuffer = (char*) malloc(STR_BUFFER_SIZE);
-	char tmpBuffer[50];
+	char tmpBuffer[50] = {0};
 
 	memset(strBuffer, 0, STR_BUFFER_SIZE);
 
@@ -83,9 +83,9 @@ int main(int argc, char *argv[])
 	//////////////////////////////////////////////////////////////////////////////////
 
 	int	cnt = 1;
-	struct iovec local[1];
-	struct iovec remote[1];
-	unsigned char buffer[BUFFER_SIZE];
+	struct iovec local[1] = {0};
+	struct iovec remote[1] = {0};
+	unsigned char buffer[BUFFER_SIZE+1] = {0};
 	
 	local[0].iov_base	= buffer;
 	local[0].iov_len 	= BUFFER_SIZE;
@@ -94,7 +94,7 @@ GET_BIN:
 	remote[0].iov_base 	= (void*) MemAddress;
 	remote[0].iov_len 	= BUFFER_SIZE;
 
-	if (GetBinary(pid, local, remote) <= 0)
+	if (GetBinary(pid, local, remote) < 0)
 	{
 		return -1;
 	}

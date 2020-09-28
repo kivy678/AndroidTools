@@ -1,4 +1,4 @@
-CC=my-toolchain-24/bin/i686-linux-android-clang
+CC=my-toolchain-22/bin/clang
 ELF_CLEANER=./cleaner_x64
 
 TARGET=GetMemory ReadMemory SearchMemory WriteMemory
