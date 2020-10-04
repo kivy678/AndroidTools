@@ -14,6 +14,7 @@ LOG_PRINT 		= True
 
 GLOBAL_SETTINGS = Join(BASE_DIR, "global.ini")
 SHARED_PATH 	= Join('common', 'shared_prefs', 'setup.xml')
+PROCESS_PATH    = Join('common', 'shared_prefs', 'process.xml')
 
 VAR_PATH 		= Join(BASE_DIR, "var")
 TMP_PATH 		= Join(BASE_DIR, "tmp")

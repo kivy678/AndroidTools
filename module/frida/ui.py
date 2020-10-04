@@ -3,6 +3,7 @@
 ##################################################################################################
 
 import os
+
 import kivy
 from kivy.app import App
 from kivy.lang import Builder
@@ -18,10 +19,18 @@ from kivy.uix.label import Label
 
 from kivy.properties import ObjectProperty, StringProperty
 
-from gui.popup import CreatePopup
-from gui.Logger import getLogger
+from module.frida.gui.popup import CreatePopup
+from module.frida.gui.Logger import getLogger
 
-from run import FridaRun
+from module.frida.run import FridaRun
+
+from common import getSharedPreferences
+from webConfig import PROCESS_PATH
+
+##################################################################################################
+
+sp = getSharedPreferences(PROCESS_PATH)
+PACKAGE_NAME = sp.getString('pkg')
 
 ##################################################################################################
 
@@ -52,7 +61,7 @@ class HEADER_BAR(ActionBar):
         cnt_id.text = ''
 
         LOG = getLogger('label.log', cnt_id)
-        self.fr = FridaRun('com.hali.skinmate', LOG)
+        self.fr = FridaRun(PACKAGE_NAME, LOG)
         self.fr.attachHook()
 
     def on_stop(self, app):

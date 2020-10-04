@@ -9,7 +9,6 @@ from web.views.prefer import view_db
 
 from module.database import df_app
 
-
 ##################################################################################################
 
 

@@ -20,8 +20,7 @@ from webConfig import SHARED_PATH, BASE_DIR
 sp              = getSharedPreferences(SHARED_PATH)
 ANALYSIS_DIR    = sp.getString('ANALYSIS_DIR')
 
-FRIDA_DIR       = Join(BASE_DIR, 'module', 'frida')
-MERGE_DIR       = Join(FRIDA_DIR, 'js')
+MERGE_DIR       = Join(BASE_DIR, 'module', 'frida', 'js')
 
 ##########################################################################
 
@@ -34,11 +33,10 @@ class FRIDA(MethodView):
 
 
     def get(self):
+        os.system(f'python -m module.frida.ui.py')
+
         os.chdir(MERGE_DIR)
         os.system('python merge')
-
-        os.chdir(FRIDA_DIR)
-        os.system(f'python ui.py')
 
         os.chdir(BASE_DIR)
 

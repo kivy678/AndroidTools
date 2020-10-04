@@ -13,6 +13,14 @@ from web.session import setSession
 from web.cache import setAnalisysCache
 from web.cache import getCache
 
+from common import getSharedPreferences
+from webConfig import PROCESS_PATH
+
+##################################################################################################
+
+sp = getSharedPreferences(PROCESS_PATH)
+ed = sp.edit()
+
 ##################################################################################################
 
 
@@ -38,6 +46,11 @@ class DatabaseLoader(MethodView):
 
         setSession('pkg', pkg)
         setSession('fileName', fileName)
+
+        ed.putString('pkg', pkg)
+        ed.putString('fileName', fileName)
+        ed.putString('sha256', sha256)
+        ed.commit()
 
         return f"<pre>분석중인 패키지명:\t{pkg}\n비교 분석중인:\t{cmp_analysis}</pre>"
 

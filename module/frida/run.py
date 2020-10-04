@@ -8,7 +8,7 @@ import time
 
 import frida
 
-from gui.Logger import getLogger
+from module.frida.gui.Logger import getLogger
 
 ###########################################################################################
 

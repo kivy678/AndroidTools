@@ -12,7 +12,7 @@ from kivy.uix.button import Button
 from kivy.uix.popup import Popup
 from kivy.uix.label import Label
 
-from gui.settings import FONT
+from module.frida.gui.settings import FONT
 
 ##################################################################################################
 
