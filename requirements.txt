@@ -6,4 +6,5 @@ androguard
 
 -r util/requirements.txt
 -r module/requirements.txt
+-r module/frida/gui/requirements.txt
 -r web/requirements.txt

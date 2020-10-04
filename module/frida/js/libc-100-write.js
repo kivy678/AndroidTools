@@ -13,7 +13,7 @@ Interceptor.attach(Module.getExportByName(null, 'write'), {
     var numBytes = result.toInt32();
 
     if (numBytes > 0) {
-      send(hexdump(this.buf, { length: numBytes, ansi: true }));
+      send(hexdump(this.buf, { length: numBytes, ansi: false }));
     }
 
     send('WriteCount   : ' + numBytes);

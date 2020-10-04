@@ -100,7 +100,8 @@ int main(int argc, char *argv[])
 		regs.eip = MemAddress;
 		ptrace(PTRACE_SETREGS, pid, 0, &regs);
 
-		free(orgOpcode);	
+		free(orgOpcode);
+	
 	}
 
 	/////////////////////////////////////////////////////////////////////////////

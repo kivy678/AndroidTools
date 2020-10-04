@@ -12,7 +12,7 @@ Interceptor.attach(Module.getExportByName(null, 'fgets'), {
   onLeave: function (result) {
     console.log("fets: ");
     if (this.num > 0) {
-      send(hexdump(this.str, { length: this.num, ansi: true }));
+      send(hexdump(this.str, { length: this.num, ansi: false }));
     }
   }
 })

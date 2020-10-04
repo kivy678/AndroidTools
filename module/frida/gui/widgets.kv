@@ -1,0 +1,92 @@
+#:kivy 1.10.0
+
+#:import FONT       gui.settings.FONT
+#:import FONT_SIZE  gui.settings.FONT_SIZE
+#:import RES_PATH   gui.settings.RES_PATH
+
+
+<LoadDialog>:
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+
+        FileChooserListView:
+            id: FILECHOOSER_ID
+
+        FileChooserIconView:
+            multiselect: True
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+
+            Button:
+                text: 'Load'
+                on_release: root.load_context(FILECHOOSER_ID.selection)
+
+            Button:
+                text: 'Cancel'
+                on_release: root.cancel()
+
+
+<HEADER_BAR>:
+    ActionView:
+        use_separator: True
+
+        ActionPrevious:
+            app_icon: RES_PATH + r'\icon.png'
+            title: 'LOAD'
+            with_previous:False
+            on_release: root.show_load(app.root)
+
+        ActionGroup:
+            text: 'Action'
+            mode: 'spinner'
+
+            ActionButton:
+                text: 'Start'
+                on_release: root.on_start(app.root)
+
+            ActionButton:
+                text: 'Stop'
+                on_release: root.on_stop(app.root)
+
+        ActionGroup:
+            text: 'Option'
+            mode: 'spinner'
+
+            ActionButton:
+                text: 'Version'
+                on_release: root.on_version()
+
+            ActionButton:
+                text: 'EXIT'
+                on_release: root.on_exit()
+
+<CONTEXT_BOX>:
+    ScrollView:
+        do_scroll_x: False
+        BoxLayout:
+            size_hint: (None, None)
+            size: (800, 1000)
+
+            Label:
+                id:CONTENT_ID
+                text_size: self.width, None
+                padding_x: 15
+
+                font_size: FONT_SIZE
+                font_name: FONT
+
+                text: 'Empty'
+
+<RootWidget>:
+    BoxLayout:
+        orientation: 'vertical'
+
+        HEADER_BAR:
+            id: HEADER_BAR_ID
+
+        CONTEXT_BOX:
+            id: CONTEXT_BOX_ID

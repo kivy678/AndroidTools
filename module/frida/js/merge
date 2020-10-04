@@ -10,7 +10,7 @@ FILE_MATCHER = re.compile(r'(.+)-([0-9]+)-(.*)\.js')
 
 ################################################################################
 
-def iterateSQL():
+def iterateJS():
 
     files = sorted([ 
         os.path.basename(os.path.join(_r, _fn))
@@ -36,7 +36,7 @@ def iterateSQL():
 def main():
     try:
         with open('merge.js', 'w', encoding="utf-8") as writer:
-            for fp in iterateSQL():
+            for fp in iterateJS():
                 with open(fp, 'r', encoding="utf-8") as reader:
                     writer.write('\n')
                     writer.write('//-- -----------------------------------------------------------------------------\n')

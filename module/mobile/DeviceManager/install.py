@@ -70,7 +70,7 @@ class DEVICE_INSTALLER():
 
     def userToolInstall(self):
         TOOL_PATH = Join(TMP_DIR, f"GetMemory_{self._cpu}")
-        
+
         cmd = f"adb push {TOOL_PATH} /data/local/tmp/GetMemory"
         shell.runCommand(cmd, shell=False)
 
@@ -103,6 +103,16 @@ class DEVICE_INSTALLER():
 
         cmd = f"chmod 755 /data/local/tmp/SearchMemory"
         shell.runCommand(cmd, shell=True)
+
+
+        TOOL_PATH = Join(TMP_DIR, f"trace_{self._cpu}")
+
+        cmd = f"adb push {TOOL_PATH} /data/local/tmp/trace"
+        shell.runCommand(cmd, shell=False)
+
+        cmd = f"chmod 755 /data/local/tmp/trace"
+        shell.runCommand(cmd, shell=True)
+
 
 
     def fridaServer(self):

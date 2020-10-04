@@ -12,7 +12,7 @@
       <li><a href="{{ url_for('analysis.static.ida') }}">IDA 분석</a></li>
       <li><a href="{{ url_for('analysis.static.ida/il2cpp') }}">IDA 분석(Il2CPP전용) - 비추천</a></li>
 
-      <li><a href="{{ url_for('analysis.static.ida/script') }}" id="no_ida" onClick="changeURL()">NO IDA 분석(Il2CPP전용) - 추천</a></li>
+      <li><a href="{{ url_for('analysis.static.ida/script') }}" id="no_ida" onClick="changeURL('no_ida', 'platform')">NO IDA 분석(Il2CPP전용) - 추천</a></li>
       <div class="radio">
         <label><input type="radio" name="platform" value="ARM" checked>ARM</label>
         <label><input type="radio" name="platform" value="ARM64">ARM64</label>
@@ -22,11 +22,11 @@
 
     <ul class="nav navbar-nav">
       <b>동적분석</b>
-      <li><a href="{{ url_for('analysis.dynamic.dump', mode='strace') }}">strace 덤프</a></li>
       <li><a href="{{ url_for('analysis.dynamic.server') }}">동적 환경 셋팅</a></li>
+      <li><a href="{{ url_for('analysis.dynamic.dump', mode='strace') }}">strace 덤프</a></li>      
       <li><a href="{{ url_for('analysis.dynamic.dump', mode='memory') }}">메모리 덤프</a></li>
       <li><a href="{{ url_for('analysis.dynamic.yara', rule='dex.rule') }}">yara 검색(dex)</a></li>
-      
+<!--      
       <li class="menu">
         <a>BP메뉴</a>
         <ul class="hide">
@@ -34,6 +34,7 @@
           <li><a href="{{ url_for('analysis.dynamic.rbp') }}">BP제거</a></li>
         </ul>
       </li>
+-->
     </ul>
 
     <ul class="nav navbar-nav">
@@ -46,6 +47,7 @@
     <ul class="nav navbar-nav">
       <b>프로세스 정보</b>
       <li><a href="{{ url_for('analysis.dynamic.mmap') }}">메모리 맵</a></li>
+      <li><a href="{{ url_for('analysis.dynamic.frida') }}">Frida</a></li>
     </ul>
 
   </div>
@@ -56,10 +58,10 @@
 {% block script %}
 <script type="text/javascript">
 
-function changeURL() {
-  var x = document.getElementsByName("platform");
+function changeURL(id, platform_id) {
+  var x = document.getElementsByName(platform_id);
 
-  var element = document.getElementById("no_ida");
+  var element = document.getElementById(id);
   var currentURL = window.location.protocol + "//" + window.location.host + element.getAttribute("href");
 
   for (var i=0; i<x.length; i++) {

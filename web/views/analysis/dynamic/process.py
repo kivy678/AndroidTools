@@ -24,7 +24,7 @@ HOOK_ARM = [
     "04F01FE5",  # ldr   pc, [pc, #-4]
 ]
 
-HOOK_ARM_SIZE = 4
+PLATFORM_SIZE = {"ARM": 4, "THUMB": 2, "X86": 1}
 
 ################################################################################
 
@@ -43,12 +43,13 @@ class MemoryMap(MethodView):
             return "앱을 실행하세요"
 
         if request.args:
-            f = request.args.get("choiceMemory")
+            f               = request.args.get("choiceMemory")
+            platform_size   = PLATFORM_SIZE[request.args.get("platform")]
 
-            pid = request.args.get("pid")
-            start_addr = request.args.get("GetStartAddr")
-            size = request.args.get("GetSizeAddr")
-            pathed_data = request.args.get("GetData")
+            pid             = request.args.get("pid")
+            start_addr      = request.args.get("GetStartAddr")
+            size            = request.args.get("GetSizeAddr")
+            pathed_data     = request.args.get("GetData")
 
 
             if f == "read":
@@ -58,12 +59,14 @@ class MemoryMap(MethodView):
                     cmd = f"/data/local/tmp/ReadMemory {pid} {start_addr} {size}"
                     return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
 
+
             elif f == "write":
                 if (start_addr is '') or (size is '') or (pathed_data is ''):
                     return "시작 주소, 사이즈, 데이터를 입력해주세요"
                 else:
                     cmd = f"/data/local/tmp/WriteMemory {pid} {start_addr} {size} {pathed_data}"
                     return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
+
 
             elif f == "search":
                 if (size is '') or (pathed_data is ''):
@@ -74,11 +77,12 @@ class MemoryMap(MethodView):
 
                     return f"<pre>{shell.runCommand(cmd, shell=True, encoder='unicode-escape')}</pre>"
 
+
             elif f == "hook":
                 if (start_addr is '') or (size is ''):
                     return "시작주소, 끝주소를 입력해주세요."
                 else:
-                    cmd = f"/data/local/tmp/SearchMemory {pid} {start_addr} {size} {HOOK_ARM_SIZE} {HOOK_ARM[0]}"
+                    cmd = f"/data/local/tmp/SearchMemory {pid} {start_addr} {size} {platform_size} {HOOK_ARM[0]}"
                     data = shell.runCommand(cmd, shell=True, encoder='unicode-escape')
 
                     if data == '':
@@ -93,6 +97,15 @@ class MemoryMap(MethodView):
                         output.append(f"{hook_addr}\t{self.opcodeReverse(opcode)}")
 
                     return "<pre>" + '\n'.join(output) + "</pre>"
+
+
+            elif f == "trace":
+                if (start_addr is ''):
+                    return "시작주소와 플랫폼을 입력해주세요."
+                else:
+                    cmd = f"/data/local/tmp/trace {pid} {start_addr} {platform_size}"
+                    return "<pre>" + shell.runCommand(cmd, shell=True, encoder='unicode-escape') + "</pre>"
+
 
         data = list()
         for pid in pid_list:
