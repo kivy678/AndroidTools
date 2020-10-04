@@ -1,0 +1,61 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+
+	<div class="center-block" >
+		<table class="table table-bordered table-striped table-sm table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>시스템 환경</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for k, v in platform %}
+				<tr>
+					<td>{{ k }}</td>
+					<td>{{ v }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+
+			<thead class="thead-dark">
+				<tr>
+					<th>작업 폴더 경로</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for k, v in dir_path %}
+				<tr>
+					<td>{{ k }}</td>
+					<td>{{ v }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+
+
+			<thead class="thead-dark">
+				<tr>
+					<th>툴 경로</th>
+					<th></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for k, v in too_path %}
+				<tr>
+					<td>{{ k }}</td>
+					<td>{{ v }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+
+		</table>
+  </div>
+
+</div>
+{% endblock container %}
