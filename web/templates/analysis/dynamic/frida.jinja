@@ -1,27 +1,30 @@
 {% extends 'base.jinja' %}
 
 {% block container %}
+<div class="row">
 
-<p class="container">출력값</p>
+<div id="rc-bg">
+	<form action="frida" method="POST">
+		<div class="form-group">
+			<label id="fm">frida 스크립트</label>
+			{% for name in enter %}
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" name="checkScript" value={{ name }}> {{ name }}
+				</label>
+			</div>
+			{% endfor %}
+		</div>
 
+		<div class="form-group">
+			<div class="col-sm-offset-2">
+				<button class="btn btn-primary" type="submit">실행</button>
+			</div>
+		</div>
+
+	</form>
+
+</div>
+
+</div>
 {% endblock container %}
-
-
-{% block script %}
-<script type="text/javascript">
-
-$(document).ready(function() {
-  var socket = new WebSocket("ws://" + document.domain + ":7777/analysis/dynamic/frida/");
-
-  socket.onopen = function() {
-      socket.send("Joined");
-  }
-
-  socket.onmessage = function(message) {
-      var txt = message.data;
-      $(".container").append("<pre>" + txt + "</pre>");
-  }
-});
-  
-</script>
-{% endblock script %}

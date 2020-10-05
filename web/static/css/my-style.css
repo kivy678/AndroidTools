@@ -2,3 +2,13 @@
 
 .menu a{cursor:pointer;}
 .menu .hide{display:none;}
+
+div#rc-bg {
+	margin: 5px 30px;
+  }
+
+label#fm {
+	font-weight: bold;
+	font-size: 1.2rem;
+	color: blue;
+}

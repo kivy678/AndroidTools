@@ -14,7 +14,13 @@ from module.mobile.cmd import shell
 
 from web.session import getSession
 
+from common import getSharedPreferences
+from webConfig import SHARED_PATH
+
 ################################################################################
+
+sp              = getSharedPreferences(SHARED_PATH)
+DATA_DIR        = sp.getString('DATA_DIR')
 
 #MEM_FILTER  = ['']
 MEM_FILTER  = ['/data/data/', '/data/app/', 'libc.so']
@@ -105,6 +111,19 @@ class MemoryMap(MethodView):
                 else:
                     cmd = f"/data/local/tmp/trace {pid} {start_addr} {platform_size}"
                     return "<pre>" + shell.runCommand(cmd, shell=True, encoder='unicode-escape') + "</pre>"
+
+
+            elif f == "dump":
+                if (start_addr is '') or (size is ''):
+                    return "시작주소와 끝주소를 입력해주세요."
+                else:
+                    cmd = f"/data/local/tmp/MemoryDumper {pid} {start_addr} {size}"
+                    shell.runCommand(cmd, shell=True, encoder='unicode-escape')
+
+                    cmd = f"adb pull /data/local/tmp/dump.bin {DATA_DIR}"
+                    shell.runCommand(cmd, shell=False)
+
+                    return f"덤프 완료 경로: {DATA_DIR}"
 
 
         data = list()

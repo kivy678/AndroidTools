@@ -1,8 +1,8 @@
 <map>
 	<string name="OS">Windows</string>
 	<string name="ARCH">x64</string>
-	<string name="WORKING_DIR">E:\tmp\data</string>
-	<string name="DATA_DIR">C:\tmp\a\data</string>
+	<string name="WORKING_DIR">E:\tmp\work</string>
+	<string name="DATA_DIR">E:\tmp\data</string>
 	<string name="SAMPLE_DIR">E:\tmp\work\sample</string>
 	<string name="DECODE_DIR">E:\tmp\work\decode</string>
 	<string name="ANALYSIS_DIR">E:\tmp\work\analysis</string>
