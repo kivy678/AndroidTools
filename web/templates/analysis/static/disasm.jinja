@@ -5,11 +5,11 @@
 
   <div class="col-md-2 sidebar">
     <div class="radio">
-      <label><input type="radio" name="platform" value="ARM" checked>ARM</label>
-      <label><input type="radio" name="platform" value="ARM64">ARM64</label>
-      <label><input type="radio" name="platform" value="THUMB">THUMB</label>
-      <label><input type="radio" name="platform" value="X86">X86</label>
-      <label><input type="radio" name="platform" value="X64">X64</label>
+      <label><input type="radio" name="arch" value="ARM" checked>ARM</label>
+      <label><input type="radio" name="arch" value="ARM64">ARM64</label>
+      <label><input type="radio" name="arch" value="THUMB">THUMB</label>
+      <label><input type="radio" name="arch" value="X86">X86</label>
+      <label><input type="radio" name="arch" value="X64">X64</label>
     </div>
     <input type="text" class="form-control" name="GetText" placeholder="00 AA BB CC">
 
@@ -32,13 +32,13 @@
 
 $(document).ready(function($) {
   $('button[name=send]').click(function() {
-    var platform = $('input[name=platform]:checked').val();
+    var arch = $('input[name=arch]:checked').val();
     var text = $('input[name=GetText]').val();
 
     $.ajax({
       url: "/analysis/static/disasm",
       type: "GET",
-      data: {"platform": platform, "text": text},
+      data: {"arch": arch, "text": text},
 
       success: function(response) {
           console.log("SUCCESS: ");

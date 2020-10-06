@@ -48,5 +48,5 @@ OPCDOE_COLUMNS=[
     'opcode',
     'binary',
     'engine',
-    'platform',
+    'arch',
 ]

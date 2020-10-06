@@ -21,12 +21,12 @@ class Disasm(MethodView):
     def get(self):
         if request.args:
             text        = request.args['text']
-            platform    = request.args['platform']
+            arch        = request.args['arch']
 
             opcode      = ''.join([f"\\x{opcode}" for opcode in text.split()]).encode()
             opcode      = opcode.decode('unicode-escape').encode('ISO-8859-1')
 
-            return getattr(disassemble, f'disasm{platform}')(opcode)
+            return getattr(disassemble, f'disasm{arch}')(opcode)
 
         return render_template(self.template_name)
 

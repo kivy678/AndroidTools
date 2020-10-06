@@ -48,10 +48,10 @@ class BREAK_POINT(MethodView):
         csv_path = Join(ES_DIR, secure_filename(fileName))
         f.save(csv_path)
 
-        platform = request.form.get("platform")
+        arch = request.form.get("arch")
         baseAddr = request.form.get("GetBase")
 
-        setBP(csv_path, baseAddr, DBG_BP[platform], DBG_SIZE[platform])
+        setBP(csv_path, baseAddr, DBG_BP[arch], DBG_SIZE[arch])
 
         return "BP 완료"
 

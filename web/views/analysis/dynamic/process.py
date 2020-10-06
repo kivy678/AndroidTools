@@ -30,7 +30,7 @@ HOOK_ARM = [
     "04F01FE5",  # ldr   pc, [pc, #-4]
 ]
 
-PLATFORM_SIZE = {"ARM": 4, "THUMB": 2, "X86": 1}
+ARCH_SIZE = {"ARM": 4, "THUMB": 2, "X86": 1}
 
 ################################################################################
 
@@ -50,7 +50,7 @@ class MemoryMap(MethodView):
 
         if request.args:
             f               = request.args.get("choiceMemory")
-            platform_size   = PLATFORM_SIZE[request.args.get("platform")]
+            arch_size       = ARCH_SIZE[request.args.get("arch")]
 
             pid             = request.args.get("pid")
             start_addr      = request.args.get("GetStartAddr")
@@ -88,7 +88,7 @@ class MemoryMap(MethodView):
                 if (start_addr is '') or (size is ''):
                     return "시작주소, 끝주소를 입력해주세요."
                 else:
-                    cmd = f"/data/local/tmp/SearchMemory {pid} {start_addr} {size} {platform_size} {HOOK_ARM[0]}"
+                    cmd = f"/data/local/tmp/SearchMemory {pid} {start_addr} {size} {arch_size} {HOOK_ARM[0]}"
                     data = shell.runCommand(cmd, shell=True, encoder='unicode-escape')
 
                     if data == '':
@@ -109,7 +109,7 @@ class MemoryMap(MethodView):
                 if (start_addr is ''):
                     return "시작주소와 플랫폼을 입력해주세요."
                 else:
-                    cmd = f"/data/local/tmp/trace {pid} {start_addr} {platform_size}"
+                    cmd = f"/data/local/tmp/trace {pid} {start_addr} {arch_size}"
                     return "<pre>" + shell.runCommand(cmd, shell=True, encoder='unicode-escape') + "</pre>"
 
 

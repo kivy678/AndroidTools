@@ -138,7 +138,7 @@ class IL2CPP_SCRIPTJS(MethodView):
     def get(self):
         DirCheck(DATA_DIR)
 
-        platform = request.args.get("platform")
+        arch        = request.args.get("arch")
 
         il2cpp_path = Join(DECODE_DIR, getSession('fileName'), 'il2cpp')
         jsonPath    = Join(il2cpp_path, 'script.json')
@@ -148,7 +148,7 @@ class IL2CPP_SCRIPTJS(MethodView):
 
         es_json     = Join(DATA_DIR, 'data.txt')
 
-        parserScriptJson(lib_path, jsonPath, es_json, platform)
+        parserScriptJson(lib_path, jsonPath, es_json, arch)
         pushES(es_json, 'aosfunctions')
 
 

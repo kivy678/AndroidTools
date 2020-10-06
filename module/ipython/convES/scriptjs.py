@@ -55,7 +55,7 @@ def stringFilter(data, rkey):
     return tmpList
 
 
-def parserScriptJson(il2cpp, rpath, wpath, platform="ARM"):
+def parserScriptJson(il2cpp, rpath, wpath, arch="ARM"):
 
     LOG.info(f"{'[*]':<5}Start Filter Json")
 
@@ -78,7 +78,7 @@ def parserScriptJson(il2cpp, rpath, wpath, platform="ARM"):
 
         for row in j['ScriptMethod']:
             p = row["Address"]
-            rsize = rSize[platform]
+            rsize = rSize[arch]
 
             # dis 결과 값이 [offset] [code] [op1][op2] 고정이여서 파싱을 할 수 밖에 없다
             bin_data1 = convSplit(f"{getBinay(il2cpp_fr, p, rsize):0{rsize*2}x}")
@@ -86,7 +86,7 @@ def parserScriptJson(il2cpp, rpath, wpath, platform="ARM"):
             row["binary"] = f"{bin_data1} {bin_data2}"
 
             try:
-                disasm1, disasm2, _ = tuple(dis(row["binary"], platform=platform).split('\n'))
+                disasm1, disasm2, _ = tuple(dis(row["binary"], arch=arch).split('\n'))
             except ValueError as e:
                 continue        # offset이 0인 경우 디스어셈블리 실패 하기 때문에 예외 발생
 

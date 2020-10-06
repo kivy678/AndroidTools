@@ -18,11 +18,11 @@ def convSplit(s):
     return ' '.join(d)
 
 
-def dis(data, platform="ARM"):
+def dis(data, arch="ARM"):
     opcode = ''.join([f"\\x{opcode}" for opcode in data.split()]).encode()
     opcode = opcode.decode('unicode-escape').encode('ISO-8859-1')
 
-    return getattr(disassemble, f'disasm{platform}')(opcode)
+    return getattr(disassemble, f'disasm{arch}')(opcode)
 
 
 def getBinay(fr, p, size):

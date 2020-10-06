@@ -25,7 +25,7 @@ class SetupPage(MethodView):
 
     def get(self):
 
-        platform = [
+        arch = [
             ('OS', sp.getString('OS')),
             ('ARCH', sp.getString('ARCH')),
         ]
@@ -47,7 +47,7 @@ class SetupPage(MethodView):
         ]
 
         return render_template(self.template_name,
-                                platform=platform,
+                                arch=arch,
                                 dir_path=dir_path,
                                 too_path=too_path)
 
