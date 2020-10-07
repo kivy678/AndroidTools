@@ -31,11 +31,7 @@ def dynamicServer():
     cmd = r"adb forward tcp:22222 tcp:22222"
     shell.runCommand(cmd, shell=False)
 
-    cmd = f"nohup /data/local/tmp/android_server &"
-    shell.runCommand(cmd, shell=True, su=True, timeout=5)
-
-
-    cmd = f"nohup /system/frida-server &"
-    shell.runCommand(cmd, shell=True, su=True, timeout=5)
+    cmd = f"/data/local/tmp/run_server"
+    shell.runCommand(cmd, shell=True, su=True)
 
     LOG.info(f"{'[*]':<5}End Commnad")

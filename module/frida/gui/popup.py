@@ -16,8 +16,8 @@ from module.frida.gui.settings import FONT
 
 ##################################################################################################
 
-class CreatePopup(Widget) :
-    def __init__(self, content='') :
+class CreatePopup(Widget):
+    def __init__(self, content=''):
         self.popup = BoxLayout(orientation='vertical')
         self.popup.padding = [0, 10, 0, 0]
 
@@ -31,10 +31,10 @@ class CreatePopup(Widget) :
         self.ok_btn = Button(text='ok')
         self.cancle_btn = Button(text='cancle')
 
-        self.ok_btn.size_hint = (.5, .7);
+        self.ok_btn.size_hint = (.5, .7)
         self.cancle_btn.size_hint = (.5, .7)
 
-        self.btn.add_widget(self.ok_btn);
+        self.btn.add_widget(self.ok_btn)
         self.btn.add_widget(self.cancle_btn)
 
         self.popup.add_widget(self.btn)
@@ -51,8 +51,8 @@ class CreatePopup(Widget) :
         self._popup.open()
 
     def create(self, obj, name):
-        self._popup = Popup(content=obj.popup, title=name, size_hint=(None, None), size=(290, 200), auto_dismiss=False)   
-        obj.ok_btn.bind(on_press=self._popup.dismiss)  
+        self._popup = Popup(content=obj.popup, title=name, size_hint=(None, None), size=(290, 200), auto_dismiss=False)
+        obj.ok_btn.bind(on_press=self._popup.dismiss)
         self._popup.open()
 
     def dismiss_popup(self):

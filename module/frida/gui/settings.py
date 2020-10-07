@@ -6,12 +6,14 @@ import os
 
 ##################################################################################################
 
-BASE_DIR 	= os.path.dirname(os.path.realpath(__file__))
-RES_PATH    = os.path.join(BASE_DIR, 'res')
+BASE_DIR 	= os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
+RES_PATH    = os.path.join(BASE_DIR, 'gui', 'res')
 
 ##################################################################################################
 
-FONT = r'C:\Windows\Fonts\HMKMMAG.TTF'
-FONT_SIZE = 18
+FONT 		= r'C:\Windows\Fonts\HMKMMAG.TTF'
+FONT_SIZE 	= 18
+
+JS_PATH 	= os.path.join(BASE_DIR, 'js')
 
 ##################################################################################################
