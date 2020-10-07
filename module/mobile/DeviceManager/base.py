@@ -8,26 +8,26 @@ from module.mobile.cmd import shell, adb
 
 
 class DEVICE_BASIS:
-    _PLATFORM_ = {
+    _ARCH_ = {
         "x86": "x86", "x64": "x64",
         "armeabi_v7a": "arm", "arm64_v8a": "arm64"
     }
 
     _isConnect  = None
-    _platform   = None
+    _arch   = None
     _sdk        = None
     _su         = None
 
     def __init__(self, *args, **kwargs):
         self._isConnect = adb.adbDevices()
         if self._isConnect:
-            self._platform  = adb.getSystem()
-            self._sdk       = adb.getSdk()
-            self._su        = self.isRoot()
+            self._arch  = adb.getSystem()
+            self._sdk   = adb.getSdk()
+            self._su    = self.isRoot()
 
     def __getattr__(self, key):
         try:
-            return self._PLATFORM_[key]
+            return self._ARCH_[key]
         except KeyError as e:
             return None
 
@@ -40,8 +40,8 @@ class DEVICE_BASIS:
         return self._isConnect
 
     @property
-    def platform(self):
-        return self._platform
+    def arch(self):
+        return self._arch
 
     @property
     def sdk(self):

@@ -91,7 +91,7 @@ disasmARM(PyObject* self, PyObject* a_args)
 	{
 		for (j = 0; j < count; j++)
 		{
-			sprintf(tmp_buffer, "0x%"PRIx64":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
+			sprintf(tmp_buffer, "0x%"PRIx32":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
 			strcat(buffer, tmp_buffer);
 		}
 
@@ -141,7 +141,7 @@ disasmTHUMB(PyObject* self, PyObject* a_args)
 	{
 		for (j = 0; j < count; j++)
 		{
-			sprintf(tmp_buffer, "0x%"PRIx64":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
+			sprintf(tmp_buffer, "0x%"PRIx16":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
 			strcat(buffer, tmp_buffer);
 		}
 
@@ -245,7 +245,7 @@ disasmX86(PyObject* self, PyObject* a_args)
 	{
 		for (j = 0; j < count; j++)
 		{
-			sprintf(tmp_buffer, "0x%"PRIx64":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
+			sprintf(tmp_buffer, "0x%"PRIx32":\t%s\t\t%s\n", insn[j].address, insn[j].mnemonic,insn[j].op_str);
 			strcat(buffer, tmp_buffer);
 		}
 

@@ -35,7 +35,7 @@ class DEVICE_LIST(MethodView):
             "setup": dev.installer.isCommit()
         })
         df_dev.DATA_FRAME = df_dev.DATA_FRAME.append(rows, ignore_index=True)
-        df_dev.DATA_FRAME = df_dev.DATA_FRAME[~df_dev.DATA_FRAME.duplicated(['model'], keep='first')]
+        df_dev.DATA_FRAME.drop_duplicates(['model'], keep='first')
 
         df_dev.saveCSV()
 

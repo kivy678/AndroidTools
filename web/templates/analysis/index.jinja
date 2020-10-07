@@ -11,8 +11,7 @@
       <li><a href="{{ url_for('analysis.static.spark') }}">strace 분석</a></li>
       <li><a href="{{ url_for('analysis.static.ida') }}">IDA 분석</a></li>
       <li><a href="{{ url_for('analysis.static.ida/il2cpp') }}">IDA 분석(Il2CPP전용) - 비추천</a></li>
-
-      <li><a href="{{ url_for('analysis.static.ida/script') }}" id="no_ida" onClick="changeURL('no_ida', 'arch')">NO IDA 분석(Il2CPP전용) - 추천</a></li>
+      <li><a href="{{ url_for('analysis.static.ida/script') }}" id="no_ida" onClick="changeURL('no_ida', 'arch')">IL2CPP덤퍼 분석</a></li>
       <div class="radio">
         <label><input type="radio" name="arch" value="ARM" checked>ARM</label>
         <label><input type="radio" name="arch" value="ARM64">ARM64</label>

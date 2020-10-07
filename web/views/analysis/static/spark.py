@@ -13,6 +13,8 @@ from util.fsUtils import Join, DirCheck, Delete
 from common import getSharedPreferences
 from webConfig import SHARED_PATH
 
+from module.statitics.view import getStatitics
+
 ##########################################################################
 
 sp                  = getSharedPreferences(SHARED_PATH)
@@ -38,10 +40,15 @@ class Spark(MethodView):
         f = request.files['LogFileName']
         fileName = f.filename
 
-        f.save(Join(SPARK_DIR, secure_filename(fileName)))
-        import module.spark.strace_filter
+        stracePath = Join(SPARK_DIR, secure_filename(fileName))
+        f.save(stracePath)
 
-        return send_from_directory(directory=SPARK_DIR, filename='dump.csv', as_attachment=True)
+        from module.spark.strace_filter import runSpark
+        runSpark(stracePath)
+
+        getStatitics(Join(SPARK_DIR, 'dump.csv'))
+
+        return "완료"   #send_from_directory(directory=SPARK_DIR, filename='dump.csv', as_attachment=True)
 
 
 spark = Spark.as_view('spark', template_name='analysis/static/spark.jinja')

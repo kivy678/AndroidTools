@@ -112,12 +112,12 @@ class IL2CPP(MethodView):
         DATA_PATH = Join(DATA_DIR, md5 + '_str.txt')
         sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
         pushES(DATA_PATH, 'aosstrings')
-
+        """
         script = "getImportsToES.py"
         DATA_PATH = Join(DATA_DIR, md5 + '_imp.txt')
         sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()
         pushES(DATA_PATH, 'aosimports')
-
+        """
         script = Join(BASE_DIR, "module", "ipython", "getFunctionsToES.py")
         DATA_PATH = Join(DATA_DIR, md5 + '_func.txt')
         sub.Popen(f"{RUN_IL2CPP_PATH} {jsonPath} {script} {md5} {DATA_PATH} {lib_path}").wait()

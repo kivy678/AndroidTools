@@ -35,7 +35,7 @@ class APP_INFOR:
             data = {'pkg': self._pkgName, 'fileName': self._fileName, 'parent': 1, 'ctime': datetime.now(), 'status': STATUS.INIT.value}
             add_idx = pd.Series(data).rename(self._sha256)
             df_app.DATA_FRAME = df_app.DATA_FRAME.append(add_idx)
-            df_app.DATA_FRAME = df_app.DATA_FRAME[~df_app.DATA_FRAME.duplicated(keep='first')]
+            df_app.DATA_FRAME.index.drop_duplicates(keep='first')
 
             df_app.saveCSV()
 
