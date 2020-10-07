@@ -21,12 +21,17 @@ class MyLabelHandler(logging.Handler):
     def __init__(self, label, level=logging.NOTSET):
         logging.Handler.__init__(self, level=level)
         self.label = label
+        self.event = None
 
     def emit(self, record):
         def f(dt=None):
             self.label.text += self.format(record)
 
-        Clock.schedule_once(f)
+        self.event = Clock.schedule_once(f)
+
+    def __del__(self):
+        if self.event:
+            self.event.cancel()
 
 
 def getLogger(name, label):
