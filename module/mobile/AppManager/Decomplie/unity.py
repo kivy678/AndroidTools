@@ -73,6 +73,10 @@ def runDecodeMono(_path, fileName):
 
         LOG.info(f"{'[*]':<5}End mono Decode: {fileName}")
 
+        return csharp_path
+
+    return None
+
 
 def runDecodeil2cpp(_path, fileName):
     out = Join(DECODE_DIR, fileName, 'il2cpp')

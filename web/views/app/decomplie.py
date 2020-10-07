@@ -19,7 +19,7 @@ from module.mobile.AppManager.Decomplie.unity import *
 
 from web.session import getSession
 
-from util.fsUtils import Join, PathSplit, FileSize
+from util.fsUtils import *
 from util.hash import getSHA256
 
 from module.database import df_unity
@@ -63,12 +63,12 @@ class Decomplier(MethodView):
         parent_sha256   = getSHA256(Join(SAMPLE_DIR, fileName))
         sha256          = getSHA256(il2cpp_path)
         fSize           = FileSize(il2cpp_path)
-        libName         = PathSplit(il2cpp_path)[1]
+        libName         = BaseName(il2cpp_path)
 
         data = {'fileName': libName, 'fileSize': fSize, 'build': 'il2cpp', 'parent': parent_sha256, 'status': STATUS.INIT.value}
         add_idx = pd.Series(data).rename(sha256)
         df_unity.DATA_FRAME = df_unity.DATA_FRAME.append(add_idx)
-        df_unity.DATA_FRAME = df_unity.DATA_FRAME[~df_unity.DATA_FRAME.index.duplicated(keep='first')]
+        df_unity.DATA_FRAME.index.drop_duplicates(keep='first')
 
         df_unity.saveCSV()
 
@@ -76,17 +76,17 @@ class Decomplier(MethodView):
 
 
     def fetch_mono(self, fileName):
-        il2cpp_path     = runDecodeMono(Join(DECODE_DIR, fileName, 'unzip'), fileName)
+        mono_path       = runDecodeMono(Join(DECODE_DIR, fileName, 'unzip'), fileName)
 
         parent_sha256   = getSHA256(Join(SAMPLE_DIR, fileName))
-        sha256          = getSHA256(il2cpp_path)
-        fSize           = FileSize(il2cpp_path)
-        libName         = PathSplit(il2cpp_path)[1]
+        sha256          = getSHA256(mono_path)
+        fSize           = FileSize(mono_path)
+        libName         = BaseName(mono_path)
 
         data = {'fileName': libName, 'fileSize': fSize, 'build': 'mono', 'parent': parent_sha256, 'status': STATUS.INIT.value}
         add_idx = pd.Series(data).rename(sha256)
         df_unity.DATA_FRAME = df_unity.DATA_FRAME.append(add_idx)
-        df_unity.DATA_FRAME = df_unity.DATA_FRAME[~df_unity.DATA_FRAME.index.duplicated(keep='first')]
+        df_unity.DATA_FRAME.index.drop_duplicates(keep='first')
 
         df_unity.saveCSV()
 
