@@ -67,11 +67,6 @@ class DEVICE_INSTALLER():
         cmd = f"chmod 755 /data/local/tmp/strace"
         shell.runCommand(cmd, shell=True)
 
-        cmd = f"adb push {TOOL_PATH} /data/local/tmp/run_server"
-        shell.runCommand(cmd, shell=False)
-
-        cmd = f"chmod 755 /data/local/tmp/run_server"
-        shell.runCommand(cmd, shell=True)
 
 
     def userToolInstall(self):

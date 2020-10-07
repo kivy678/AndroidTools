@@ -33,7 +33,7 @@ def getPath(path):
     for r, d, f in os.walk(path):
         try:
             for s in STRIP_STRING:
-                if BaseName(r) == s:
+                if s in r.split('\\'):
                     raise ESCAPE_CONDITION
         except ESCAPE_CONDITION:
             continue
