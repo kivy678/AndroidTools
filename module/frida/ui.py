@@ -24,7 +24,7 @@ from module.frida.gui.Logger import getLogger
 from module.frida.run import FridaRun
 
 from common import getSharedPreferences
-from webConfig import PROCESS_PATH
+from webConfig import PROCESS_PATH, SHARED_PATH
 
 ##################################################################################################
 
@@ -33,8 +33,11 @@ kv = os.path.join(os.path.dirname(__file__), 'gui', 'widgets.kv')
 with open(kv, encoding='utf-8') as f:
     Builder.load_string(f.read())
 
-sp = getSharedPreferences(PROCESS_PATH)
-PACKAGE_NAME = sp.getString('pkg')
+sp              = getSharedPreferences(PROCESS_PATH)
+PACKAGE_NAME    = sp.getString('pkg')
+
+sp              = getSharedPreferences(SHARED_PATH)
+DATA_DIR        = sp.getString('DATA_DIR')
 
 app = None
 root = None
@@ -54,10 +57,17 @@ def getContextID(tabName):
     return context
 
 
+def trigger(*args):
+    with open(os.path.join(DATA_DIR, 'dump.txt'), 'w') as fw:
+        context = getContextID('LOG_BOX_ID')
+        fw.write(context.text)
+
+
 class HEADER_BAR(ActionBar):
     def __init__(self, **kwargs):
         super(HEADER_BAR, self).__init__(**kwargs)
         self.fr = None
+        self.LOG = None
 
 
     def show_load(self):
@@ -73,7 +83,16 @@ class HEADER_BAR(ActionBar):
         pop.create(pop, 'version')
 
 
+    def on_save(self):
+        content = f'저장합니다.'
+        pop = CreatePopup(content)
+        pop.removeButton('cancle')
+        pop.create(pop, 'Log Save')
+        pop.setTrigger(pop, trigger)
+
+
     def on_exit(self):
+        self.on_stop()
         exit()
 
 
@@ -81,15 +100,15 @@ class HEADER_BAR(ActionBar):
         context = getContextID('LOG_BOX_ID')
         context.text = ''
 
-        LOG = getLogger('label.log', context)
-        self.fr = FridaRun(PACKAGE_NAME, LOG)
+        if not self.LOG:
+            self.LOG = getLogger('logLabel.log', context)
+
+        self.fr = FridaRun(PACKAGE_NAME, self.LOG)
         self.fr.attachHook()
 
 
-    def on_stop(self, app):
+    def on_stop(self):
         context = getContextID('LOG_BOX_ID')
-        context.text = ''
-
         self.fr.dettachHook()
 
 

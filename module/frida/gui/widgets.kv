@@ -52,7 +52,11 @@
 
             ActionButton:
                 text: 'Stop'
-                on_release: root.on_stop(app.root)
+                on_release: root.on_stop()
+
+            ActionButton:
+                text: 'Save'
+                on_release: root.on_save()
 
         ActionGroup:
             text: 'Option'

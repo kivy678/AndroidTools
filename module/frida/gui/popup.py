@@ -57,3 +57,7 @@ class CreatePopup(Widget):
 
     def dismiss_popup(self):
         self._popup.dismiss()
+
+
+    def setTrigger(self, obj, trg):
+        obj.ok_btn.bind(on_press=trg)

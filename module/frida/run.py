@@ -22,6 +22,7 @@ class FridaRun:
         self._pkg    = pkg
         self._stream = stream
 
+        self.process = None
         self.script = None
 
     def on_message(self, message, data):
@@ -42,10 +43,10 @@ class FridaRun:
             pid = device.spawn([self._pkg])
             print(f"App is starting ... pid : {pid}")
 
-            process = device.attach(pid)
+            self.process = device.attach(pid)
             device.resume(pid)
 
-            self.script = process.create_script(jscode)
+            self.script = self.process.create_script(jscode)
             self.script.on('message', self.on_message)
 
             print('[*] Running Hooking App')
@@ -63,10 +64,10 @@ class FridaRun:
 
         try:
             device = frida.get_usb_device(timeout=10)
-            process = device.attach(self._pkg)
-            print(f"App is Attaching ... pid : {process}")
+            self.process = device.attach(self._pkg)
+            print(f"App is Attaching ... pid : {self.process}")
 
-            self.script = process.create_script(jscode)
+            self.script = self.process.create_script(jscode)
             self.script.on('message', self.on_message)
 
             print('[*] Running Hooking App')
@@ -82,6 +83,9 @@ class FridaRun:
         if self.script:
             self.script.off('message', self.on_message)
             self.script.unload()
+
+            self.process.detach()
+
 
         print("[*] End Hooking App")
 
