@@ -28,7 +28,7 @@ class EMULATOR(DEVICE_BASIS):
             shell.runCommand("mount -o remount,rw /", shell=True)
 
             self._model = adb.getModel()
-            self._installer = DEVICE_INSTALLER(self._platform, self._sdk)
+            self._installer = DEVICE_INSTALLER(self.arch, self.sdk)
 
             return True
 

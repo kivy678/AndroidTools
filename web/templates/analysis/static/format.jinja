@@ -19,9 +19,48 @@
 				{% endfor %}
 			</tbody>
 		</table>
-    </div>
 
-    <div id="viewer"></div>
+		<div class="radio">
+			<label><input type="radio" name="format" value="all" checked>ALL</label>
+			<label><input type="radio" name="format" value="h">EHEADER</label>
+			<label><input type="radio" name="format" value="p">PHEADER</label>
+			<label><input type="radio" name="format" value="s">SHEADER</label>
+		</div>
+
+  </div>
+
+  <div id="viewer"></div>
 
 </div>
 {% endblock container %}
+
+{% block script %}
+<script>
+
+$(document).ready(function($) {
+  $(".clickable-lib-list").click(function() {
+    var tr 		 = $(this);
+    var td 		 = tr.children();
+    var lib 	 = td.eq(0).text();
+
+    var format = $('input[name=format]:checked').val();
+
+    $.ajax({
+      url: "/analysis/static/format",
+      type: "POST",
+      data: {"lib": lib, "format": format},
+
+      success: function(response) {
+          console.log("SUCCESS: ");
+          $("#viewer").html(response);
+      },
+      error: function(error) {
+          console.log("ERROR: " + error);
+      }
+
+    });
+  });
+});
+
+</script>
+{% endblock script %}
