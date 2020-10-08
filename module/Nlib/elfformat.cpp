@@ -202,11 +202,11 @@ parser(PyObject* self, PyObject* a_args)
 	FILE* 			pstRStream 	= NULL;
 	unsigned char* 	pchBuffer	= NULL;
 
-	const char* args;
-	Py_ssize_t args_size;
+	const char* 	args;
+	const char*		option;
 
 
-	if(!PyArg_ParseTuple(a_args, "s#", &args, &args_size))
+	if(!PyArg_ParseTuple(a_args, "ss", &args, &option))
 	{
 		ELFFORMAT_EXCEPTION(-1, "ARGS PASS FAILED!!!\n");
 		return NULL;
@@ -215,7 +215,6 @@ parser(PyObject* self, PyObject* a_args)
 	{
 		pstRStream 	= fopen(args, "rb");
 	}
-
 
 	if(pstRStream != NULL)
 	{
@@ -237,10 +236,10 @@ parser(PyObject* self, PyObject* a_args)
 	}
 
 
-	struct 			Elf32_Ehdr e32_ehdr;
-	char*			pchEhrBuffer = (char*) malloc(sizeof(char) * HEADER_SIZE);
-	char*			pchPhrBuffer = (char*) malloc(sizeof(char) * PROGRAM_SIZE);
-	char*			pchShrBuffer = (char*) malloc(sizeof(char) * SECTION_SIZE);
+	struct 	Elf32_Ehdr e32_ehdr;
+	char*	pchEhrBuffer = (char*) malloc(sizeof(char) * HEADER_SIZE);
+	char*	pchPhrBuffer = (char*) malloc(sizeof(char) * PROGRAM_SIZE);
+	char*	pchShrBuffer = (char*) malloc(sizeof(char) * SECTION_SIZE);
 
 
 	memset(pchEhrBuffer, 0, sizeof(char) * HEADER_SIZE);
@@ -262,7 +261,17 @@ parser(PyObject* self, PyObject* a_args)
 
 	free(pchBuffer);
 
+	if (strcmp(option, "h") == 0)
+		return Py_BuildValue("s", pchEhrBuffer);
+	
+	else if (strcmp(option, "p") == 0)
+		return Py_BuildValue("s", pchPhrBuffer);
+
+	else if (strcmp(option, "s") == 0)
+		return Py_BuildValue("s", pchShrBuffer);		
+
 	return Py_BuildValue("sss", pchEhrBuffer, pchPhrBuffer, pchShrBuffer);
+
 }
 
 

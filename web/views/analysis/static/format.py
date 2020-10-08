@@ -47,8 +47,17 @@ class FileFormat(MethodView):
     def post(self):
         analysis_path = Join(DECODE_DIR, getSession('fileName'), 'unzip')
         lib_path = Join(analysis_path, request.form.get('lib'))
+        f = request.form.get('format')
 
-        return "<pre>" + '\n'.join([i for i in elfformat.parser(lib_path)]) + "<pre>"
+        try:
+            if f in ['h', 'p', 's']:
+                return "<pre>" + elfformat.parser(lib_path, f) + "<pre>"
+            else:
+                return "<pre>" + '\n'.join([i for i in elfformat.parser(lib_path, '')]) + "<pre>"
+
+        except Exception as e:
+            print(e)
+            return "잘못된 형식의 파일입니다."
 
 
 ft = FileFormat.as_view('format', template_name='analysis/static/format.jinja')
