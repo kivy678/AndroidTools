@@ -49,7 +49,7 @@ module2 = Extension(
     'elfformat',
     define_macros=[("MAJOR_VERSION", "1"), ("MINOR_VERSION", "0")],
     include_dirs=[INCLUDE_NLIB_PATH],
-    sources=['module/Nlib/elfformat.cpp', 'module/Nlib/module.cpp'],
+    sources=['module/Nlib/elfformat.cpp', 'module/Nlib/module.cpp', 'module/Nlib/parser.cpp'],
     language="c++",
     extra_compile_args=["-std=c++11", "-Wall", "-O2"],
 )

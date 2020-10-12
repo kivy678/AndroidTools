@@ -50,7 +50,7 @@ class FileFormat(MethodView):
         f = request.form.get('format')
 
         try:
-            if f in ['h', 'p', 's']:
+            if f in ['h', 'p', 's', 'd']:
                 return "<pre>" + elfformat.parser(lib_path, f) + "<pre>"
             else:
                 return "<pre>" + '\n'.join([i for i in elfformat.parser(lib_path, '')]) + "<pre>"
