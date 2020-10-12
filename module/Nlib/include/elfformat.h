@@ -7,8 +7,22 @@
 #include "elf.h"
 
 
-
 #define ELFFORMAT_EXCEPTION(ret, ...) 	__EXCEPTION((ret), ElfFormatException, ##__VA_ARGS__)
+
+
+struct Elf32_Dyn_Linker
+{
+	struct Elf32_Dyn 		 e32_Dyn;
+	struct Elf32_Dyn_Linker* nextPoint;
+};
+
+
+struct Elf32_Section_Linker
+{
+	struct Elf32_Shdr 		 	 e32_shdr;
+	struct Elf32_Section_Linker* nextPoint;
+};
+
 
 
 #ifdef __cplusplus
@@ -26,6 +40,8 @@ extern "C"
 
 	extern std::map<int, std::string> SECTION_TYPE;
 
+	extern std::map<int, std::string> DYNAMIC_TAG;
+	extern std::map<int, std::string> DYNAMIC_ENTRY;
 
 #ifdef __cplusplus
 }
