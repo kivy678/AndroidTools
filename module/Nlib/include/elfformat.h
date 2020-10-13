@@ -12,7 +12,7 @@
 
 struct Elf32_Dyn_Linker
 {
-	struct Elf32_Dyn 		 e32_Dyn;
+	struct Elf32_Dyn 		 e32_dyn;
 	struct Elf32_Dyn_Linker* nextPoint;
 };
 
@@ -23,6 +23,12 @@ struct Elf32_Section_Linker
 	struct Elf32_Section_Linker* nextPoint;
 };
 
+
+struct Elf32_Sym_Linker
+{
+	struct Elf32_Sym 		 	 e32_sym;
+	struct Elf32_Sym_Linker* 	 nextPoint;
+};
 
 
 #ifdef __cplusplus
@@ -42,6 +48,9 @@ extern "C"
 
 	extern std::map<int, std::string> DYNAMIC_TAG;
 	extern std::map<int, std::string> DYNAMIC_ENTRY;
+
+	extern std::map<int, std::string> SYMBOL_BINDING;
+	extern std::map<int, std::string> SYMBOL_TYPES;
 
 #ifdef __cplusplus
 }

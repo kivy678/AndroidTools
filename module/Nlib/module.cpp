@@ -393,3 +393,29 @@ std::map<int, std::string> DYNAMIC_ENTRY
 	decltype(DYNAMIC_ENTRY)::value_type(DT_VERNEEDNUM, "val")
 };
 
+std::map<int, std::string> SYMBOL_BINDING
+{
+	decltype(SYMBOL_BINDING)::value_type(STB_LOCAL, "LOCAL"),
+	decltype(SYMBOL_BINDING)::value_type(STB_GLOBAL, "GLOBAL"),
+	decltype(SYMBOL_BINDING)::value_type(STB_WEAK, "WEAK"),
+	decltype(SYMBOL_BINDING)::value_type(STB_LOOS, "LOOS"),
+	decltype(SYMBOL_BINDING)::value_type(STB_HIOS, "HIOS"),
+	decltype(SYMBOL_BINDING)::value_type(STB_LOPROC, "LOPROC"),
+	decltype(SYMBOL_BINDING)::value_type(STB_HIPROC, "HIPROC")
+};
+
+std::map<int, std::string> SYMBOL_TYPES
+{
+  decltype(SYMBOL_TYPES)::value_type(STT_NOTYPE, "NOTYPE"),
+  decltype(SYMBOL_TYPES)::value_type(STT_OBJECT, "OBJECT"),
+  decltype(SYMBOL_TYPES)::value_type(STT_FUNC, "FUNC"),
+  decltype(SYMBOL_TYPES)::value_type(STT_SECTION, "SECTION"),
+  decltype(SYMBOL_TYPES)::value_type(STT_FILE, "FILE"),
+  decltype(SYMBOL_TYPES)::value_type(STT_COMMON, "COMMON"),
+  decltype(SYMBOL_TYPES)::value_type(STT_TLS, "TLS"),
+  decltype(SYMBOL_TYPES)::value_type(STT_LOOS, "LOOS"),
+  decltype(SYMBOL_TYPES)::value_type(STT_HIOS, "HIOS"),
+  decltype(SYMBOL_TYPES)::value_type(STT_GNU_IFUNC, "GNU_IFUNC"),
+  decltype(SYMBOL_TYPES)::value_type(STT_LOPROC, "LOPROC"),
+  decltype(SYMBOL_TYPES)::value_type(STT_HIPROC, "HIPROC")
+};

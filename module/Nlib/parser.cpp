@@ -4,9 +4,108 @@
 
 #include "elfformat.h"
 
-#define STRING_SIZE						20
+#define STRING_SIZE						300
+#define TMP_STRING_SIZE					500
 
 //////////////////////////////////////////////////////////////////////////////////
+
+
+int SymParser(unsigned char*				pchBuffer, 
+			  struct Elf32_Section_Linker*	e32_section_linker,
+			  struct Elf32_Sym_Linker* 		e32_sym_linker,
+			  char*							pchSymBuffer,
+			  char*							tableName)
+{
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	struct Elf32_Sym_Linker* e32_sym_Node 		= e32_sym_linker;
+	struct Elf32_Sym_Linker* e32_sym_NextNode   = NULL;
+
+	Elf32_Off TableOffset 				= 0;
+	Elf32_Word TableSize				= 0;
+
+	Elf32_Off StrTableOffset 			= 0;
+
+	int numberOfTable					= 0;
+	int i 								= 0;
+
+	char* tmpStrBuffer					= (char*) malloc(sizeof(char) * TMP_STRING_SIZE);
+	memset(tmpStrBuffer, 0, sizeof(char) * TMP_STRING_SIZE);
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	do
+	{
+		if (strcmp(SECTION_TYPE[e32_section_linker->e32_shdr.sh_type].c_str(), tableName) == 0)
+		{
+			TableOffset = e32_section_linker->e32_shdr.sh_offset;
+			TableSize 	= e32_section_linker->e32_shdr.sh_size;
+
+			numberOfTable = TableSize/sizeof(struct Elf32_Sym);
+			//printf("%s 0x%06x %d\n", SECTION_TYPE[e32_section_linker->e32_shdr.sh_type].c_str(), TableOffset, numberOfTable);
+
+			e32_section_linker = e32_section_linker->nextPoint;
+			StrTableOffset = e32_section_linker->e32_shdr.sh_offset;
+
+			break;
+		}
+
+		e32_section_linker = e32_section_linker->nextPoint;
+
+	} while(e32_section_linker->nextPoint != NULL);
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	if (TableOffset == 0)
+	{
+		strcpy(pchSymBuffer, "Don`t Have SymTable\n");
+		free(tmpStrBuffer);
+
+		return 0;
+	}
+
+
+	sprintf(pchSymBuffer,
+			"Symbol table %s contains %d entries:\n"
+			"  Num:      Value  Size Type     Bind   Name\n", tableName, numberOfTable);
+
+	do
+	{
+		memcpy(&e32_sym_Node->e32_sym,
+				pchBuffer + TableOffset,
+				sizeof(struct Elf32_Sym));
+
+		sprintf(tmpStrBuffer, "%5d: 0x%08x %5d %-8s %s %s\n", i,
+										e32_sym_Node->e32_sym.st_value,
+										e32_sym_Node->e32_sym.st_size,
+										SYMBOL_TYPES[e32_sym_Node->e32_sym.getType()].c_str(),
+										SYMBOL_BINDING[e32_sym_Node->e32_sym.getBinding()].c_str(),											
+										pchBuffer + (StrTableOffset + e32_sym_Node->e32_sym.st_name));
+		
+		strcat(pchSymBuffer, tmpStrBuffer);
+
+		
+		e32_sym_NextNode = (struct Elf32_Sym_Linker*) malloc(sizeof(struct Elf32_Sym_Linker));
+		memset(e32_sym_NextNode, 0, sizeof(struct Elf32_Sym_Linker));
+
+		e32_sym_Node->nextPoint = e32_sym_NextNode;
+		e32_sym_Node = e32_sym_NextNode;
+
+		TableOffset = TableOffset + (Elf32_Off) sizeof(struct Elf32_Sym);
+
+		i++;
+
+	} while (i<numberOfTable);
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	free(tmpStrBuffer);
+
+	return 0;
+}
+
 
 int DynParser(unsigned char* 			pchBuffer,
 			  struct Elf32_Ehdr*		e32_ehdr,
@@ -32,8 +131,8 @@ int DynParser(unsigned char* 			pchBuffer,
 	int numberOfTable					= 0;
 	int i 								= 0;
 
-	char* tmpStrBuffer					= (char*) malloc(sizeof(char) * 150);
-	memset(tmpStrBuffer, 0, sizeof(char) * 150);
+	char* tmpStrBuffer					= (char*) malloc(sizeof(char) * TMP_STRING_SIZE);
+	memset(tmpStrBuffer, 0, sizeof(char) * TMP_STRING_SIZE);
 
 	//////////////////////////////////////////////////////////////////////////////////
 
@@ -63,22 +162,22 @@ int DynParser(unsigned char* 			pchBuffer,
 			"Type                       Name/Value\n", TableOffset, numberOfTable);
 	do
 	{
-		memcpy(&e32_dyn_Node->e32_Dyn,
+		memcpy(&e32_dyn_Node->e32_dyn,
 				pchBuffer + TableOffset,
 				sizeof(struct Elf32_Dyn));
 
-		//printf("%s, 0x%08x\n", DYNAMIC_TAG[e32_dyn_Node->e32_Dyn.d_tag].c_str(), e32_dyn_Node->e32_Dyn.d_un.d_ptr);
+		//printf("%s, 0x%08x\n", DYNAMIC_TAG[e32_dyn_Node->e32_dyn.d_tag].c_str(), e32_dyn_Node->e32_dyn.d_un.d_ptr);
 
 
-		if (strcmp(DYNAMIC_ENTRY[e32_dyn_Node->e32_Dyn.d_tag].c_str(), "ptr") == 0)
+		if (strcmp(DYNAMIC_ENTRY[e32_dyn_Node->e32_dyn.d_tag].c_str(), "ptr") == 0)
 		{
-			sprintf(tmpStrBuffer, "%-25s 0x%08x\n", DYNAMIC_TAG[e32_dyn_Node->e32_Dyn.d_tag].c_str(),
-										e32_dyn_Node->e32_Dyn.d_un.d_ptr);
+			sprintf(tmpStrBuffer, "%-25s 0x%08x\n", DYNAMIC_TAG[e32_dyn_Node->e32_dyn.d_tag].c_str(),
+										e32_dyn_Node->e32_dyn.d_un.d_ptr);
 		}
 		else
 		{
-			sprintf(tmpStrBuffer, "%-25s %d (bytes)\n", DYNAMIC_TAG[e32_dyn_Node->e32_Dyn.d_tag].c_str(),
-										e32_dyn_Node->e32_Dyn.d_un.d_val);			
+			sprintf(tmpStrBuffer, "%-25s %d (bytes)\n", DYNAMIC_TAG[e32_dyn_Node->e32_dyn.d_tag].c_str(),
+										e32_dyn_Node->e32_dyn.d_un.d_val);			
 		}
 
 		strcat(pchDynBuffer, tmpStrBuffer);
@@ -102,12 +201,11 @@ int DynParser(unsigned char* 			pchBuffer,
 
 	while(e32_dyn_Node->nextPoint != NULL)
 	{
-		printf("%s, 0x%08x\n", DYNAMIC_TAG[e32_dyn_Node->e32_Dyn.d_tag].c_str(), e32_dyn_Node->e32_Dyn.d_un.d_ptr);
+		printf("%s, 0x%08x\n", DYNAMIC_TAG[e32_dyn_Node->e32_dyn.d_tag].c_str(), e32_dyn_Node->e32_dyn.d_un.d_ptr);
 		e32_dyn_Node = e32_dyn_Node->nextPoint;
 	}
 */
 	//////////////////////////////////////////////////////////////////////////////////
-
 
 	free(tmpStrBuffer);
 
@@ -161,8 +259,8 @@ int ShrParser(unsigned char* 				pchBuffer,
 	struct Elf32_Shdr e32_shdr 			= {0};
 
 	char* 	tmpStrBuffer				= NULL;
-	char*  	pchShrTmpBuffer 			= (char*) malloc(sizeof(char) * 150);
-	memset(pchShrTmpBuffer, 0, sizeof(char) * 150);
+	char*  	pchShrTmpBuffer 			= (char*) malloc(sizeof(char) * TMP_STRING_SIZE);
+	memset(pchShrTmpBuffer, 0, sizeof(char) * TMP_STRING_SIZE);
 
 	Elf32_Off TableOffset 				= 0;
 
@@ -266,8 +364,8 @@ int PhrParser(unsigned char* 		pchBuffer,
 	Elf32_Half ProcessHeaderTableSize 	= e32_ehdr->e_phentsize;
 	Elf32_Half ProcessHeaderTableNumber = e32_ehdr->e_phnum;
 
-	char*  pchPhrTmpBuffer 				= (char*) malloc(sizeof(char) * 150);
-	memset(pchPhrTmpBuffer, 0, sizeof(char) * 150);
+	char*  pchPhrTmpBuffer 				= (char*) malloc(sizeof(char) * TMP_STRING_SIZE);
+	memset(pchPhrTmpBuffer, 0, sizeof(char) * TMP_STRING_SIZE);
 
 	Elf32_Off TableOffset 				= 0;
 
@@ -318,7 +416,6 @@ int EhrParser(unsigned char* 		pchBuffer,
 
 	//////////////////////////////////////////////////////////////////////////////////
 
-	//memset(e32_ehdr, 0, 		sizeof(struct Elf32_Ehdr));
 	memcpy(e32_ehdr, pchBuffer, sizeof(struct Elf32_Ehdr));
 
 	sprintf(pchEhrBuffer, "Elf Header:\n"
