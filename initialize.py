@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
         Delete(WORKING_DIR)
         Delete(DATA_DIR)
-        for dirName in [DATA_DIR, SAMPLE_DIR, DECODE_DIR, ANALYSIS_DIR, TMP_DIR, LOGGER_PATH]:
+        for dirName in [DATA_DIR, SAMPLE_DIR, DECODE_DIR, ANALYSIS_DIR, TMP_DIR, LOGGER_PATH, CACHE]:
             DirCheck(dirName)
 
         ed = sp.edit()
