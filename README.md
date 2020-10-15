@@ -28,13 +28,9 @@
 | OS | Windows, Linux(에뮬레이터 불가) |
 | 언어 | Python3.7 / C |
 | 웹 | Flask, Redis |
-| 디컴파일러 | apktool, Jadx, 안드로가드 |
+| 디컴파일러 | apktool, Jadx, 안드로가드, [Il2cppdumper], [JustDecompile] |
 | 데이터 프레임 | pandas |
 | 데이터 분석 | 스파크, 엘라스틱 서치, 카프카 |
-
-il2cpp를 디코딩하기 위해서 [Il2cppdumper] 	</br>
-mono를 디코딩하기 위해서 [JustDecompile] 	</br>
-
 
 
 ## <span>내장 툴 크로스 컴파일</span>
@@ -80,7 +76,7 @@ $ termux-elf-cleaner <filenames>
 3. 환경 패스 초기화  </br>
 `$ python initialize.py -i`
 4. 웹 서버 구동  </br>
-`$ python service.py`
+`$ python server.py`
 
 
 
