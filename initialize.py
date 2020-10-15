@@ -2,7 +2,7 @@
 
 ##################################################################################################
 
-__version__ = '1.0.0'
+__version__ = '1.0.1'
 
 ##################################################################################################
 
@@ -82,7 +82,7 @@ if __name__ == '__main__':
 
         Delete(WORKING_DIR)
         Delete(DATA_DIR)
-        for dirName in [DATA_DIR, SAMPLE_DIR, DECODE_DIR, ANALYSIS_DIR, TMP_DIR]:
+        for dirName in [DATA_DIR, SAMPLE_DIR, DECODE_DIR, ANALYSIS_DIR, TMP_DIR, LOGGER_PATH]:
             DirCheck(dirName)
 
         ed = sp.edit()
