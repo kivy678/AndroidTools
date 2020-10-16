@@ -18,6 +18,11 @@ from webConfig import *
 
 ##################################################################################################
 
+for dirName in [LOGGER_PATH, SHARED_PATH_DIR, CACHE]:
+    DirCheck(dirName)
+
+##################################################################################################
+
 sp                  = getSharedPreferences(SHARED_PATH)
 
 config              = configparser.ConfigParser()
@@ -82,7 +87,7 @@ if __name__ == '__main__':
 
         Delete(WORKING_DIR)
         Delete(DATA_DIR)
-        for dirName in [DATA_DIR, SAMPLE_DIR, DECODE_DIR, ANALYSIS_DIR, TMP_DIR, LOGGER_PATH, CACHE]:
+        for dirName in [DATA_DIR, SAMPLE_DIR, DECODE_DIR, ANALYSIS_DIR, TMP_DIR]:
             DirCheck(dirName)
 
         ed = sp.edit()
