@@ -76,18 +76,12 @@ $ termux-elf-cleaner <filenames>
 3. 환경 패스 초기화  </br>
 `$ python initialize.py -i`
 4. 웹 서버 구동  </br>
-`$ python server.py`
+`$ python server.py -p [port]`
 
 
 ## <span>사용</span>
-1. 환경 패스 설정  </br>
-`$ vi global.ini`
-2. 엘라스틱서치와 레디스 서버가 설치되어 있다면 설정  </br>
-`$ vi webConfig.py`
-3. 환경 패스 초기화  </br>
-`$ python initialize.py -i`
-4. 웹 서버 구동  </br>
-`$ python server.py`
+1. work/sample 에 샘플을 넣는다.
+2. 기본 분석을 진행을 진행한다.
 
 
 
