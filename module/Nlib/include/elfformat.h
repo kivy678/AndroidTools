@@ -27,8 +27,23 @@ struct Elf32_Section_Linker
 struct Elf32_Sym_Linker
 {
 	struct Elf32_Sym 		 	 e32_sym;
+	char*			 	 	 	 e32_sym_name;
 	struct Elf32_Sym_Linker* 	 nextPoint;
 };
+
+struct Elf32_Rel_Linker
+{
+	struct Elf32_Rel 		 	 e32_rel;
+	struct Elf32_Rel_Linker* 	 nextPoint;
+};
+
+
+struct Elf32_Rela_Linker
+{
+	struct Elf32_Rela 		 	 e32_rela;
+	struct Elf32_Rela_Linker* 	 nextPoint;
+};
+
 
 
 #ifdef __cplusplus
@@ -51,6 +66,10 @@ extern "C"
 
 	extern std::map<int, std::string> SYMBOL_BINDING;
 	extern std::map<int, std::string> SYMBOL_TYPES;
+
+	extern std::map<int, std::string> R_386;
+	extern std::map<int, std::string> R_X86_64;
+	extern std::map<int, std::string> R_ARM;
 
 #ifdef __cplusplus
 }

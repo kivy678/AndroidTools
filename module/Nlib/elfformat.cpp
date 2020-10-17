@@ -11,6 +11,7 @@
 #define SECTION_SIZE					3000
 #define DYNAMIC_SIZE					3000
 #define SYMTAB_SIZE						500000
+#define REL_SIZE						500000
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -26,15 +27,20 @@ int HeapFree(unsigned char* pchBuffer,
 			 char* pchDynBuffer,
 			 char* pchSymBuffer,
 			 char* pchDsymBuffer,
+			 char* pchRelBuffer,
+			 char* pchRelpBuffer,
 			 struct Elf32_Section_Linker* 	e32_section_linker,
 			 struct Elf32_Dyn_Linker* 		e32_dyn_linker,
 			 struct Elf32_Sym_Linker* 		e32_sym_linker,
-			 struct Elf32_Sym_Linker* 		e32_dsym_linker)
+			 struct Elf32_Sym_Linker* 		e32_dsym_linker,
+			 struct Elf32_Rel_Linker* 		e32_rel_linker,
+			 struct Elf32_Rel_Linker* 		e32_relp_linker)
 {
 
 	struct Elf32_Section_Linker* 	NextNode1 = NULL;
 	struct Elf32_Dyn_Linker* 		NextNode2 = NULL;
 	struct Elf32_Sym_Linker* 		NextNode3 = NULL;
+	struct Elf32_Rel_Linker* 		NextNode4 = NULL;
 
 	free(pchBuffer);
 
@@ -44,6 +50,8 @@ int HeapFree(unsigned char* pchBuffer,
 	free(pchDynBuffer);
 	free(pchSymBuffer);
 	free(pchDsymBuffer);
+	free(pchRelBuffer);
+	free(pchRelpBuffer);
 
 		
 	while(e32_section_linker->nextPoint != NULL)
@@ -86,6 +94,26 @@ int HeapFree(unsigned char* pchBuffer,
 	free(e32_dsym_linker);
 
 
+	while(e32_rel_linker->nextPoint != NULL)
+	{
+		NextNode4 = e32_rel_linker->nextPoint;
+		free(e32_rel_linker);
+
+		e32_rel_linker = NextNode4;
+	}
+	free(e32_rel_linker);
+
+
+	while(e32_relp_linker->nextPoint != NULL)
+	{
+		NextNode4 = e32_relp_linker->nextPoint;
+		free(e32_relp_linker);
+
+		e32_relp_linker = NextNode4;
+	}
+	free(e32_relp_linker);
+
+
 	return 0;
 }
 
@@ -109,6 +137,8 @@ parser(PyObject* self, PyObject* a_args)
 	struct Elf32_Dyn_Linker* 		e32_dyn_linker 		= NULL;
 	struct Elf32_Sym_Linker* 		e32_sym_linker 		= NULL;
 	struct Elf32_Sym_Linker* 		e32_dsym_linker 	= NULL;
+	struct Elf32_Rel_Linker* 		e32_rel_linker 		= NULL;
+	struct Elf32_Rel_Linker* 		e32_relp_linker 	= NULL;
 
 
 	char*	pchEhrBuffer 	= (char*) malloc(sizeof(char) * HEADER_SIZE);
@@ -117,6 +147,8 @@ parser(PyObject* self, PyObject* a_args)
 	char*	pchDynBuffer 	= (char*) malloc(sizeof(char) * DYNAMIC_SIZE);
 	char*	pchSymBuffer 	= (char*) malloc(sizeof(char) * SYMTAB_SIZE);
 	char*	pchDsymBuffer 	= (char*) malloc(sizeof(char) * SYMTAB_SIZE);
+	char*	pchRelBuffer 	= (char*) malloc(sizeof(char) * REL_SIZE);
+	char*	pchRelpBuffer 	= (char*) malloc(sizeof(char) * REL_SIZE);
 
 
 	memset(pchEhrBuffer, 0, sizeof(char) * HEADER_SIZE);
@@ -125,6 +157,8 @@ parser(PyObject* self, PyObject* a_args)
 	memset(pchDynBuffer, 0, sizeof(char) * DYNAMIC_SIZE);
 	memset(pchSymBuffer, 0, sizeof(char) * SYMTAB_SIZE);
 	memset(pchDsymBuffer, 0, sizeof(char) * SYMTAB_SIZE);
+	memset(pchRelBuffer, 0, sizeof(char) * REL_SIZE);
+	memset(pchRelpBuffer, 0, sizeof(char) * REL_SIZE);
 
 
 	e32_section_linker = (struct Elf32_Section_Linker*) malloc(sizeof(struct Elf32_Section_Linker));
@@ -138,6 +172,13 @@ parser(PyObject* self, PyObject* a_args)
 
 	e32_dsym_linker = (struct Elf32_Sym_Linker*) malloc(sizeof(struct Elf32_Sym_Linker));
 	memset(e32_dsym_linker, 0, sizeof(struct Elf32_Sym_Linker));
+
+	e32_rel_linker = (struct Elf32_Rel_Linker*) malloc(sizeof(struct Elf32_Rel_Linker));
+	memset(e32_rel_linker, 0, sizeof(struct Elf32_Rel_Linker));
+
+	e32_relp_linker = (struct Elf32_Rel_Linker*) malloc(sizeof(struct Elf32_Rel_Linker));
+	memset(e32_relp_linker, 0, sizeof(struct Elf32_Rel_Linker));
+
 
 	//////////////////////////////////////////////////////////////////////////////////
 
@@ -183,16 +224,12 @@ parser(PyObject* self, PyObject* a_args)
 		PhrParser(pchBuffer, &e32_ehdr, &e32_phdr, pchPhrBuffer);
 		ShrParser(pchBuffer, &e32_ehdr, e32_section_linker, pchShrBuffer);
 		DynParser(pchBuffer, &e32_ehdr, e32_dyn_linker, pchDynBuffer);
-		SymParser(pchBuffer, e32_section_linker, e32_sym_linker, pchSymBuffer, "SYMTAB");
-		SymParser(pchBuffer, e32_section_linker, e32_dsym_linker, pchDsymBuffer, "DYNSYM");
+		SymParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_sym_linker, pchSymBuffer, ".symtab");
+		SymParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_dsym_linker, pchDsymBuffer, ".dynsym");
+		RelParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_dsym_linker, e32_rel_linker, pchRelBuffer, ".rel.dyn");
+		RelParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_dsym_linker, e32_relp_linker, pchRelpBuffer, ".rel.plt");
 	}
 
-	//printf("%s\n", pchEhrBuffer);
-	//printf("%s\n", pchPhrBuffer);
-	//printf("%s\n", pchShrBuffer);
-	//printf("%s\n", pchDynBuffer);
-	//printf("%s\n", pchSymBuffer);
-	//printf("%s\n", pchDsymBuffer);
 
 	//////////////////////////////////////////////////////////////////////////////////
 
@@ -217,6 +254,12 @@ parser(PyObject* self, PyObject* a_args)
 	else if (strcmp(option, "dS") == 0)
 		returnString = Py_BuildValue("s", pchDsymBuffer);
 
+	else if (strcmp(option, "r") == 0)
+		returnString = Py_BuildValue("s", pchRelBuffer);
+
+	else if (strcmp(option, "rp") == 0)
+		returnString = Py_BuildValue("s", pchRelpBuffer);
+
 	else
 		returnString = Py_BuildValue("sss", pchEhrBuffer, pchPhrBuffer, pchShrBuffer);
 
@@ -228,10 +271,14 @@ parser(PyObject* self, PyObject* a_args)
 			 pchDynBuffer,
 			 pchSymBuffer,
 			 pchDsymBuffer,
+			 pchRelBuffer,
+			 pchRelpBuffer,
 			 e32_section_linker,
 			 e32_dyn_linker,
 			 e32_sym_linker,
-			 e32_dsym_linker);
+			 e32_dsym_linker,
+			 e32_rel_linker,
+			 e32_relp_linker);
 
 
 	return returnString;
