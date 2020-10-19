@@ -12,7 +12,7 @@ BASE_DIR        = os.path.dirname(os.path.realpath(__file__))
 ELASTIC_PATH = r'C:\elasticsearch-hadoop-7.8.1\dist\elasticsearch-hadoop-7.8.1.jar'
 
 ES_CONF = {
-    "es.nodes": 				"172.16.12.111:9200",
+    "es.nodes": 				"127.0.0.1:9200",
     "es.nodes.discovery": 		"true",
     "es.write.operation": 		"index",
     "es.index.auto.create": 	"true",

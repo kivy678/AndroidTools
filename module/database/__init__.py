@@ -3,6 +3,7 @@
 from module.database.dataframe import *
 
 df_dev 		= DEVICE.instance()
+df_lib		= LIB.instance()
 df_dev_lib	= DEV_LIB.instance()
 df_app 		= APPLICATION.instance()
 df_unity	= UNITY.instance()

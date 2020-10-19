@@ -46,7 +46,7 @@ class DatabaseLoader(MethodView):
                                                    enter3=df_il2cpp.DATA_FRAME)
 
     def fetch_dev(self):
-        return render_template('prefer/database/load2.jinja', enter=df_dev_lib.DATA_FRAME)
+        return render_template('prefer/database/load2.jinja', enter=df_lib.DATA_FRAME)
 
     def post(self):
 

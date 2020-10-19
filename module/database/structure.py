@@ -19,11 +19,15 @@ DEV_COLUMNS=[
 ]
 
 DEV_LIB_COLUMNS=[
-    'lib',
-    'addr',
     'model',
+    'lib',
 ]
 
+LIB_COLUMNS=[
+    'func',
+    'addr',
+    'lib_fk',
+]
 
 APP_COLUMNS=[
     'fileName',

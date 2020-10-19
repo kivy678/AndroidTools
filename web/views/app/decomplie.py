@@ -86,7 +86,7 @@ class Decomplier(MethodView):
         data = {'fileName': libName, 'fileSize': fSize, 'build': 'mono', 'parent': parent_sha256, 'status': STATUS.INIT.value}
         add_idx = pd.Series(data).rename(sha256)
         df_unity.DATA_FRAME = df_unity.DATA_FRAME.append(add_idx)
-        df_unity.DATA_FRAME.index.drop_duplicates(keep='first')
+        df_unity.DATA_FRAME = df_unity.DATA_FRAME.index.drop_duplicates(keep='first')
 
         df_unity.saveCSV()
 

@@ -29,7 +29,8 @@ class DEVICE_WORKER(MethodView):
 
         installer = dev.installer
 
-        if installer.isCommit() is False:
+        if installer.isCommit() is True:
+
             LOG.info(f"{'[*]':<5}Settings Start")
             installer.serverDecompress()
             installer.toolDecompress()

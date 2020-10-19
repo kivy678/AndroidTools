@@ -30,3 +30,4 @@ import web.views.analysis.dynamic.yara_search
 import web.views.analysis.dynamic.process
 import web.views.analysis.dynamic.bp
 import web.views.analysis.dynamic.frida
+import web.views.analysis.dynamic.libcheck
