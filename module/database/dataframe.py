@@ -79,6 +79,14 @@ class DEVICE(DATA_FRAME):
         super().saveCSV(".dev.csv")
 
 
+class DEV_LIB(DATA_FRAME):
+    def setup(self):
+        self._DATA_FRAME = self.setCSV(".dev_lib.csv", DEV_LIB_COLUMNS)
+
+    def saveCSV(self):
+        super().saveCSV(".dev_lib.csv")
+
+
 class APPLICATION(DATA_FRAME):
     def setup(self):
         self._DATA_FRAME = self.setCSV(".app.csv", APP_COLUMNS)

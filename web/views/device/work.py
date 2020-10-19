@@ -12,6 +12,8 @@ from web.views.device import view
 from module.mobile.DeviceManager.device import EMULATOR
 from module.database import df_dev
 
+from module.mobile.DeviceManager.analysis import AnalysisData
+
 from util.Logger import LOG
 
 ##########################################################################
@@ -50,6 +52,10 @@ class DEVICE_WORKER(MethodView):
 
             LOG.info(f"{'':>5}6. User Tool Install Start")
             installer.userToolInstall()
+
+            LOG.info(f"{'':>5}6. Device Data Get Analysis to Start")
+            analysiser = AnalysisData(dev)
+            analysiser.getData()
 
             LOG.info(f"{'':>5}7. Commit To Device")
             installer.commit()

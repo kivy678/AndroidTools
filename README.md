@@ -30,7 +30,7 @@
 | 웹 | Flask, Redis |
 | 디컴파일러 | apktool, Jadx, 안드로가드, [Il2cppdumper], [JustDecompile] |
 | 데이터 프레임 | pandas |
-| 데이터 분석 | 스파크, 엘라스틱 서치, 카프카 |
+| 데이터 분석 | 스파크, 엘라스틱 서치, 키바나 |
 
 
 ## <span>내장 툴 크로스 컴파일</span>
@@ -81,7 +81,7 @@ $ termux-elf-cleaner <filenames>
 
 ## <span>사용</span>
 1. work/sample 에 샘플을 넣는다.
-2. 기본 분석을 진행을 진행한다.
+2. 기본 분석을 진행한 뒤, 분석할 샘플을 선정한다.
 
 
 

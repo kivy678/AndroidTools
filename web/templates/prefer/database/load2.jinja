@@ -1,0 +1,30 @@
+{% extends 'base.jinja' %}
+
+{% block container %}
+<div class="row">
+
+	<div class="center-block" >
+		<table class="table table-bordered table-striped table-sm table-hover">
+			<thead class="thead-dark">
+				<tr>
+					<th>함수 이름</th>
+					<th>주소</th>
+					<th>단말기</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for value in enter.itertuples() %}
+				<tr>
+					<td>{{ value[1] }}</td>
+					<td>{{ value[2] }}</td>
+					<td>{{ value[3] }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+
+    </div>
+
+</div>
+{% endblock container %}

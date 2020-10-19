@@ -92,7 +92,7 @@ if __name__ == '__main__':
 
         ed = sp.edit()
         ed.putString('WORKING_DIR', WORKING_DIR)
-        ed.putString('WORKING_DIR', DATA_DIR)
+        ed.putString('DATA_DIR', DATA_DIR)
 
         ed.putString('SAMPLE_DIR', SAMPLE_DIR)
         ed.putString('DECODE_DIR', DECODE_DIR)
@@ -102,6 +102,7 @@ if __name__ == '__main__':
         ed.putString('JADX_PATH', JADX_PATH)
         ed.putString('JUST_DECOMPILE_PATH', JUST_DECOMPILE_PATH)
         ed.putString('IL2CPP_DUMPER_PATH', IL2CPP_DUMPER_PATH)
+        ed.putString('IDA_PATH', IDA_PATH)
 
         ed.putBoolean('INIT_SETTING', True)
         ed.commit()

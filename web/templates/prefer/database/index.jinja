@@ -6,7 +6,8 @@
 	<div class="col-md-3 sidebar">
 		<ul class="nav navbar-nav">
 
-			<li><a href="{{ url_for('prefer.database.load') }}">로드</a></li>
+			<li><a href="{{ url_for('prefer.database.load', target='dev') }}">단말기로드</a></li>
+			<li><a href="{{ url_for('prefer.database.load', target='app') }}">앱로드</a></li>
 			<li><a href="{{ url_for('prefer.database.save') }}">저장</a></li>
 
 		</ul>

@@ -18,6 +18,13 @@ DEV_COLUMNS=[
     'setup',
 ]
 
+DEV_LIB_COLUMNS=[
+    'lib',
+    'addr',
+    'model',
+]
+
+
 APP_COLUMNS=[
     'fileName',
     'pkg',

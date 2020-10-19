@@ -4,6 +4,7 @@
 
 from flask.views import MethodView
 from flask import render_template, request
+from flask import redirect
 
 from web.views.prefer import view_db
 
@@ -30,10 +31,22 @@ class DatabaseLoader(MethodView):
     def __init__(self, template_name):
         self.template_name = template_name
 
-    def get(self):
-        return render_template(self.template_name, enter=df_app.DATA_FRAME,
+    def get(self, target=''):
+        f = f'fetch_{target}'
+
+        if hasattr(self, f) is False:
+            return redirect('/prefer/index')
+
+        return getattr(self, f)()
+
+
+    def fetch_app(self):
+        return render_template('prefer/database/load.jinja', enter=df_app.DATA_FRAME,
                                                    enter2=df_unity.DATA_FRAME,
                                                    enter3=df_il2cpp.DATA_FRAME)
+
+    def fetch_dev(self):
+        return render_template('prefer/database/load2.jinja', enter=df_dev_lib.DATA_FRAME)
 
     def post(self):
 
@@ -55,5 +68,5 @@ class DatabaseLoader(MethodView):
         return f"<pre>분석중인 패키지명:\t{pkg}\n비교 분석중인:\t{cmp_analysis}</pre>"
 
 
-load = DatabaseLoader.as_view('load', template_name='prefer/database/load.jinja')
-view_db.add_url_rule('load', view_func=load)
+load = DatabaseLoader.as_view('load', template_name='')
+view_db.add_url_rule('load/<string:target>', view_func=load)

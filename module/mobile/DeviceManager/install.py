@@ -156,7 +156,6 @@ class DEVICE_INSTALLER():
 
     def cowExploit(self):
         cmd = "adb push {0} /data/local/tmp".format(Join(TMP_DIR, 'mprop'))
-        print(cmd)
         shell.runCommand(cmd, shell=False)
 
         cmd = f"chmod 755 /data/local/tmp/mprop && cd /data/local/tmp && ./mprop ro.debuggable 1"
