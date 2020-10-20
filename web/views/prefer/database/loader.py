@@ -31,7 +31,7 @@ class DatabaseLoader(MethodView):
     def __init__(self, template_name):
         self.template_name = template_name
 
-    def get(self, target=''):
+    def get(self, target='app'):
         f = f'fetch_{target}'
 
         if hasattr(self, f) is False:
@@ -49,7 +49,6 @@ class DatabaseLoader(MethodView):
         return render_template('prefer/database/load2.jinja', enter=df_lib.DATA_FRAME)
 
     def post(self):
-
         pkg = request.form.get('pkg')
         fileName = request.form.get('fileName')
         sha256 = request.form.get('sha256')
@@ -69,4 +68,5 @@ class DatabaseLoader(MethodView):
 
 
 load = DatabaseLoader.as_view('load', template_name='')
+view_db.add_url_rule('load', view_func=load)
 view_db.add_url_rule('load/<string:target>', view_func=load)
