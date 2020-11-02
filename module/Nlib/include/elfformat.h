@@ -45,6 +45,15 @@ struct Elf32_Rela_Linker
 };
 
 
+struct Elf32_GotMap_Linker
+{
+	Elf32_Off 		 	 		e32_rela;
+	char* 	 					dynsym;
+	struct Elf32_GotMap_Linker* nextPoint;
+};
+
+
+
 
 #ifdef __cplusplus
 extern "C"

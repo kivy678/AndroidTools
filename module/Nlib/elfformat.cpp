@@ -4,6 +4,9 @@
 
 #include "elfformat.h"
 #include "parser.h"
+#include "getgot.h"
+#include "heapfree.h"
+
 
 #define ELFMAGIC_SIZE 					sizeof(ElfMagic)-1
 #define HEADER_SIZE						500
@@ -12,6 +15,8 @@
 #define DYNAMIC_SIZE					3000
 #define SYMTAB_SIZE						500000
 #define REL_SIZE						500000
+#define GOT_SIZE						500000
+
 
 //////////////////////////////////////////////////////////////////////////////////
 
@@ -20,101 +25,130 @@ PyObject* ElfFormatException = NULL;
 //////////////////////////////////////////////////////////////////////////////////
 
 
-int HeapFree(unsigned char* pchBuffer,
-			 char* pchEhrBuffer,
-			 char* pchPhrBuffer,
-			 char* pchShrBuffer,
-			 char* pchDynBuffer,
-			 char* pchSymBuffer,
-			 char* pchDsymBuffer,
-			 char* pchRelBuffer,
-			 char* pchRelpBuffer,
-			 struct Elf32_Section_Linker* 	e32_section_linker,
-			 struct Elf32_Dyn_Linker* 		e32_dyn_linker,
-			 struct Elf32_Sym_Linker* 		e32_sym_linker,
-			 struct Elf32_Sym_Linker* 		e32_dsym_linker,
-			 struct Elf32_Rel_Linker* 		e32_rel_linker,
-			 struct Elf32_Rel_Linker* 		e32_relp_linker)
+static PyObject *
+GetGot(PyObject* self, PyObject* a_args)
 {
 
-	struct Elf32_Section_Linker* 	NextNode1 = NULL;
-	struct Elf32_Dyn_Linker* 		NextNode2 = NULL;
-	struct Elf32_Sym_Linker* 		NextNode3 = NULL;
-	struct Elf32_Rel_Linker* 		NextNode4 = NULL;
+	//////////////////////////////////////////////////////////////////////////////////
 
-	free(pchBuffer);
+	PyObject* 		returnString = NULL;
+	FILE* 			pstRStream 	= NULL;
+	unsigned char* 	pchBuffer	= NULL;
 
-	free(pchEhrBuffer);
-	free(pchPhrBuffer);
-	free(pchShrBuffer);
-	free(pchDynBuffer);
-	free(pchSymBuffer);
-	free(pchDsymBuffer);
-	free(pchRelBuffer);
-	free(pchRelpBuffer);
+	const char* 	args		= NULL;
 
-		
-	while(e32_section_linker->nextPoint != NULL)
+	Elf32_Off GOT_Offset = 0;
+
+	struct Elf32_Ehdr 				e32_ehdr 			= {0};
+	struct Elf32_Section_Linker* 	e32_section_linker 	= NULL;
+	struct Elf32_Dyn_Linker* 		e32_dyn_linker 		= NULL;
+	struct Elf32_Sym_Linker* 		e32_dsym_linker 	= NULL;
+	struct Elf32_Rel_Linker* 		e32_relp_linker 	= NULL;
+	struct Elf32_GotMap_Linker* 	e32_gotmap_linker 	= NULL;
+
+
+	char*	pchEhrBuffer 	= (char*) malloc(sizeof(char) * HEADER_SIZE);
+	char*	pchShrBuffer 	= (char*) malloc(sizeof(char) * SECTION_SIZE);
+	char*	pchDynBuffer 	= (char*) malloc(sizeof(char) * DYNAMIC_SIZE);
+	char*	pchDsymBuffer 	= (char*) malloc(sizeof(char) * SYMTAB_SIZE);
+	char*	pchRelpBuffer 	= (char*) malloc(sizeof(char) * REL_SIZE);
+	char*	pchGotBuffer 	= (char*) malloc(sizeof(char) * GOT_SIZE);
+
+
+	memset(pchEhrBuffer, 0, sizeof(char) * HEADER_SIZE);
+	memset(pchShrBuffer, 0, sizeof(char) * SECTION_SIZE);
+	memset(pchDynBuffer, 0, sizeof(char) * DYNAMIC_SIZE);
+	memset(pchDsymBuffer, 0, sizeof(char) * SYMTAB_SIZE);
+	memset(pchRelpBuffer, 0, sizeof(char) * REL_SIZE);
+	memset(pchGotBuffer, 0, sizeof(char) * GOT_SIZE);
+
+
+	e32_section_linker = (struct Elf32_Section_Linker*) malloc(sizeof(struct Elf32_Section_Linker));
+	memset(e32_section_linker, 0, sizeof(struct Elf32_Section_Linker));
+
+	e32_dyn_linker = (struct Elf32_Dyn_Linker*) malloc(sizeof(struct Elf32_Dyn_Linker));
+	memset(e32_dyn_linker, 0, sizeof(struct Elf32_Dyn_Linker));
+
+	e32_dsym_linker = (struct Elf32_Sym_Linker*) malloc(sizeof(struct Elf32_Sym_Linker));
+	memset(e32_dsym_linker, 0, sizeof(struct Elf32_Sym_Linker));
+
+	e32_relp_linker = (struct Elf32_Rel_Linker*) malloc(sizeof(struct Elf32_Rel_Linker));
+	memset(e32_relp_linker, 0, sizeof(struct Elf32_Rel_Linker));
+
+	e32_gotmap_linker = (struct Elf32_GotMap_Linker*) malloc(sizeof(struct Elf32_GotMap_Linker));
+	memset(e32_gotmap_linker, 0, sizeof(struct Elf32_GotMap_Linker));
+
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	if(!PyArg_ParseTuple(a_args, "s", &args))
 	{
-		NextNode1 = e32_section_linker->nextPoint;
-		free(e32_section_linker);
-
-		e32_section_linker = NextNode1;
+		ELFFORMAT_EXCEPTION(-1, "ARGS PASS FAILED!!!\n");
+		return NULL;
 	}
-	free(e32_section_linker);
-
-
-	while(e32_dyn_linker->nextPoint != NULL)
+	else
 	{
-		NextNode2 = e32_dyn_linker->nextPoint;
-		free(e32_dyn_linker);
-
-		e32_dyn_linker = NextNode2;
+		pstRStream 	= fopen(args, "rb");
 	}
-	free(e32_dyn_linker);
 
+	//////////////////////////////////////////////////////////////////////////////////
 
-	while(e32_sym_linker->nextPoint != NULL)
+	if(pstRStream != NULL)
 	{
-		NextNode3 = e32_sym_linker->nextPoint;
-		free(e32_sym_linker);
+		fseek(pstRStream, 0, SEEK_END);
+		long nBytes = ftell(pstRStream);
 
-		e32_sym_linker = NextNode3;
+		pchBuffer 	= (unsigned char*) malloc(sizeof(unsigned char) * nBytes);
+
+		fseek(pstRStream, 0, SEEK_SET);
+		fread(pchBuffer, sizeof(unsigned char), nBytes, pstRStream);
+
+		fclose(pstRStream);
 	}
-	free(e32_sym_linker);
-
-
-	while(e32_dsym_linker->nextPoint != NULL)
+	else
 	{
-		NextNode3 = e32_dsym_linker->nextPoint;
-		free(e32_dsym_linker);
+		ELFFORMAT_EXCEPTION(-1, "FILE OPEN FAILED!!!\n");
 
-		e32_dsym_linker = NextNode3;
+		free(pchBuffer);
+
+		return 0;
 	}
-	free(e32_dsym_linker);
+
+	//////////////////////////////////////////////////////////////////////////////////
+
+	EhrParser(pchBuffer, &e32_ehdr, pchEhrBuffer);
+
+	ShrParser(pchBuffer, &e32_ehdr, e32_section_linker, pchShrBuffer);
+	DynParser(pchBuffer, &e32_ehdr, e32_dyn_linker, pchDynBuffer);
+	SymParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_dsym_linker, pchDsymBuffer, ".dynsym");
+	RelParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_dsym_linker, e32_relp_linker, pchRelpBuffer, ".rel.plt");
 
 
-	while(e32_rel_linker->nextPoint != NULL)
+	if ((GOT_Offset = GetGotOffset(e32_dyn_linker)) != 0)
 	{
-		NextNode4 = e32_rel_linker->nextPoint;
-		free(e32_rel_linker);
+		GetLibraryOffset(pchBuffer, GOT_Offset, e32_dsym_linker, e32_relp_linker, e32_gotmap_linker, pchGotBuffer);
+	};
 
-		e32_rel_linker = NextNode4;
-	}
-	free(e32_rel_linker);
+	//////////////////////////////////////////////////////////////////////////////////
+
+	returnString =  Py_BuildValue("s", pchGotBuffer);
+
+	GotHeapFree(pchBuffer,
+				 pchEhrBuffer,
+				 pchShrBuffer,
+				 pchDynBuffer,
+				 pchDsymBuffer,
+				 pchRelpBuffer,
+				 pchGotBuffer,
+				 e32_section_linker,
+				 e32_dyn_linker,
+				 e32_dsym_linker,
+				 e32_relp_linker,
+				 e32_gotmap_linker);
 
 
-	while(e32_relp_linker->nextPoint != NULL)
-	{
-		NextNode4 = e32_relp_linker->nextPoint;
-		free(e32_relp_linker);
+	return returnString;
 
-		e32_relp_linker = NextNode4;
-	}
-	free(e32_relp_linker);
-
-
-	return 0;
 }
 
 
@@ -130,6 +164,7 @@ parser(PyObject* self, PyObject* a_args)
 
 	const char* 	args		= NULL;
 	const char*		option		= NULL;
+	const char*		option2		= NULL;
 
 	struct Elf32_Ehdr 				e32_ehdr 			= {0};
 	struct Elf32_Phdr 				e32_phdr 			= {0};
@@ -182,7 +217,7 @@ parser(PyObject* self, PyObject* a_args)
 
 	//////////////////////////////////////////////////////////////////////////////////
 
-	if(!PyArg_ParseTuple(a_args, "ss", &args, &option))
+	if(!PyArg_ParseTuple(a_args, "sss", &args, &option, &option2))
 	{
 		ELFFORMAT_EXCEPTION(-1, "ARGS PASS FAILED!!!\n");
 		return NULL;
@@ -218,10 +253,11 @@ parser(PyObject* self, PyObject* a_args)
 	//////////////////////////////////////////////////////////////////////////////////
 
 	EhrParser(pchBuffer, &e32_ehdr, pchEhrBuffer);
+	PhrParser(pchBuffer, &e32_ehdr, &e32_phdr, pchPhrBuffer);
 
-	if (strcmp(OBJECT_FILE_CLASS[e32_ehdr.getFileClass()].c_str(), "ELF32") == 0)
+	if ((strcmp(OBJECT_FILE_CLASS[e32_ehdr.getFileClass()].c_str(), "ELF32") == 0) &&
+		(strcmp(option2, "f") == 0))
 	{
-		PhrParser(pchBuffer, &e32_ehdr, &e32_phdr, pchPhrBuffer);
 		ShrParser(pchBuffer, &e32_ehdr, e32_section_linker, pchShrBuffer);
 		DynParser(pchBuffer, &e32_ehdr, e32_dyn_linker, pchDynBuffer);
 		SymParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_sym_linker, pchSymBuffer, ".symtab");
@@ -290,6 +326,7 @@ parser(PyObject* self, PyObject* a_args)
 
 static PyMethodDef ElfFormatMethods[] = {
 	{"parser", parser, METH_VARARGS, "ELF Parser"},
+	{"GetGot", GetGot, METH_VARARGS, "Get Got And Reloc"},
 	{NULL, NULL, 0, NULL}
 };
 

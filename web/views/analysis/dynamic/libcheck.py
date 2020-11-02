@@ -5,21 +5,20 @@
 from flask.views import MethodView
 from flask import render_template, request
 
+from werkzeug.utils import secure_filename
 from web.views.analysis import view_dynamic
 
 from module.mobile.DeviceManager.process import ProcessInfor
 from module.mobile.Analysis.dynamic.mview import getMemory
-
-from module.mobile.cmd import shell
+from module.mobile.Analysis.static.create_lib import createLibrary
 
 from web.session import getSession
+from module.mobile.cmd import shell
 
 from util.fsUtils import *
 
 from common import getSharedPreferences
 from webConfig import SHARED_PATH
-
-from web.session import getSession
 
 import elfformat
 
@@ -27,13 +26,9 @@ import elfformat
 
 sp              = getSharedPreferences(SHARED_PATH)
 DATA_DIR        = sp.getString('DATA_DIR')
-DECODE_DIR        = sp.getString('DECODE_DIR')
 
-#MEM_FILTER  = ['']
 MEM_FILTER  = ['/data/data/', '/data/app/', 'libc.so']
 
-
-ARCH_SIZE = {"ARM": 4, "THUMB": 2, "X86": 1}
 
 ################################################################################
 
@@ -50,11 +45,36 @@ class LIB_CHECK(MethodView):
         if pid_list is None:
             return "앱을 실행하세요"
 
-        if request.args:
-            pid             = request.args.get("pid")
-            start_addr      = request.args.get("GetStartAddr")
-            end_addr        = request.args.get("GetEndAddr")
-            lib_name        = request.args.get("GetLibName")
+        data = list()
+        for pid in pid_list:
+            data.append((pid, iter(getMemory(pid, MEM_FILTER))))
+
+        return render_template(self.template_name, enter=data)
+
+
+    def post(self):
+        if request.method == "POST":
+            pid             = request.form.get("pid")
+            start_addr      = request.form.get("GetStartAddr")
+            end_addr        = request.form.get("GetEndAddr")
+            lib_name        = request.form.get("GetLibName")
+
+            f = request.files.get('SoFileName')
+            fileName = f.filename
+
+            org_path = Join(DATA_DIR, secure_filename(fileName))
+            f.save(org_path)
+
+            cmd = f"/data/local/tmp/MemoryDumper {pid} {start_addr} {end_addr}"
+            shell.runCommand(cmd, shell=True, encoder='unicode-escape')
+
+            cmd = f"adb pull /data/local/tmp/dump.bin {DATA_DIR}"
+            shell.runCommand(cmd, shell=False)
+
+            save_path = createLibrary(org_path, Join(DATA_DIR, "dump.bin"))
+
+            return "<pre>" + elfformat.GetGot(save_path) + "</pre>"
+
 
             """
             if (start_addr is '') or (end_addr is '') or (lib_name is ''):
@@ -67,7 +87,7 @@ class LIB_CHECK(MethodView):
                 shell.runCommand(cmd, shell=False)
 
             """
-
+            """
             analysis_path = Join(DECODE_DIR, getSession('fileName'), 'unzip')
             for _path in Walk(analysis_path):
                 if BaseName(_path) == "libjiagu_x86.so":
@@ -79,15 +99,7 @@ class LIB_CHECK(MethodView):
                         elif row[0] == "PLTRELSZ":
                             addr_size = int(row[1])
 
-
-            return "개발 중"
-
-
-        data = list()
-        for pid in pid_list:
-            data.append((pid, iter(getMemory(pid, MEM_FILTER))))
-
-        return render_template(self.template_name, enter=data)
+            """
 
 
     def getPid(self, pkg):

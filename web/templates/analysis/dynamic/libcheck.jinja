@@ -30,7 +30,7 @@
 			</tbody>
 		</table>
 
-		<form action="libcheck" method="GET" enctype="multipart/form-data">
+		<form action="libcheck" method="POST" enctype="multipart/form-data">
 			<div class="form-group">
 				<div class="col-sm-offset-2">
 					<label id="addr" class="col-sm-5">PID, 주소 입력</label>
@@ -41,6 +41,12 @@
 				      <input type="text" class="form-control" name="GetLibName" placeholder="libc.so">
 			    	</div>
 		    	</div>
+			</div>
+
+			<div class="form-group">
+				<label for="SoFile">so 파일을 복원합니다.</label>
+					<input type="file" id="SoFile" name="SoFileName">
+					<p class="help-block">so 파일을 업로드하세요.</p>
 			</div>
 
 			<div class="form-group">

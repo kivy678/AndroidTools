@@ -51,9 +51,9 @@ class FileFormat(MethodView):
 
         try:
             if f in ['h', 'p', 's', 'd', 'S', 'dS', 'r', 'rp']:
-                return "<pre>" + elfformat.parser(lib_path, f) + "<pre>"
+                return "<pre>" + elfformat.parser(lib_path, f, 'f') + "<pre>"
             else:
-                return "<pre>" + '\n'.join([i for i in elfformat.parser(lib_path, '')]) + "<pre>"
+                return "<pre>" + '\n'.join([i for i in elfformat.parser(lib_path, '', 'f')]) + "<pre>"
 
         except Exception as e:
             print(e)
