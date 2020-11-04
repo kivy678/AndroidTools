@@ -49,10 +49,10 @@ class IL2CPPAnalysis(MethodView):
 
         cmp1_path, cmp2_path = path
         for il2cpp in save_data:
-            data = {'ref_id':getSHA256(cmp1_path), 'function': il2cpp.function, 'offset': il2cpp.offset, 'opcode': il2cpp.cmp1, 'cmp_ref': getSHA256(cmp2_path)}
+            data = {'ref_id': getSHA256(cmp1_path), 'function': il2cpp.function, 'offset': il2cpp.offset, 'opcode': il2cpp.cmp1, 'cmp_ref': getSHA256(cmp2_path)}
             df_il2cpp.DATA_FRAME = df_il2cpp.DATA_FRAME.append(pd.Series(data), ignore_index=True)
 
-            data = {'ref_id':getSHA256(cmp2_path), 'function': il2cpp.function, 'offset': il2cpp.offset, 'opcode': il2cpp.cmp2, 'cmp_ref': getSHA256(cmp1_path)}
+            data = {'ref_id': getSHA256(cmp2_path), 'function': il2cpp.function, 'offset': il2cpp.offset, 'opcode': il2cpp.cmp2, 'cmp_ref': getSHA256(cmp1_path)}
             df_il2cpp.DATA_FRAME = df_il2cpp.DATA_FRAME.append(pd.Series(data), ignore_index=True)
 
 

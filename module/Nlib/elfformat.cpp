@@ -126,7 +126,13 @@ GetGot(PyObject* self, PyObject* a_args)
 
 	if ((GOT_Offset = GetGotOffset(e32_dyn_linker)) != 0)
 	{
-		GetLibraryOffset(pchBuffer, GOT_Offset, e32_dsym_linker, e32_relp_linker, e32_gotmap_linker, pchGotBuffer);
+		GetLibraryOffset(pchBuffer,
+						 GOT_Offset,
+						 GetGotSize(e32_section_linker, GOT_Offset),
+						 e32_dsym_linker,
+						 e32_relp_linker,
+						 e32_gotmap_linker,
+						 pchGotBuffer);
 	};
 
 	//////////////////////////////////////////////////////////////////////////////////

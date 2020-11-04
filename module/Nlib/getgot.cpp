@@ -11,6 +11,7 @@
 
 int GetLibraryOffset(unsigned char* 			pchBuffer,
 					 Elf32_Off 					GOT_Offset,
+					 Elf32_Off 					GOT_EndOffset,
 					 struct Elf32_Sym_Linker* 	e32_sym_linker,
 					 struct Elf32_Rel_Linker*	e32_rel_linker,
 					 struct Elf32_GotMap_Linker* e32_gotmap_linker,
@@ -19,8 +20,12 @@ int GetLibraryOffset(unsigned char* 			pchBuffer,
 
 	//////////////////////////////////////////////////////////////////////////////////
 
+	int i 										= 0;
 	Elf32_Word symbol_idx						= -1;
+
 	GOT_Offset 									+= 12;
+	int GOT_Size								= (GOT_EndOffset - GOT_Offset) / 4;
+
 
 	struct Elf32_Rel_Linker* e32_rel_Node 		= e32_rel_linker;
 	struct Elf32_Sym_Linker* e32_sym_Node 		= e32_sym_linker;
@@ -38,7 +43,7 @@ int GetLibraryOffset(unsigned char* 			pchBuffer,
 	//////////////////////////////////////////////////////////////////////////////////
 
 	
-	while (1)
+	while (i < GOT_Size)
 	{
 		symbol_idx 		= e32_rel_Node->e32_rel.getSymbol();
 		e32_sym_Node 	= e32_sym_linker;
@@ -49,12 +54,14 @@ int GetLibraryOffset(unsigned char* 			pchBuffer,
 			e32_sym_Node = e32_sym_Node->nextPoint;
 		}
 
+/*
 		if (*LibraryAddress == 0)
 		{
 			break;
 		}
+*/
 
-		//printf("0x%08x %s\n", *LibraryAddress, e32_sym_Node->e32_sym_name);
+		//printf("%d: 0x%08x %s\n", i, *LibraryAddress, e32_sym_Node->e32_sym_name);
 
 		//////////////////////////////////////////////////////////////////////////////////
 
@@ -76,6 +83,7 @@ int GetLibraryOffset(unsigned char* 			pchBuffer,
 		e32_rel_Node = e32_rel_Node->nextPoint;
 
 		LibraryAddress += 1;
+		i += 1;
 
 	}
 
@@ -85,6 +93,34 @@ int GetLibraryOffset(unsigned char* 			pchBuffer,
 	free(tmpStrBuffer);
 
 	return 0;
+}
+
+
+Elf32_Off GetGotSize(struct Elf32_Section_Linker* 	e32_section_linker,
+			   Elf32_Off 						GOT_Offset)
+{
+
+	struct Elf32_Section_Linker* e32_section_Node 	= e32_section_linker;
+
+	Elf32_Off StartOffset = 0;
+	int EndOffset = 0;
+
+
+	while(e32_section_Node->nextPoint != NULL)
+	{
+		StartOffset = e32_section_Node->e32_shdr.sh_offset;
+		EndOffset = StartOffset + e32_section_Node->e32_shdr.sh_size;
+
+		if ( StartOffset <= GOT_Offset && EndOffset > GOT_Offset )
+		{
+			//printf("GOT EndOffset: 0x%08x\n", EndOffset);
+			break;
+		}
+		
+		e32_section_Node = e32_section_Node->nextPoint;
+	}
+
+	return EndOffset;
 }
 
 
@@ -105,6 +141,8 @@ Elf32_Off GetGotOffset(struct Elf32_Dyn_Linker* e32_dyn_linker)
 
 		e32_dyn_Node = e32_dyn_Node->nextPoint;
 	}
+
+	//printf("GOT Offset: 0x%08x\n", GOT_Offset);
 
 	return GOT_Offset;
 }
