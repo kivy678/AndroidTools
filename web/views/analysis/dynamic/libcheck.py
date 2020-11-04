@@ -111,7 +111,7 @@ class LIB_CHECK(MethodView):
                     shared_name = j.sharedName if j.sharedName != '' else hex(str_addr)
 
                     if str_addr < libAddr < end_addr:
-                        print(hex(str_addr),  hex(libAddr), hex(end_addr), shared_name, libName)
+                        #print(hex(str_addr),  hex(libAddr), hex(end_addr), shared_name, libName)
                         G.add_nodes_from([(shared_name, {'pos': [random.gauss(5, 3), random.gauss(5, 3)]})])
                         G.add_nodes_from([(libName,     {'pos': [random.gauss(5, 3), random.gauss(5, 3)]})])
 

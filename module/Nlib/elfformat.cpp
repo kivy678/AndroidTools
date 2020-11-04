@@ -13,8 +13,8 @@
 #define PROGRAM_SIZE					3000
 #define SECTION_SIZE					3000
 #define DYNAMIC_SIZE					3000
-#define SYMTAB_SIZE						500000
-#define REL_SIZE						500000
+#define SYMTAB_SIZE						5000000
+#define REL_SIZE						5000000
 #define GOT_SIZE						500000
 
 
