@@ -1,7 +1,4 @@
 
-//-- -----------------------------------------------------------------------------
-//-- BEGIN libc-1-sendto.js
-
 // int sendto(int s, const void *msg, size_t len, int flags, const struct sockaddr *to, socklen_t tolen); 
 Interceptor.attach(Module.getExportByName(null, 'sendto'), {
   onEnter: function (args) {
@@ -25,7 +22,3 @@ Interceptor.attach(Module.getExportByName(null, 'sendto'), {
     send('SendToCount   : ' + numBytes);
   }
 })
-
-//-- END libc-1-sendto.js
-//-- -----------------------------------------------------------------------------
-

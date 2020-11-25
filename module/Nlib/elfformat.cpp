@@ -15,7 +15,7 @@
 #define DYNAMIC_SIZE					3000
 #define SYMTAB_SIZE						5000000
 #define REL_SIZE						5000000
-#define GOT_SIZE						500000
+#define GOT_SIZE						5000000
 
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -268,7 +268,7 @@ parser(PyObject* self, PyObject* a_args)
 		DynParser(pchBuffer, &e32_ehdr, e32_dyn_linker, pchDynBuffer);
 		SymParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_sym_linker, pchSymBuffer, ".symtab");
 		SymParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_dsym_linker, pchDsymBuffer, ".dynsym");
-		RelParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_dsym_linker, e32_rel_linker, pchRelBuffer, ".rel.dyn");
+		//RelParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_dsym_linker, e32_rel_linker, pchRelBuffer, ".rel.dyn");		// Size over flow
 		RelParser(pchBuffer, &e32_ehdr, e32_section_linker, e32_dsym_linker, e32_relp_linker, pchRelpBuffer, ".rel.plt");
 	}
 

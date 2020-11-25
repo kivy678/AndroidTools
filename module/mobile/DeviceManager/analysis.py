@@ -53,7 +53,7 @@ class AnalysisData:
         shell.runCommand(cmd, shell=False)
 
         libc_path = Join(DATA_DIR, "libc.so")
-        for i in elfformat.parser(libc_path, 'dS').strip().split('\n'):
+        for i in elfformat.parser(libc_path, 'dS', 'f').strip().split('\n'):
             v = i.rstrip('\r').split()
 
             try:

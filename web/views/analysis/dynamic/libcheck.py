@@ -39,6 +39,8 @@ DATA_DIR        = sp.getString('DATA_DIR')
 MEM_FILTER      = ['/data/data/', '/data/app/', 'libc.so']
 filterName      = ['_']
 
+
+
 ################################################################################
 
 class LIB_CHECK(MethodView):
@@ -48,6 +50,9 @@ class LIB_CHECK(MethodView):
         self.template_name = template_name
 
     def get(self):
+        Delete(DATA_DIR)
+        DirCheck(DATA_DIR)
+
         pkg = getSession('pkg')
         pid_list = self.getPid(pkg)
 

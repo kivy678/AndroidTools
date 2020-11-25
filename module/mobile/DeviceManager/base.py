@@ -41,7 +41,7 @@ class DEVICE_BASIS:
 
     @property
     def arch(self):
-        return self._arch
+        return self._ARCH_[self._arch]
 
     @property
     def sdk(self):
