@@ -24,6 +24,7 @@
       <li><a href="{{ url_for('analysis.dynamic.server') }}">동적 환경 셋팅</a></li>
       <li><a href="{{ url_for('analysis.dynamic.dump', mode='strace') }}">strace 덤프</a></li>      
       <li><a href="{{ url_for('analysis.dynamic.dump', mode='memory') }}">메모리 덤프</a></li>
+      <li><a href="{{ url_for('analysis.dynamic.dump', mode='pack') }}">패커 덤프</a></li>
       <li><a href="{{ url_for('analysis.dynamic.yara', rule='dex.rule') }}">yara 검색(dex)</a></li>
 <!--      
       <li class="menu">

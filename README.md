@@ -19,7 +19,7 @@
 악성, 모딩 앱을 쉽게 분석 할 수 있도록 지원하는 안드로이드 분석 툴입니다. </br>
 자동화를 추가할 예정입니다. </br>
 </span>
-소개 영상: https://youtu.be/v4c4jbEdEmg
+소개 영상: https://youtu.be/
 
 
 ## <span>요구 사양</span>
