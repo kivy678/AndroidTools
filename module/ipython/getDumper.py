@@ -47,11 +47,19 @@ else:
 idaapi.wait_for_next_event(idaapi.WFNE_CONT, -1)
 
 ##################################################################################################
+# 모든 예외 SILENT 로 변경
+
+for i in idaapi.retrieve_exceptions():
+    i.flags = idaapi.EXC_SILENT
+
+idaapi.store_exceptions()
+
+##################################################################################################
 
 TRACE_MMAP              = "mmap"
+TRACE_MUNMAP            = "munmap"
 DEX_SIG                 = "6465780A303335"
 
-MMAP_ADDR               = None
 mmap_addr_dict          = dict()
 renew_mmap_addr_dict    = dict()
 
@@ -66,11 +74,14 @@ def MemToFile(fp, ptr, size):
 MMAP_ADDR = idc.get_name_ea_simple(TRACE_MMAP) + 0x4F
 idc.add_bpt(MMAP_ADDR, 0, idaapi.BPT_DEFAULT)
 
+MUNMAP_ADDR = idc.get_name_ea_simple(TRACE_MUNMAP) + 0x18
+idc.add_bpt(MUNMAP_ADDR, 0, idaapi.BPT_DEFAULT)
+
 ##################################################################################################
 
 limit = 0
 while True:
-    if (idaapi.get_process_state() is idaapi.DSTATE_NOTASK) or limit > 100:         # 스레드가 죽을 경우와 프로세스가 running될 경우의 조건문
+    if (idaapi.get_process_state() is idaapi.DSTATE_NOTASK) or limit > 10000:         # 스레드가 죽을 경우와 프로세스가 running될 경우의 조건문
         break
 
     idaapi.continue_process()
@@ -78,21 +89,24 @@ while True:
 
     try:
         if dbg_event is idaapi.BREAKPOINT:
-            if idaapi.get_ip_val() == MMAP_ADDR:
-                eax = idc.get_reg_value('eax')
+            if (idaapi.get_ip_val() == MMAP_ADDR) or (idaapi.get_ip_val() == MUNMAP_ADDR):      # 현재 EIP가 BP가 걸린 함수일 때
+                if (idaapi.get_ip_val() == MMAP_ADDR):                                          # mmap 일 경우 DICT에 등록 해주어야한다.
+                    eax = idc.get_reg_value('eax')
 
-                if eax in mmap_addr_dict:
-                    continue
+                    if (eax in mmap_addr_dict) and (eax <= 0x1):
+                        pass
 
-                if (idc.get_segm_attr(eax, idc.SEGATTR_PERM) & idaapi.SEGPERM_WRITE == 0x0) and                 \
-                    (idc.get_segm_attr(eax, idc.SEGATTR_PERM) & idaapi.SEGPERM_EXEC == idaapi.SEGPERM_EXEC) and \
-                    (idaapi.segtype(eax) & idaapi.SEG_DATA == 0x0):
-                    continue                                                        # 불필요한 세그먼트 영역 제외
+#                    elif (idc.get_segm_attr(eax, idc.SEGATTR_PERM) & idaapi.SEGPERM_WRITE == 0x0) and                   \
+#                        (idc.get_segm_attr(eax, idc.SEGATTR_PERM) & idaapi.SEGPERM_EXEC == idaapi.SEGPERM_EXEC) and     \
+#                        (idaapi.segtype(eax) & idaapi.SEG_DATA == 0x0):
+#                        pass                                                        # 불필요한 세그먼트 영역 제외
 
+                    elif (idc.get_segm_attr(eax, idc.SEGATTR_PERM) & idaapi.SEGPERM_WRITE == 0x0):
+                        pass                                                        # 불필요한 세그먼트 영역 제외
 
-                if eax > 0x1:
-                    size = idc.get_segm_attr(eax, idc.SEGATTR_END) - idc.get_segm_attr(eax, idc.SEGATTR_START)
-                    mmap_addr_dict.update({eax: size})
+                    else:
+                        size = idc.get_segm_attr(eax, idc.SEGATTR_END) - idc.get_segm_attr(eax, idc.SEGATTR_START)
+                        mmap_addr_dict.update({eax: size})
 
 
                 renew_mmap_addr_dict = mmap_addr_dict
@@ -102,7 +116,7 @@ while True:
                         continue
 
                     if idc.get_bytes(_addr, 7).encode('hex').upper() == DEX_SIG:
-                        LOG.info(hex(_addr) + ': ' + hex(_size))
+                        LOG.info("get: " + hex(_addr) + ':' + hex(_size) + ':' + idc.get_segm_name(_addr))
 
                         MemToFile(os.path.join(SAVE_PATH, hex(_addr) + '.dex'), _addr, _size)
                         del(renew_mmap_addr_dict[_addr])
@@ -116,11 +130,16 @@ while True:
 
         elif dbg_event is idaapi.EXCEPTION:
             LOG.info('except')
-            break
+            continue
+
+        else:
+            limit += 1
 
     except AssertionError as e:
         LOG.info(e)
 
+
+idaapi.detach_process()
 
 LOG.info("***************************** Main End *****************************")
 idc.qexit(0)
