@@ -81,7 +81,7 @@ idc.add_bpt(MUNMAP_ADDR, 0, idaapi.BPT_DEFAULT)
 
 limit = 0
 while True:
-    if (idaapi.get_process_state() is idaapi.DSTATE_NOTASK) or limit > 10000:         # 스레드가 죽을 경우와 프로세스가 running될 경우의 조건문
+    if (idaapi.get_process_state() is idaapi.DSTATE_NOTASK) or limit > 1000:         # 스레드가 죽을 경우와 프로세스가 running될 경우의 조건문
         break
 
     idaapi.continue_process()
@@ -93,7 +93,7 @@ while True:
                 if (idaapi.get_ip_val() == MMAP_ADDR):                                          # mmap 일 경우 DICT에 등록 해주어야한다.
                     eax = idc.get_reg_value('eax')
 
-                    if (eax in mmap_addr_dict) and (eax <= 0x1):
+                    if (eax in mmap_addr_dict) or (eax <= 0x1):
                         pass
 
 #                    elif (idc.get_segm_attr(eax, idc.SEGATTR_PERM) & idaapi.SEGPERM_WRITE == 0x0) and                   \
